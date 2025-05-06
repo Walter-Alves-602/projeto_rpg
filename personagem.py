@@ -1,9 +1,12 @@
-from modificadores_raca import MODIFICADORES_RACA
+import armas
+from racas import RACA
 
 
 class ModificadorRacaAdapter:
     def obter_modificadores(self, raca):
-        return MODIFICADORES_RACA.get(raca, {})
+        return RACA.get(raca, {})["atributos"]
+    def obter_linguas(self, raca):
+        return RACA.get(raca, {})["linguas"]
 
 
 class Personagem:
@@ -35,23 +38,29 @@ class Personagem:
             "sabedoria": sabedoria,
             "carisma": carisma,
         }
+
         #iplementar a logica de hp
         self.pontos_de_vida_max = 0
         self.pontos_de_vida_atual = 0 #
         self.pontos_de_experiencia = 0
 
         self.inventario = []
+        self.linguas = self.obter_linguas()
 
-
-        self.modificadores_raca = self.calcular_modificadores_raca()
         # Aplicando os modificadores de raça
         for atributo in self.atributos:
-            if atributo in self.modificadores_raca:
-                self.atributos[atributo] += self.modificadores_raca[atributo]
+            if atributo in self.calcular_modificadores_raca():
+                self.atributos[atributo] += self.calcular_modificadores_raca()[atributo]
+        
+        self.modificadores_atributo = {x:((y-10)//2) for x, y in self.atributos.items()}
 
     def calcular_modificadores_raca(self):
         return ModificadorRacaAdapter.obter_modificadores(self, self.raca)
     
+    def obter_linguas(self):
+        return ModificadorRacaAdapter.obter_linguas(self, self.raca)
+    
+
     #inventario
     def adicionar_item_inventario(self, item):
         self.inventario.append(item)
@@ -79,8 +88,14 @@ if __name__ == "__main__":
         carisma=9,
     )
 
+    meu_personagem.adicionar_item_inventario(armas.ArcoLongo)
+    meu_personagem.adicionar_item_inventario(armas.Adaga)
+
     print(f"Nome: {meu_personagem.nome}")
     print(f"Raça: {meu_personagem.raca}")
     print(f"Força: {meu_personagem.atributos['forca']}")
     print(f"Destreza: {meu_personagem.atributos['destreza']}")
     print(f"Constituição: {meu_personagem.atributos['constituicao']}")
+    print(f"inventario: {[str(item) for item in meu_personagem.inventario]}")
+    print(f"modificadores: {meu_personagem.modificadores_atributo}")
+    print(f"linguas: {meu_personagem.linguas}")
