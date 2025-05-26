@@ -1,0 +1,34 @@
+ficha_rpg/
+├── src/
+│   ├── domain/
+│   │   ├── __init__.py
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   ├── armas.py
+│   │   │   ├── classes.py
+│   │   │   └── personagem.py
+│   │   └── services/
+│   │       ├── __init__.py
+│   │       └── personagem_service.py
+│   ├── application/
+│   │   ├── __init__.py
+│   │   └── use_cases/
+│   │       ├── __init__.py
+│   │       └── criar_personagem_use_case.py
+│   ├── infrastructure/
+│   │   ├── __init__.py
+│   │   ├── adapters/
+│   │   │   ├── __init__.py
+│   │   │   ├── data_files/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── racas_adapter.py
+│   │   │   │   ├── classes_adapter.py
+│   │   │   │   └── pericias_adapter.py
+│   │   │   └── gui/
+│   │   │       └── gui_adapter.py  (futuro)
+│   │   └── repositories/
+│   │       ├── __init__.py
+│   │       ├── raca_repository.py (interface/porta)
+│   │       └── classe_repository.py (interface/porta)
+├── main.py
+└── tests/
