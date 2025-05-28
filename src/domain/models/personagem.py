@@ -69,6 +69,8 @@ class Personagem:
         self.quantidade_de_pericias_classe = self.classe.get("quantidade_de_pericias", 0)
         self.pericias_disponiveis_para_escolha = self._classe_repository.get_pericias_por_classe(classe_nome)
         self.pericias_escolhidas = [] # O usuário escolherá as perícias posteriormente
+        self.raca_nome = raca_nome
+        self.classe_nome = classe_nome
 
     def _aplicar_modificadores_raca(self):
         """
