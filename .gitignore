@@ -60,3 +60,14 @@ dist/
 .venv/
 venv/
 env/
+src/application/use_cases/__pycache__/gerenciar_personagem_use_case.cpython-312.pyc
+src/application/use_cases/__pycache__/gerenciar_personagem_use_case.cpython-312.pyc
+src/domain/models/__pycache__/personagem.cpython-312.pyc
+src/infrastructure/adapters/data_files/__pycache__/classes_adapter.cpython-312.pyc
+src/infrastructure/adapters/data_files/__pycache__/racas_adapter.cpython-312.pyc
+src/infrastructure/adapters/database/__pycache__/sqlite_character_repository.cpython-312.pyc
+src/infrastructure/repositories/__pycache__/personagem_repository.cpython-312.pyc
+src/persistence/rpg_characters.db
+src/persistence/__pycache__/__init__.cpython-312.pyc
+src/persistence/__pycache__/database_manager.cpython-312.pyc
+src/persistence/__pycache__/database_manager.cpython-312.pyc
