@@ -1,5 +1,4 @@
-# src/infrastructure/adapters/data_files/pericias_adapter.py
-# Movido de pericias.py
+#dicionario {pericia: atributo}
 PERICIAS = {
     "Acrobacia": "Destreza",
     "Adestrar Animais": "Sabedoria",
@@ -19,5 +18,5 @@ PERICIAS = {
     "Persuasão": "Carisma",
     "Prestidigitação": "Destreza",
     "Religião": "Inteligência",
-    "Sobrevivência": "Sabedoria"
+    "Sobrevivência": "Sabedoria",
 }

@@ -1,8 +1,18 @@
+# main.py
+import os
+import sys
+
+# Adiciona o diretório raiz do projeto ao sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from src.persistence.database_manager import DatabaseManager
 from src.infrastructure.adapters.database.sqlite_character_repository import SQLitePersonagemRepository
 from src.infrastructure.adapters.data_files.racas_adapter import RacaFileAdapter
 from src.infrastructure.adapters.data_files.classes_adapter import ClasseFileAdapter
 from src.infrastructure.adapters.data_files.habilidades_raciais_file_adapter import HabilidadesRaciaisFileAdapter
+# --- NOVIDADE AQUI: Importa o novo adaptador de magias ---
+from src.infrastructure.adapters.data_files.spells_file_adapter import SpellFileAdapter
+# --- FIM NOVIDADE ---
 from src.application.use_cases.gerenciar_personagem_use_case import GerenciarPersonagemUseCase
 
 def main():
@@ -12,19 +22,25 @@ def main():
     raca_repository = RacaFileAdapter()
     classe_repository = ClasseFileAdapter()
     habilidades_raciais_repository = HabilidadesRaciaisFileAdapter()
+    # --- NOVIDADE AQUI: Instancia o novo adaptador de magias ---
+    spell_repository = SpellFileAdapter()
+    # --- FIM NOVIDADE ---
 
     personagem_repository = SQLitePersonagemRepository(
         db_manager,
         raca_repository,
         classe_repository,
-        habilidades_raciais_repository # Injete o repositório de habilidades aqui
+        habilidades_raciais_repository
     )
 
     gerenciar_personagem_uc = GerenciarPersonagemUseCase(
         personagem_repository,
         raca_repository,
         classe_repository,
-        habilidades_raciais_repository # Injete o repositório de habilidades aqui
+        habilidades_raciais_repository,
+        # --- NOVIDADE AQUI: Injete o repositório de magias aqui ---
+        spell_repository
+        # --- FIM NOVIDADE ---
     )
 
     while True:
@@ -41,10 +57,10 @@ def main():
             print("\n--- Criar Novo Personagem ---")
             nome = input("Nome do Personagem: ")
             jogador = input("Nome do Jogador: ")
-            
+
             # Listar raças disponíveis
             print("\nRaças disponíveis:")
-            racas_disponiveis = raca_repository.get_all_raca_names() # Adicione este método em RacaFileAdapter se não existir
+            racas_disponiveis = raca_repository.get_all_raca_names()
             for i, r in enumerate(racas_disponiveis):
                 print(f"{i+1}. {r}")
             raca_escolhida_idx = int(input(f"Escolha a raça (1-{len(racas_disponiveis)}): ")) - 1
@@ -52,7 +68,7 @@ def main():
 
             # Listar classes disponíveis
             print("\nClasses disponíveis:")
-            classes_disponiveis = classe_repository.get_all_classe_names() # Adicione este método em ClasseFileAdapter se não existir
+            classes_disponiveis = classe_repository.get_all_classe_names()
             for i, c in enumerate(classes_disponiveis):
                 print(f"{i+1}. {c}")
             classe_escolhida_idx = int(input(f"Escolha a classe (1-{len(classes_disponiveis)}): ")) - 1
@@ -82,7 +98,7 @@ def main():
                     carisma=carisma
                 )
                 print(f"\nPersonagem '{novo_personagem.nome}' criado com sucesso!")
-                
+
                 print("\nHabilidades Raciais:")
                 habilidades_detalhadas = novo_personagem.get_habilidades_raciais_com_descricao(habilidades_raciais_repository)
                 if habilidades_detalhadas:
@@ -90,6 +106,16 @@ def main():
                         print(f"- {habilidade['nome']}: {habilidade['descricao']}")
                 else:
                     print("Nenhuma habilidade racial para esta raça.")
+
+                # --- NOVIDADE AQUI: Exibe as magias da classe (exemplo simples) ---
+                print("\nMagias da Classe:")
+                magias_da_classe = spell_repository.get_spells_by_class(novo_personagem.classe_nome)
+                if magias_da_classe:
+                    for magia in magias_da_classe:
+                        print(f"- {magia['nome']} (Nível {magia['nivel']}, Escola: {magia['escola']})")
+                else:
+                    print(f"Nenhuma magia para a classe {novo_personagem.classe_nome}.")
+                # --- FIM NOVIDADE ---
 
             except ValueError as e:
                 print(f"Erro ao criar personagem: {e}")
@@ -119,7 +145,7 @@ def main():
                 for attr, val in personagem.atributos.items():
                     mod = personagem.modificadores_atributo[attr]
                     print(f"  {attr.capitalize()}: {val} (Mod: {'+' if mod >= 0 else ''}{mod})")
-                
+
                 print("\nHabilidades Raciais:")
                 habilidades_detalhadas = personagem.get_habilidades_raciais_com_descricao(habilidades_raciais_repository)
                 if habilidades_detalhadas:
@@ -127,6 +153,16 @@ def main():
                         print(f"- {habilidade['nome']}: {habilidade['descricao']}")
                 else:
                     print("Nenhuma habilidade racial para esta raça.")
+
+                # --- NOVIDADE AQUI: Exibe as magias da classe ao ver detalhes ---
+                print("\nMagias da Classe:")
+                magias_da_classe = spell_repository.get_spells_by_class(personagem.classe_nome)
+                if magias_da_classe:
+                    for magia in magias_da_classe:
+                        print(f"- {magia['nome']} (Nível {magia['nivel']}, Escola: {magia['escola']})")
+                else:
+                    print(f"Nenhuma magia para a classe {personagem.classe_nome}.")
+                # --- FIM NOVIDADE ---
 
             else:
                 print(f"Personagem '{nome_busca}' não encontrado.")
@@ -146,29 +182,4 @@ def main():
         else:
             print("Opção inválida. Por favor, tente novamente.")
 
-if __name__ == "__main__":
-    # Garante que os métodos get_all_raca_names e get_all_classe_names existem
-    # no RacaFileAdapter e ClasseFileAdapter, respectivamente, para a UI.
-    # Se você ainda não os adicionou, faça isso:
-
-    # Exemplo para RacaFileAdapter:
-    # class RacaFileAdapter(IRacaRepository):
-    #     def get_raca(self, nome_raca: str) -> dict:
-    #         return _RACA_DATA.get(nome_raca, {})
-    #     def get_all_raca_names(self) -> List[str]:
-    #         return list(_RACA_DATA.keys())
-
-    # Exemplo para ClasseFileAdapter:
-    # class ClasseFileAdapter(IClasseRepository):
-    #     def get_classe(self, nome_classe: str) -> dict:
-    #         return _CLASSE_DATA.get(nome_classe, {})
-    #     def get_pericias_por_classe(self, nome_classe: str) -> List[str]:
-    #         return _CLASSE_DATA.get(nome_classe, {}).get("pericias", [])
-    #     def get_all_classe_names(self) -> List[str]:
-    #         return list(_CLASSE_DATA.keys())
-
-
-    # Para o sys.path.insert funcionar corretamente, assegure-se de que a execução
-    # seja feita a partir da raiz do projeto ou que o script principal seja
-    # diretamente o 'main.py' dentro da pasta 'projeto_rpg'.
-    main()
+main()

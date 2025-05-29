@@ -3,14 +3,28 @@ from src.domain.models.personagem import Personagem
 from src.infrastructure.repositories.raca_repository import IRacaRepository
 from src.infrastructure.repositories.classe_repository import IClasseRepository
 
+
 class CriarPersonagemUseCase:
-    def __init__(self, raca_repository: IRacaRepository, classe_repository: IClasseRepository):
+    def __init__(
+        self, raca_repository: IRacaRepository, classe_repository: IClasseRepository
+    ):
         self._raca_repository = raca_repository
         self._classe_repository = classe_repository
 
-    def execute(self, nome: str, jogador: str, raca_nome: str, classe_nome: str, nivel: int,
-                forca: int, destreza: int, constituicao: int, inteligencia: int,
-                sabedoria: int, carisma: int) -> Personagem:
+    def execute(
+        self,
+        nome: str,
+        jogador: str,
+        raca_nome: str,
+        classe_nome: str,
+        nivel: int,
+        forca: int,
+        destreza: int,
+        constituicao: int,
+        inteligencia: int,
+        sabedoria: int,
+        carisma: int,
+    ) -> Personagem:
         """
         Cria uma nova instância de Personagem com base nos dados fornecidos,
         utilizando os repositórios para buscar informações de raça e classe.
@@ -28,6 +42,6 @@ class CriarPersonagemUseCase:
             sabedoria=sabedoria,
             carisma=carisma,
             raca_repository=self._raca_repository,
-            classe_repository=self._classe_repository
+            classe_repository=self._classe_repository,
         )
         return personagem

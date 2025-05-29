@@ -23,13 +23,10 @@ class Personagem:
         self.nome = nome
         self.jogador = jogador
         self.nivel = nivel
-
         self.raca_nome = raca_nome
         self.classe_nome = classe_nome
-
         self._raca_repository = raca_repository
         self._classe_repository = classe_repository
-
         self.raca = self._raca_repository.get_raca(self.raca_nome)
         self.classe = self._classe_repository.get_classe(self.classe_nome)
 
@@ -48,7 +45,6 @@ class Personagem:
         }
 
         self._aplicar_modificadores_raca()
-
         self.modificadores_atributo = {attr: ((value - 10) // 2) for attr, value in self.atributos.items()}
 
         self.pontos_de_vida_max = 0
@@ -57,9 +53,7 @@ class Personagem:
 
         self.inventario = []
         self.linguas = self.raca.get("linguas", [])
-        
         self.deslocamento = self.raca.get("deslocamento", 0)
-
         self.proficiencias_armas = self.classe.get("armas", [])
         self.proficiencias_armaduras = self.classe.get("armaduras", [])
         self.testes_de_resistencia = self.classe.get("testes_de_resistencia", [])

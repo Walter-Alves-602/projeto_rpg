@@ -39,9 +39,33 @@ class ArmaDeAtaqueDistancia(Arma):
         self.municao = municao
 
 
-Adaga = ArmaCorpoACorpo("Adaga","2 PO", "1d4", "Perfurante", 0.5, ["Leve", "Arremesso (6/18)"])
-EspadaCurta = ArmaCorpoACorpo("Espada Curta","10 PO", "1d6", "Perfurante", 1, ["Leve", "Finesse"], True)
-ArcoLongo = ArmaDeAtaqueDistancia("Arco Longo","50 PO", "1d8", "Perfurante", 1, "45/180", "Flechas", ["Duas Mãos", "Munição"], True)
-BestaLeve = ArmaDeAtaqueDistancia("Besta Leve","25 PO", "1d8", "Perfurante", 2.5, "24/96", "Virotes", ["Recarga", "Duas Mãos", "Munição"], True)
+Adaga = ArmaCorpoACorpo(
+    "Adaga", "2 PO", "1d4", "Perfurante", 0.5, ["Leve", "Arremesso (6/18)"]
+)
+EspadaCurta = ArmaCorpoACorpo(
+    "Espada Curta", "10 PO", "1d6", "Perfurante", 1, ["Leve", "Finesse"], True
+)
+ArcoLongo = ArmaDeAtaqueDistancia(
+    "Arco Longo",
+    "50 PO",
+    "1d8",
+    "Perfurante",
+    1,
+    "45/180",
+    "Flechas",
+    ["Duas Mãos", "Munição"],
+    True,
+)
+BestaLeve = ArmaDeAtaqueDistancia(
+    "Besta Leve",
+    "25 PO",
+    "1d8",
+    "Perfurante",
+    2.5,
+    "24/96",
+    "Virotes",
+    ["Recarga", "Duas Mãos", "Munição"],
+    True,
+)
 
 LISTA_DE_ARMAS = [Adaga, EspadaCurta, ArcoLongo, BestaLeve]

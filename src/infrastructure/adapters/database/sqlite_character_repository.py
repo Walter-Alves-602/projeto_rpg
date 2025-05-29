@@ -1,7 +1,5 @@
-# src/infrastructure/adapters/database/sqlite_character_repository.py
 import json
 from typing import Optional, List
-
 from src.infrastructure.repositories.personagem_repository import IPersonagemRepository
 from src.domain.models.personagem import Personagem
 from src.infrastructure.repositories.raca_repository import IRacaRepository
@@ -93,18 +91,12 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 carisma=row["carisma"],
                 raca_repository=self._raca_repository,
                 classe_repository=self._classe_repository,
-                # --- REMOÇÃO: Não precisa passar habilidades_raciais_repository para o Personagem aqui
-                # pois o Personagem não o usa no __init__ (estilo "on-demand") ---
-                # habilidades_raciais_repository=self._habilidades_raciais_repository
-                # --- FIM REMOÇÃO ---
             )
             personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
             personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
             personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
             personagem.deslocamento = row["deslocamento"]
-            personagem.habilidades_raciais_nomes = (
-                habilidades_raciais_nomes  # <-- NOVIDADE AQUI: Carrega os nomes
-            )
+            personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
 
             return personagem
         return None
@@ -144,9 +136,7 @@ class SQLitePersonagemRepository(IPersonagemRepository):
             personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
             personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
             personagem.deslocamento = row["deslocamento"]
-            personagem.habilidades_raciais_nomes = (
-                habilidades_raciais_nomes  # <-- NOVIDADE AQUI: Carrega os nomes
-            )
+            personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
             personagens.append(personagem)
         return personagens
 
