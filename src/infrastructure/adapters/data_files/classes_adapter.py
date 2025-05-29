@@ -1,4 +1,5 @@
 # src/infrastructure/adapters/data_files/classes_adapter.py
+from ast import List
 from src.infrastructure.repositories.classe_repository import IClasseRepository
 from src.infrastructure.adapters.data_files.pericias_adapter import PERICIAS
 
@@ -38,3 +39,6 @@ class ClasseFileAdapter(IClasseRepository):
         """
         classe_data = _CLASSES_DATA.get(nome_classe, {})
         return classe_data.get("pericias_disponiveis_nomes", [])
+    
+    def get_all_classe_names(self):
+        return list(_CLASSES_DATA.keys())

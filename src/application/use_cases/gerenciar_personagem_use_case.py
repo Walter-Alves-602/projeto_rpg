@@ -1,46 +1,87 @@
 # src/application/use_cases/gerenciar_personagem_use_case.py
+
 from typing import List, Optional
-from src.domain.models.personagem import Personagem
+
 from src.infrastructure.repositories.personagem_repository import IPersonagemRepository
+from src.domain.models.personagem import Personagem
+
+# --- NOVIDADE AQUI: Importa as interfaces dos repositórios adicionais ---
+from src.infrastructure.repositories.raca_repository import IRacaRepository
+from src.infrastructure.repositories.classe_repository import IClasseRepository
+from src.infrastructure.repositories.habilidades_raciais_repository import (
+    IHabilidadesRaciaisRepository,
+)
+
+# --- FIM NOVIDADE ---
+
 
 class GerenciarPersonagemUseCase:
-    def __init__(self, personagem_repository: IPersonagemRepository):
+    def __init__(
+        self,
+        personagem_repository: IPersonagemRepository,
+        # --- NOVIDADE AQUI: Novos parâmetros no construtor ---
+        raca_repository: IRacaRepository,
+        classe_repository: IClasseRepository,
+        habilidades_raciais_repository: IHabilidadesRaciaisRepository,
+        # --- FIM NOVIDADE ---
+    ):
         self._personagem_repository = personagem_repository
+        # --- NOVIDADE AQUI: Armazena os novos repositórios ---
+        self._raca_repository = raca_repository
+        self._classe_repository = classe_repository
+        self._habilidades_raciais_repository = habilidades_raciais_repository
+        # --- FIM NOVIDADE ---
 
-    def salvar_personagem(self, personagem: Personagem) -> None:
-        """
-        Salva um personagem existente ou um novo personagem.
-        """
-        self._personagem_repository.save(personagem)
-        print(f"Personagem '{personagem.nome}' salvo com sucesso!")
+    def criar_personagem(
+        self,
+        nome: str,
+        jogador: str,
+        raca_nome: str,
+        classe_nome: str,
+        nivel: int,
+        forca: int,
+        destreza: int,
+        constituicao: int,
+        inteligencia: int,
+        sabedoria: int,
+        carisma: int,
+    ) -> Personagem:
+        # Quando criamos um personagem, precisamos passar os repositórios para o construtor de Personagem
+        # agora que ele não recebe mais o habilidades_raciais_repository no init do Personagem.
+        # No entanto, a classe Personagem em si ainda precisa do raca_repository e classe_repository.
+        # E ela NÃO precisa do habilidades_raciais_repository no seu __init__ (lembra da sua otimização?).
+        # O self.habilidades_raciais_nomes é preenchido diretamente do dado da raça.
 
-    def carregar_personagem(self, nome: str) -> Optional[Personagem]:
-        """
-        Carrega um personagem pelo nome.
-        """
-        personagem = self._personagem_repository.get_by_name(nome)
-        if personagem:
-            print(f"Personagem '{personagem.nome}' carregado com sucesso.")
-        else:
-            print(f"Personagem '{nome}' não encontrado.")
-        return personagem
+        novo_personagem = Personagem(
+            nome=nome,
+            jogador=jogador,
+            raca_nome=raca_nome,
+            classe_nome=classe_nome,
+            nivel=nivel,
+            forca=forca,
+            destreza=destreza,
+            constituicao=constituicao,
+            inteligencia=inteligencia,
+            sabedoria=sabedoria,
+            carisma=carisma,
+            raca_repository=self._raca_repository,  # Passa o raca_repository aqui
+            classe_repository=self._classe_repository,  # Passa o classe_repository aqui
+            # --- REMOVIDO: habilidades_raciais_repository NÃO é mais passado para o construtor do Personagem
+            # pois ele é usado apenas no método get_habilidades_raciais_com_descricao() ---
+            # habilidades_raciais_repository=self._habilidades_raciais_repository
+            # --- FIM REMOVIDO ---
+        )
+        self._personagem_repository.save(novo_personagem)
+        return novo_personagem
+
+    def obter_personagem_por_nome(self, nome: str) -> Optional[Personagem]:
+        return self._personagem_repository.get_by_name(nome)
 
     def listar_todos_personagens(self) -> List[Personagem]:
-        """
-        Lista todos os personagens salvos.
-        """
-        personagens = self._personagem_repository.get_all()
-        if personagens:
-            print("Personagens salvos:")
-            for p in personagens:
-                print(f"- {p.nome} (Raça: {p.raca.get('nome', p.raca_nome)}, Classe: {p.classe.get('nome', p.classe_nome)})")
-        else:
-            print("Nenhum personagem salvo ainda.")
-        return personagens
+        return self._personagem_repository.get_all()
 
-    def deletar_personagem(self, nome: str) -> None:
-        """
-        Deleta um personagem pelo nome.
-        """
+    def excluir_personagem(self, nome: str) -> None:
+        personagem = self._personagem_repository.get_by_name(nome)
+        if not personagem:
+            raise ValueError(f"Personagem '{nome}' não encontrado para exclusão.")
         self._personagem_repository.delete(nome)
-        print(f"Personagem '{nome}' deletado (se existia).")
