@@ -1,10 +1,3 @@
-# main.py
-import os
-import sys
-
-# Adiciona o diretório raiz do projeto ao sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from src.persistence.database_manager import DatabaseManager
 from src.infrastructure.adapters.database.sqlite_character_repository import SQLitePersonagemRepository
 from src.infrastructure.adapters.data_files.racas_adapter import RacaFileAdapter

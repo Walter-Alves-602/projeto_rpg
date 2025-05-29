@@ -1,73 +1,35 @@
 dd-5e-livro-do-jogador-fundo-branco-biblioteca-c3a9lfica.pdf
-
-__pycache__/
-*.pyc
-*.pyd
-*.so
-
-
-.env
-venv/
-env/
-/bin/activate
-/bin/activate.csh
-/bin/activate.fish
-/bin/activate.ps1
-/bin/activate.bat
-/bin/activate.sh
-/bin/activate.zsh
-
-.vscode/        # VS Code settings
-.idea/          # IntelliJ/PyCharm settings
-*.swp           # Vim swap files
-*.bak           # Backup files
-*.swo
-*.DS_Store      # macOS system files
-Thumbs.db       # Windows thumbnail cache
-
-*.db            # Generic database files (e.g., for SQLite)
-*.sqlite3
-rpg_characters.db # Seu arquivo de banco de dados específico
-
-*.log
-*.tmp
-temp/
-log/
-
-.pytest_cache/
-.coverage
-htmlcov/
-.nox/
-.tox/
-
-# Distribution / packaging
-.Python
-build/
-dist/
-*.egg-info/
-*.egg
-
-# Jupyter Notebook files
-.ipynb_checkpoints
-
-# Miscellaneous
-*~
-*.bak
-*.orig
-.mypy_cache/
-.ruff_cache/
-
-.venv/
-venv/
-env/
-src/application/use_cases/__pycache__/gerenciar_personagem_use_case.cpython-312.pyc
-src/application/use_cases/__pycache__/gerenciar_personagem_use_case.cpython-312.pyc
-src/domain/models/__pycache__/personagem.cpython-312.pyc
-src/infrastructure/adapters/data_files/__pycache__/classes_adapter.cpython-312.pyc
-src/infrastructure/adapters/data_files/__pycache__/racas_adapter.cpython-312.pyc
-src/infrastructure/adapters/database/__pycache__/sqlite_character_repository.cpython-312.pyc
-src/infrastructure/repositories/__pycache__/personagem_repository.cpython-312.pyc
+tests
+.vscode
 src/persistence/rpg_characters.db
-src/persistence/__pycache__/__init__.cpython-312.pyc
-src/persistence/__pycache__/database_manager.cpython-312.pyc
-src/persistence/__pycache__/database_manager.cpython-312.pyc
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Environments
+.env
+.venv
+
+# LSP config files
+pyrightconfig.json
+
+# End of https://www.toptal.com/developers/gitignore/api/python
