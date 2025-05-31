@@ -231,15 +231,15 @@ class CharacterSheetApp:
                 ]),
                 
                 ft.Divider(),
-                ft.Text("Atributos", size=18, weight=ft.FontWeight.SEMI_BOLD),
+                ft.Text("Atributos", size=18, weight=ft.FontWeight.BOLD),
                 *atributos_display, # Desempacota a lista de textos de atributos
 
                 ft.Divider(),
-                ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.SEMI_BOLD),
+                ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
                 *habilidades_raciais_display,
                 
                 ft.Divider(),
-                ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.SEMI_BOLD),
+                ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),
                 *magias_display,
 
                 ft.ElevatedButton("Voltar à Lista", on_click=lambda _: page.go("/list_characters")),
@@ -250,7 +250,6 @@ class CharacterSheetApp:
             scroll=ft.ScrollMode.ADAPTIVE # Adiciona scroll se o conteúdo for muito grande
         )
 
-
     def _main_menu(self, page: ft.Page):
         """Cria o menu principal."""
         return ft.Column(
@@ -258,7 +257,6 @@ class CharacterSheetApp:
                 ft.Text("Bem-vindo ao Gerenciador de Personagens D&D", size=24, weight=ft.FontWeight.BOLD),
                 ft.ElevatedButton("Criar Novo Personagem", on_click=lambda _: page.go("/create_character")),
                 ft.ElevatedButton("Ver Personagens Existentes", on_click=lambda _: page.go("/list_characters")),
-                ft.ElevatedButton("Sair", on_click=lambda _: page.window_destroy()),
             ],
             spacing=20,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -309,7 +307,6 @@ class CharacterSheetApp:
             )
         
         page.update()
-
 
     def main(self, page: ft.Page):
         page.title = "Gerenciador de Personagens D&D"
