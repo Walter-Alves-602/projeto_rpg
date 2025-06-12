@@ -219,21 +219,24 @@ class CharacterSheetApp:
         return ft.Column(
             [
                 ft.Text(f"Ficha de Personagem: {char.nome}", size=24, weight=ft.FontWeight.BOLD),
-                ft.Text(f"Jogador: {char.jogador}"),
-                ft.Text(f"Raça: {char.raca_nome}"),
-                ft.Text(f"Classe: {char.classe_nome}"),
-                ft.Text(f"Nível: {char.nivel}"),
-                
-                ft.Row([
-                    ft.Text(f"PV: {char.pontos_de_vida_atual}/{char.pontos_de_vida_max}"),
-                    ft.ElevatedButton("Tomar Dano", on_click=take_damage_or_heal, data="5"), # Exemplo de dano 5
-                    ft.ElevatedButton("Curar", on_click=take_damage_or_heal, data="5"), # Exemplo de cura 5
-                ]),
-                
                 ft.Divider(),
-                ft.Text("Atributos", size=18, weight=ft.FontWeight.BOLD),
-                *atributos_display, # Desempacota a lista de textos de atributos
-
+                ft.Row([
+                    ft.Column([
+                        ft.Text(f"Jogador: {char.jogador}"),
+                        ft.Text(f"Raça: {char.raca_nome}"),
+                        ft.Text(f"Classe: {char.classe_nome}"),
+                        ft.Text(f"Nível: {char.nivel}"),
+                        ft.Row([
+                            ft.Text(f"PV: {char.pontos_de_vida_atual}/{char.pontos_de_vida_max}"),
+                            ft.ElevatedButton("Tomar Dano", on_click=take_damage_or_heal, data="5"), # Exemplo de dano 5
+                            ft.ElevatedButton("Curar", on_click=take_damage_or_heal, data="5") # Exemplo de cura 5
+                        ])
+                    ]),
+                    ft.Column([
+                        # ft.Text("Atributos", size=18, weight=ft.FontWeight.BOLD),
+                        *atributos_display # Desempacota a lista de textos de atributos
+                    ])
+                ],alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                 ft.Divider(),
                 ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
                 *habilidades_raciais_display,
