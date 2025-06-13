@@ -1,4 +1,5 @@
 # src/ui/flet_app.py
+from fastapi import testclient
 import flet as ft
 import os
 import sys
@@ -169,7 +170,7 @@ class CharacterSheetApp:
         atributos_display = []
         for attr, val in char.atributos.items():
             mod = char.modificadores_atributo[attr]
-            atributos_display.append(ft.Text(f"{attr.capitalize()}: {val} (Mod: {'+' if mod >= 0 else ''}{mod})"))
+            atributos_display.append(ft.ElevatedButton(f"{attr.capitalize()}: {val} (Mod: {'+' if mod >= 0 else ''}{mod})"))
 
         # Exibição de habilidades raciais
         habilidades_raciais_detalhadas = char.get_habilidades_raciais_com_descricao(self.habilidades_raciais_repository)
@@ -233,10 +234,9 @@ class CharacterSheetApp:
                         ])
                     ]),
                     ft.Column([
-                        # ft.Text("Atributos", size=18, weight=ft.FontWeight.BOLD),
                         *atributos_display # Desempacota a lista de textos de atributos
                     ])
-                ],alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
+                ],alignment=ft.MainAxisAlignment.CENTER),
                 ft.Divider(),
                 ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
                 *habilidades_raciais_display,
@@ -249,7 +249,7 @@ class CharacterSheetApp:
                 ft.ElevatedButton("Voltar ao Menu Principal", on_click=lambda _: page.go("/")),
             ],
             spacing=10,
-            horizontal_alignment=ft.CrossAxisAlignment.START,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             scroll=ft.ScrollMode.ADAPTIVE # Adiciona scroll se o conteúdo for muito grande
         )
 
@@ -325,9 +325,8 @@ class CharacterSheetApp:
 
 def start_flet_app():
     # Inicia o aplicativo Flet
-    # ft.app(target=CharacterSheetApp().main) # Para modo normal
+    ft.app(target=CharacterSheetApp().main) # Para modo normal
     # ft.app(target=CharacterSheetApp().main, view=ft.WEB_BROWSER) # Para modo web (abre no navegador)
-    ft.app(target=CharacterSheetApp().main)
 
 
 if __name__ == "__main__":
