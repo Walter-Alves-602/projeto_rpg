@@ -1,5 +1,4 @@
 # src/ui/flet_app.py
-from fastapi import testclient
 import flet as ft
 import os
 import sys
@@ -331,3 +330,4 @@ def start_flet_app():
 
 if __name__ == "__main__":
     start_flet_app()
+    
