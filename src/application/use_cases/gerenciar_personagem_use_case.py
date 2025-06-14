@@ -6,6 +6,7 @@ from src.infrastructure.repositories.raca_repository import IRacaRepository
 from src.infrastructure.repositories.classe_repository import IClasseRepository
 from src.infrastructure.repositories.habilidades_raciais_repository import IHabilidadesRaciaisRepository
 from src.infrastructure.repositories.spell_repository import ISpellRepository
+from src.domain.services.dice_roller import DiceRoller
 
 class GerenciarPersonagemUseCase:
     def __init__(
@@ -21,6 +22,15 @@ class GerenciarPersonagemUseCase:
         self._classe_repository = classe_repository
         self._habilidades_raciais_repository = habilidades_raciais_repository
         self._spell_repository = spell_repository
+        self.dice_roller = DiceRoller() # Inicializa o rolador de dados
+    
+    def perform_attribute_check(self, personagem_id: int, attribute: str):
+        personagem = self._personagem_repository.get_by_id(personagem_id)
+        if not personagem:
+            raise ValueError("Personagem não encontrado.")
+        
+        modifier = personagem.modificadores_atributo[attribute]
+        return DiceRoller.roll(20, 1, modifier)  # Rolando um dado de 20 lados com o modificador do atributo  
 
     def criar_personagem(
         self,
