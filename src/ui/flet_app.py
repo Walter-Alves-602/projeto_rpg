@@ -19,10 +19,10 @@ from src.infrastructure.adapters.data_files.spells_file_adapter import SpellFile
 from src.application.use_cases.gerenciar_personagem_use_case import (
     GerenciarPersonagemUseCase,
 )
-from src.ui.character_sheet_page import character_sheet_page
-from src.ui.character_list_page import character_list_page
-from src.ui.character_form_page import create_character_form_page
-from src.ui.main_menu_page import main_menu
+from src.ui.pages.character_sheet_page import character_sheet_page
+from src.ui.pages.character_list_page import character_list_page
+from src.ui.pages.character_form_page import create_character_form_page
+from src.ui.pages.main_menu_page import main_menu
 
 
 class CharacterSheetApp:
@@ -53,6 +53,7 @@ class CharacterSheetApp:
 
         self.current_character = None  # Para armazenar o personagem atualmente exibido
         self.atributo_rodado = None  # Guarda o último atributo clicado
+        self.resultado_teste_atributo = {}  # Novo: guarda o resultado do teste de cada atributo
 
     def _create_character_form(self, page: ft.Page):
         return create_character_form_page(self, page)

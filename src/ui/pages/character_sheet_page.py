@@ -1,7 +1,7 @@
 import flet as ft
-from src.ui.atributos_component import atributos_display_component
-from src.ui.habilidades_raciais_component import habilidades_raciais_display_component
-from src.ui.spells_component import spells_display_component
+from src.ui.components.atributos_component import atributos_display_component
+from src.ui.components.habilidades_raciais_component import habilidades_raciais_display_component
+from src.ui.components.spells_component import spells_display_component
 
 def character_sheet_page(app, page):
     char = app.current_character
@@ -13,14 +13,19 @@ def character_sheet_page(app, page):
         return ft.Column([ft.Text("...")])
 
     def on_atributo_click(e):
-        app.atributo_rodado = e.control.data
+        atributo = e.control.data
+        mod = char.modificadores_atributo[atributo]
+        resultado = app.gerenciar_personagem_uc.dice_roller.roll(20, 1, mod)
+        app.resultado_teste_atributo[atributo] = resultado
+        app.atributo_rodado = atributo
         page.views[-1].controls = [character_sheet_page(app, page)]
         page.update()
 
     atributos_display = atributos_display_component(
         char,
         app.atributo_rodado,
-        on_atributo_click
+        on_atributo_click,
+        app.resultado_teste_atributo  # novo parâmetro
     )
 
     habilidades_raciais_display = habilidades_raciais_display_component(char, app.habilidades_raciais_repository)
