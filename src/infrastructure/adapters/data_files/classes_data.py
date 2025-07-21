@@ -11,24 +11,34 @@ _CLASSES_DATA: Dict[str, Dict[str, Any]] = {
         "ferramentas": [],
         "quantidade_de_pericias": 2,
         "pericias_disponiveis": [
-            "Adestrar Animais",
-            "Atletismo",
-            "Intimidação",
-            "Natureza",
-            "Percepção",
-            "Sobrevivência"
+            "Adestrar Animais", "Atletismo", "Intimidação", "Natureza", "Percepção", "Sobrevivência"
         ],
         "habilidades_por_nivel": {
-            1: ["Fúria (2 usos)", "Defesa sem Armadura"],
+            1: ["Fúria (2 usos +2)", "Defesa sem Armadura"],
             2: ["Ataque Descuidado", "Percepção de Perigo"],
-            3: ["Caminho Primitivo (escolha)", "Fúria (3 usos)"], # Ex: Caminho do Berserker
-            4: ["Aumento de Atributo"]
-            # ... continue para níveis superiores
+            3: ["Caminho Primitivo (escolha)", "Fúria (3 usos)"],
+            4: ["Aumento de Atributo"],
+            5: ["Ataque Extra", "Movimento Rápido"],
+            6: ["Característica de Caminho Primitivo", "Fúria (4 usos)"],
+            7: ["Instinto Selvagem"],
+            8: ["Aumento de Atributo"],
+            9: ["Critico Brutal (+1 dado)", "Fúria (4 usos +3)"],
+            10: ["Característica de Caminho Primitivo"],
+            11: ["Fúria Implacável"],
+            12: ["Aumento de Atributo", "Fúria (5 usos)"],
+            13: ["Critico Brutal (+2 dados)"],
+            14: ["Característica de Caminho Primitivo"],
+            15: ["Furia Persistente"],
+            16: ["Aumento de Atributo", "Fúria (5 usos +4)"],
+            17: ["Critico Brutal (+3 dados)", "Fúria (6 usos +4)"],
+            18: ["Força Indomável"],
+            19: ["Aumento de Atributo"],
+            20: ["Campeão Indomável (Fúria infinita +4)"]
         }
     },
     "Bardo": {
         "dado_de_vida": "1d8",
-        "proficiencias_armas": ["Armas simples", "Bestas de Mão", "Espadas longas", "Espadas curtas", "Cimitarra"],
+        "proficiencias_armas": ["Armas simples", "Bestas de mão", "Espadas longas", "Espadas curtas", "Cimitarra"],
         "proficiencias_armaduras": ["Armadura leve"],
         "testes_de_resistencia": ["Destreza", "Carisma"],
         "ferramentas": ["Três instrumentos musicais, à sua escolha"],
@@ -40,14 +50,61 @@ _CLASSES_DATA: Dict[str, Dict[str, Any]] = {
             "Persuasão", "Prestidigitação", "Religião", "Sobrevivência"
         ],
         "habilidades_por_nivel": {
-            1: ["Conjuração", "Inspiração Bárdica (d6, 3 usos)", "Magias (Lista inicial)"], # Referência a magias
-            2: ["Canção de Descanso (1d6)", "Jack of All Trades", "Song of Rest"],
-            3: ["Especialidade (escolha)", "Proficiência Adicional"], # Ex: Colégio do Conhecimento
-            4: ["Aumento de Atributo"]
-            # ... continue para níveis superiores
+            1: ["Conjuração", "Inspiração Bárdica (d6, 3 usos)"],
+            2: ["Canção de Descanso (1d6)", "Versatilidade"],
+            3: ["Especialidade (escolha)", "Aptidão"],
+            4: ["Aumento de Atributo"],
+            5: ["Inspiração Bárdica (d8)", "Fonte de Inspiração"],
+            6: ["Especialidade (escolha)", "Canção de Proteção"],
+            7: [],
+            8: ["Aumento de Atributo"],
+            9: ["Canção de Descanso (1d8)"],
+            10: ["Apridão", "Inspiração Bárdica (d10)", "Segredos Magicos"],
+            11: [],
+            12: ["Aumento de Atributo"],
+            13: ["Canção de Descanso (1d10)"],
+            14: ["Especialidade (escolha)", "Segredos Magicos"],
+            15: ["Inspiração Bárdica (d12)"],
+            16: ["Aumento de Atributo"],
+            17: ["Canção de Descanso (1d12)"],
+            18: ["Segredos Magicos"],
+            19: ["Aumento de Atributo"],
+            20: ["Inspiração Superior"]
         }
     },
-    # --- NOVAS CLASSES AQUI ---
+    "Bruxo": {
+        "dado_de_vida": "1d8",
+        "proficiencias_armas": ["Armas simples"],
+        "proficiencias_armaduras": ["Armadura leve"],
+        "testes_de_resistencia": ["Sabedoria", "Carisma"],
+        "ferramentas": [],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Arcanismo", "Enganação", "História", "Intimidação", "Investigação", "Natureza", "Religião"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Patrono Transcendental (escolha)", "Magia de Pacto"],
+            2: ["Invocações Místicas"],
+            3: ["Dadiva do Pacto"],
+            4: ["Aumento de Atributo"],
+            5: [],
+            6: ["Característica de Patrono"],
+            7: [],
+            8: ["Aumento de Atributo"],
+            9: [],
+            10: ["Característica de Patrono"],
+            11: ["Arcana Mistica (6º nível)"],
+            12: ["Aumento de Atributo"],
+            13: ["Arcana Mistica (7º nível)"],
+            14: ["Característica de Patrono"],
+            15: ["Arcana Mistica (8º nível)"],
+            16: ["Aumento de Atributo"],
+            17: ["Arcana Mistica (9º nível)"],
+            18: [],
+            19: ["Aumento de Atributo"],
+            20: ["Mestre Mistico"]
+        }
+    },
     "Clérigo": {
         "dado_de_vida": "1d8",
         "proficiencias_armas": ["Armas simples"],
@@ -59,11 +116,92 @@ _CLASSES_DATA: Dict[str, Dict[str, Any]] = {
             "História", "Intuição", "Medicina", "Persuasão", "Religião"
         ],
         "habilidades_por_nivel": {
-            1: ["Conjuração (Clérigo)", "Discípulo da Vida (ou outro domínio)", "Domínio Divino (escolha)"],
-            2: ["Canalizar Divindade (1 uso)", "Expulsar Mortos-Vivos"],
-            3: ["Magias de Domínio Adicionais"],
-            4: ["Aumento de Atributo"]
-            # ...
+            1: ["Conjuração (Clérigo)", "Domínio Divino (escolha)"],
+            2: ["Canalizar Divindade (1 uso)", "Característica de Domínio"],
+            3: [],
+            4: ["Aumento de Atributo"],
+            5: ["Destruir Mortos-Vivos (ND 1/2)"],
+            6: ["Característica de Domínio", "Canalizar Divindade (2 usos)"],
+            7: [],
+            8: ["Aumento de Atributo", "Destruir Mortos-Vivos (ND 1)", "Característica de Domínio"],
+            9: [],
+            10: ["Intervenção Divina"],
+            11: ["Destruir Mortos-Vivos (ND 2)"],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Destruir Mortos-Vivos (ND 3)"],
+            15: [],
+            16: ["Aumento de Atributo"],
+            17: ["Destruir Mortos-Vivos (ND 4)", "Característica de Domínio"],
+            18: ["Canalizar Divindade (3 usos)"],
+            19: ["Aumento de Atributo"],
+            20: ["Aprimorar de Intervenção Divina"]
+        }
+    },
+    "Druida": {
+        "dado_de_vida": "1d8",
+        "proficiencias_armas": ["Clavas", "Adagas", "Dardos", "Javelins", "Maças", "Bordões", "Foices", "Fundas", "Lanças"],
+        "proficiencias_armaduras": ["Armadura leve", "Armadura média", "Escudos (não metálicos)"],
+        "testes_de_resistencia": ["Inteligência", "Sabedoria"],
+        "ferramentas": ["Kit de Herbalismo"],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Arcanismo", "Adestrar Animais", "Intuição", "Medicina", "Natureza", "Percepção", "Religião", "Sobrevivência"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Conjuração (Druida)", "Druídico"],
+            2: ["Ciclo Druídico", "Forma Selvagem"],
+            3: [],
+            4: ["Aumento de Atributo", "Aprimorar Forma Selvagem"],
+            5: [],
+            6: ["Característica de Ciclo Druídico"],
+            7: [],
+            8: ["Aprimorar Forma Selvagem", "Aumento de Atributo"],
+            9: [],
+            10: ["Característica de Ciclo Druídico"],
+            11: [],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Característica de Ciclo Druídico"],
+            15: [],
+            16: ["Aumento de Atributo"],
+            17: [],
+            18: ["Corpo Atemporal", "Magias da Besta"],
+            19: ["Aumento de Atributo"],
+            20: ["Arquidruida (Forma Selvagem aprimorada)"]
+        }
+    },
+    "Feiticeiro": {
+        "dado_de_vida": "1d6",
+        "proficiencias_armas": ["Adagas", "Dardos", "Fundas", "Bordões", "Bestas leves"],
+        "proficiencias_armaduras": [],
+        "testes_de_resistencia": ["Constituição", "Carisma"],
+        "ferramentas": [],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Arcanismo", "Enganação", "Intuição", "Intimidação", "Persuasão", "Religião"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Conjuração (Feiticeiro)", "Origem Feiticeira (escolha)"],
+            2: ["Fontes de Magia"],
+            3: ["Metamagia"],
+            4: ["Aumento de Atributo"],
+            5: [],
+            6: ["Característica de Origem Feiticeira"],
+            7: [],
+            8: ["Aumento de Atributo"],
+            9: [],
+            10: ["Matemagia"],
+            11: [],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Característica de Origem Feiticeira"],
+            15: [],
+            16: ["Aumento de Atributo"],
+            17: ["Matemagia"],
+            18: ["Característica de Origem Feiticeira"],
+            19: ["Aumento de Atributo"],
+            20: ["Restauração Mágica"]
         }
     },
     "Guerreiro": {
@@ -79,28 +217,25 @@ _CLASSES_DATA: Dict[str, Dict[str, Any]] = {
         ],
         "habilidades_por_nivel": {
             1: ["Estilo de Luta (escolha)", "Recuperar Fôlego (1 uso)"],
-            2: ["Ação de Batalha (1 uso)"],
-            3: ["Arquétipo Marcial (escolha)"], # Ex: Mestre de Batalha, Campeão
-            4: ["Aumento de Atributo"]
-            # ...
-        }
-    },
-    "Mago": {
-        "dado_de_vida": "1d6",
-        "proficiencias_armas": ["Adagas", "Fundas", "Bestas leves", "Bordões", "Dardos"],
-        "proficiencias_armaduras": [],
-        "testes_de_resistencia": ["Inteligência", "Sabedoria"],
-        "ferramentas": [],
-        "quantidade_de_pericias": 2,
-        "pericias_disponiveis": [
-            "Arcanismo", "História", "Intuição", "Investigação", "Medicina", "Religião"
-        ],
-        "habilidades_por_nivel": {
-            1: ["Conjuração (Mago)", "Recuperação Arcana", "Livro de Magias"],
-            2: ["Tradição Arcana (escolha)", "Magias de Tradição"], # Ex: Escola de Evocação
-            3: ["Magias de Nível 2"],
-            4: ["Aumento de Atributo"]
-            # ...
+            2: ["Surto de Ação (1 uso)"],
+            3: ["Arquétipo Marcial (escolha)"],
+            4: ["Aumento de Atributo"],
+            5: ["Ataque Extra"],
+            6: ["Aumento de Atributo"],
+            7: ["Característica de Arquétipo Marcial"],
+            8: ["Aumento de Atributo"],
+            9: ["Indomável (1 uso)"],
+            10: ["Característica de Arquétipo Marcial"],
+            11: ["Ataque Extra (2)"],
+            12: ["Aumento de Atributo"],
+            13: ["Indomável (2 usos)"],
+            14: ["Aumento de Atributo"],
+            15: ["Característica de Arquétipo Marcial"],
+            16: ["Aumento de Atributo"],
+            17: ["Indomável (3 usos)", "Surto de Ação (2 usos)"],
+            18: ["Característica de Arquétipo Marcial"],
+            19: ["Aumento de Atributo"],
+            20: ["Ataque Extra (3)"]
         }
     },
     "Ladino": {
@@ -116,12 +251,158 @@ _CLASSES_DATA: Dict[str, Dict[str, Any]] = {
             "Prestidigitação"
         ],
         "habilidades_por_nivel": {
-            1: ["Perícia (4 perícias, 2 proficiências extras)", "Ataque Furtivo (1d6)", "Gíria de Ladrão"],
+            1: ["Especialização", "Ataque Furtivo", "Gíria de Ladrão", "Ataque Furtivo (1d6)"],
             2: ["Ação Astuta"],
-            3: ["Arquétipo Ladino (escolha)"], # Ex: Ladrão, Assassino
-            4: ["Aumento de Atributo"]
-            # ...
+            3: ["Arquétipo Ladino (escolha)", "Ataque Furtivo (2d6)"],
+            4: ["Aumento de Atributo"],
+            5: ["Ataque Furtivo (3d6)", "Esqiva Sobrenatural"],
+            6: ["Especialização"],
+            7: ["Ataque Furtivo (4d6)", "Evasão"],
+            8: ["Aumento de Atributo"],
+            9: ["Ataque Furtivo (5d6)", "Característica de Arquétipo"],
+            10: ["Aumento de Atributo"],
+            11: ["Ataque Furtivo (6d6)", "Talento de Ladino"],
+            12: ["Aumento de Atributo"],
+            13: ["Ataque Furtivo (7d6)", "Característica de Arquétipo"],
+            14: ["Sentido Cego"],
+            15: ["Ataque Furtivo (8d6)", "Mente Escorregadia"],
+            16: ["Aumento de Atributo"],
+            17: ["Ataque Furtivo (9d6)", "Característica de Arquétipo"],
+            18: ["Elusivo"],
+            19: ["Aumento de Atributo", "Ataque Furtivo (10d6)"],
+            20: ["Golpe de Sorte"]
+        }
+    },
+    "Mago": {
+        "dado_de_vida": "1d6",
+        "proficiencias_armas": ["Adagas", "Dardos", "Fundas", "Bordões", "Bestas leves"],
+        "proficiencias_armaduras": [],
+        "testes_de_resistencia": ["Inteligência", "Sabedoria"],
+        "ferramentas": [],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Arcanismo", "História", "Intuição", "Investigação", "Medicina", "Religião"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Conjuração (Mago)", "Recuperação Arcana"],
+            2: ["Tradição Arcana (escolha)"],
+            3: [],
+            4: ["Aumento de Atributo"],
+            5: [],
+            6: ["Característica de Tradição Arcana"],
+            7: [],
+            8: ["Aumento de Atributo"],
+            9: [],
+            10: ["Característica de Tradição Arcana"],
+            11: [],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Característica de Tradição Arcana"],
+            15: [],
+            16: ["Aumento de Atributo"],
+            17: [],
+            18: ["Domínio de Magia"],
+            19: ["Aumento de Atributo"],
+            20: ["Assinatura Magica"]
+        }
+    },
+    "Monge": {
+        "dado_de_vida": "1d8",
+        "proficiencias_armas": ["Armas simples", "Espadas curtas"],
+        "proficiencias_armaduras": [],
+        "testes_de_resistencia": ["Força", "Destreza"],
+        "ferramentas": ["Uma ferramenta de artesão ou instrumento musical"],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Acrobacia", "Atletismo", "Furtividade", "História", "Intuição", "Religião"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Defesa sem Armadura", "Artes Marciais"],
+            2: ["Chi", "Movimento sem Armadura (+3m)"],
+            3: ["Tradição Monástica (escolha)", "Deflexão de Projéteis"],
+            4: ["Aumento de Atributo", "Lentidão de Queda"],
+            5: ["Ataque Extra", "Golpe Atordoante"],
+            6: ["Movimento sem Armadura (+4,5m)","Característica de Tradição Monástica", "Golpes de Chi"],
+            7: ["Evasão", "Mente Tranquila"],
+            8: ["Aumento de Atributo", "Corpo e Mente"],
+            9: ["Aprimoramento Movimento Sem Armadura"],
+            10: ["Movimento sem Armadura (+6m)","Pureza de Corpo"],
+            11: ["Característica de Tradição Monástica"],
+            12: ["Aumento de Atributo"],
+            13: ["Língua do Sol e da Lua"],
+            14: ["Movimento sem Armadura (+7,5m)","Alma de Diamante"],
+            15: ["Corpo Atemporal"],
+            16: ["Aumento de Atributo"],
+            17: ["Característica de Tradição Monástica"],
+            18: ["Movimento sem Armadura (+9m)","Corpo Vazio"],
+            19: ["Aumento de Atributo"],
+            20: ["Auto Aperfeiçoamento"]
+        }
+    },
+    "Paladino": {
+        "dado_de_vida": "1d10",
+        "proficiencias_armas": ["Armas simples", "Armas marciais"],
+        "proficiencias_armaduras": ["Todas as armaduras", "Escudos"],
+        "testes_de_resistencia": ["Sabedoria", "Carisma"],
+        "ferramentas": [],
+        "quantidade_de_pericias": 2,
+        "pericias_disponiveis": [
+            "Atletismo", "Intuição", "Intimidação", "Medicina", "Persuasão", "Religião"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Sentido Divino", "Cura Pelas Mãos"],
+            2: ["Conjuração (Paladino)", "Estilo de Luta (escolha)", "Destruição Divina"],
+            3: ["Juramento Sagrado (escolha)", "Saúde Divina"],
+            4: ["Aumento de Atributo"],
+            5: ["Ataque Extra"],
+            6: ["Aura de Proteção"],
+            7: ["Característica de Juramento Sagrado"],
+            8: ["Aumento de Atributo"],
+            9: [],
+            10: ["Aura de Coragem"],
+            11: ["Destruição Divina Aprimorada"],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Toque Purificador"],
+            15: ["Característica de Juramento Sagrado"],
+            16: ["Aumento de Atributo"],
+            17: [],
+            18: ["Aprimoramentos de Aura"],
+            19: ["Aumento de Atributo"],
+            20: ["Característica Suprema de Juramento Sagrado"]
+        }
+    },
+    "Patrulheiro": {
+        "dado_de_vida": "1d10",
+        "proficiencias_armas": ["Armas simples", "Armas marciais"],
+        "proficiencias_armaduras": ["Armadura leve", "Armadura média", "Escudos"],
+        "testes_de_resistencia": ["Força", "Destreza"],
+        "ferramentas": [],
+        "quantidade_de_pericias": 3,
+        "pericias_disponiveis": [
+            "Adestrar Animais", "Atletismo", "Furtividade", "Intuição", "Investigação", "Natureza", "Percepção", "Sobrevivência"
+        ],
+        "habilidades_por_nivel": {
+            1: ["Inimigo Favorito", "Explorador Nato"],
+            2: ["Estilo de Luta (escolha)", "Conjuração (Patrulheiro)"],
+            3: ["Conclave de Patrulheiro (escolha)", "Consciência de Primitiva"],
+            4: ["Aumento de Atributo"],
+            5: ["Característica de Conclave"],
+            6: ["Inimigo Favorito Maior"],
+            7: ["Característica de Conclave"],
+            8: ["Aumento de Atributo", "Pes Rapidos"],
+            9: [],
+            10: ["Mimetismo"],
+            11: ["Característica de Conclave"],
+            12: ["Aumento de Atributo"],
+            13: [],
+            14: ["Desaparecer"],
+            15: ["Característica de Conclave"],
+            16: ["Aumento de Atributo"],
+            17: [],
+            18: ["Sentidos Selvagens"],
+            19: ["Aumento de Atributo"],
+            20: ["Matador de Inimigos"]
         }
     }
-    # Adicione mais classes aqui conforme necessário (Feiticeiro, Paladino, Monge, Druida, Patrulheiro, Bruxo)
 }
