@@ -45,10 +45,6 @@ def create_character_form_page(self, page: ft.Page):
                 or not raca_dropdown.value
                 or not classe_dropdown.value
             ):
-                page.snack_bar = ft.SnackBar(
-                    ft.Text("Por favor, preencha todos os campos obrigatórios!"),
-                    open=True,
-                )
                 page.update()
                 return
 
@@ -68,18 +64,11 @@ def create_character_form_page(self, page: ft.Page):
             self.current_character = (
                 new_char  # Define o personagem recém-criado como o atual
             )
-            page.snack_bar = ft.SnackBar(
-                ft.Text(f"Personagem '{new_char.nome}' criado com sucesso!"), open=True
-            )
+
             page.go("/view_character")  # Vai para a tela de visualização do personagem
         except ValueError as ex:
-            page.snack_bar = ft.SnackBar(
-                ft.Text(f"Erro ao criar personagem: {ex}"), open=True
-            )
-        except Exception as ex:
-            page.snack_bar = ft.SnackBar(
-                ft.Text(f"Um erro inesperado ocorreu: {ex}"), open=True
-            )
+            print(f"Erro ao criar personagem: {ex}")
+
         page.update()
 
     return ft.Column(

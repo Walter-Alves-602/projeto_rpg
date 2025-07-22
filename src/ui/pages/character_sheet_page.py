@@ -8,7 +8,6 @@ def character_sheet_page(app, page):
 
     if not char:
         page.go("/")
-        page.snack_bar = ft.SnackBar(ft.Text("Nenhum personagem selecionado."), open=True)
         page.update()
         return ft.Column([ft.Text("...")])
 
@@ -50,10 +49,6 @@ def character_sheet_page(app, page):
             hp_input.value = str(char.pontos_de_vida_atual)
             page.update()
         except ValueError:
-            page.snack_bar = ft.SnackBar(ft.Text("Valor inválido."), open=True)
-            page.update()
-        except Exception as ex:
-            page.snack_bar = ft.SnackBar(ft.Text(f"Erro: {ex}"), open=True)
             page.update()
 
     return ft.Column(

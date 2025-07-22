@@ -9,8 +9,13 @@ def character_list_page(self, page: ft.Page):
         self.current_character = self.gerenciar_personagem_uc.obter_personagem_por_nome(character_name)
         if self.current_character:
             page.go("/view_character")
-        else:
-            page.snack_bar = ft.SnackBar(ft.Text(f"Erro: Personagem '{character_name}' não encontrado."), open=True)
+
+    def delete_character(e):
+        character_name = e.control.data
+        try:
+            self.gerenciar_personagem_uc.excluir_personagem(character_name)
+            page.go("/list_characters")
+        except ValueError as ex:
             page.update()
 
     list_controls = []
@@ -19,10 +24,22 @@ def character_list_page(self, page: ft.Page):
     else:
         for char in characters:
             list_controls.append(
-                ft.ElevatedButton(
-                    f"{char.nome} (Raça: {char.raca_nome}, Classe: {char.classe_nome})",
-                    on_click=select_character,
-                    data=char.nome # Armazena o nome do personagem no botão
+                ft.Row(
+                    [
+                        ft.ElevatedButton(
+                            f"{char.nome} (Raça: {char.raca_nome}, Classe: {char.classe_nome})",
+                            on_click=select_character,
+                            data=char.nome # Armazena o nome do personagem no botão
+                        ),
+                        ft.ElevatedButton(
+                            "Deletar",
+                            on_click=delete_character,
+                            data=char.nome, # Armazena o nome do personagem no botão
+                            icon=ft.Icons.DELETE
+                        ),
+                    ],
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                    spacing=10,
                 )
             )
 
