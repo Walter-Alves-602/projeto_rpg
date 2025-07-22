@@ -1,4 +1,4 @@
-from src.infrastructure.repositories.raca_repository import IRacaRepository
+from src.infrastructure.repositories import IRacaRepository
 
 _RACA_DATA = {
     "Anão": {

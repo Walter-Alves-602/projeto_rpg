@@ -1,7 +1,6 @@
-import src.domain.models.armas as armas
-from src.infrastructure.repositories.raca_repository import IRacaRepository
-from src.infrastructure.repositories.classe_repository import IClasseRepository
-from typing import List, Dict, Optional # Adiciona Optional para o retorno do get_habilidade_descricao
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.infrastructure.repositories import IRacaRepository, IClasseRepository
 
 class Personagem:
     def __init__(
@@ -17,8 +16,8 @@ class Personagem:
         inteligencia: int,
         sabedoria: int,
         carisma: int,
-        raca_repository: IRacaRepository,
-        classe_repository: IClasseRepository,
+        raca_repository: "IRacaRepository",
+        classe_repository: "IClasseRepository",
     ):
         self.nome = nome
         self.jogador = jogador
@@ -62,7 +61,7 @@ class Personagem:
         self.pericias_disponiveis_para_escolha = self._classe_repository.get_pericias_por_classe(self.classe_nome)
         self.pericias_escolhidas = []
 
-        self.habilidades_raciais_nomes: List[str] = self.raca.get("habilidades_raciais", [])
+        self.habilidades_raciais_nomes: list[str] = self.raca.get("habilidades_raciais", [])
 
     def _aplicar_modificadores_raca(self):
         modificadores = self.raca.get("atributos", {})
@@ -78,7 +77,7 @@ class Personagem:
         else:
             print(f"Item {item} não encontrado no inventário.")
 
-    def get_habilidades_raciais_com_descricao(self, habilidades_raciais_repository: 'IHabilidadesRaciaisRepository') -> List[Dict[str, str]]:
+    def get_habilidades_raciais_com_descricao(self, habilidades_raciais_repository: 'IHabilidadesRaciaisRepository') -> list[dict[str, str]]:
         """
         Retorna uma lista de dicionários, onde cada dicionário contém o nome
         e a descrição de uma habilidade racial do personagem.

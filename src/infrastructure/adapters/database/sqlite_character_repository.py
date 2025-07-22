@@ -1,13 +1,8 @@
 import json
 from typing import Optional, List
-from src.infrastructure.repositories.personagem_repository import IPersonagemRepository
+from src.infrastructure.repositories import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository
 from src.domain.models.personagem import Personagem
-from src.infrastructure.repositories.raca_repository import IRacaRepository
-from src.infrastructure.repositories.classe_repository import IClasseRepository
 from src.persistence.database_manager import DatabaseManager
-from src.infrastructure.repositories.habilidades_raciais_repository import (
-    IHabilidadesRaciaisRepository,
-)
 
 
 class SQLitePersonagemRepository(IPersonagemRepository):
