@@ -1,0 +1,5 @@
+from .classe_repository import IClasseRepository
+from .habilidades_raciais_repository import IHabilidadesRaciaisRepository
+from .personagem_repository import IPersonagemRepository
+from .raca_repository import IRacaRepository
+from .spell_repository import ISpellRepository

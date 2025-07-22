@@ -1,0 +1,1 @@
+from sqlite_character_repository import SqliteCharacterRepository

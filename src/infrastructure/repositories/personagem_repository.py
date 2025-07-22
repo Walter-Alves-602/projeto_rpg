@@ -1,7 +1,7 @@
 # src/infrastructure/repositories/personagem_repository.py
 from abc import ABC, abstractmethod
 from typing import Optional, List
-from src.domain.models.personagem import Personagem
+from src.domain.models import Personagem
 
 class IPersonagemRepository(ABC):
     @abstractmethod

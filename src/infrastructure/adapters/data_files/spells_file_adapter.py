@@ -1,8 +1,8 @@
 # src/infrastructure/adapters/data_files/spells_file_adapter.py
 from typing import Dict, Any, List, Optional
 
-from src.infrastructure.repositories.spell_repository import ISpellRepository
-from src.infrastructure.adapters.data_files.spells_data import _SPELLS_DATA # Importa os dados das magias
+from src.infrastructure.repositories import ISpellRepository
+from src.infrastructure.adapters.data_files import _SPELLS_DATA
 
 class SpellFileAdapter(ISpellRepository):
     """

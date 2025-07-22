@@ -1,7 +1,5 @@
 import flet as ft
-from src.ui.components.atributos_component import atributos_display_component
-from src.ui.components.habilidades_raciais_component import habilidades_raciais_display_component
-from src.ui.components.spells_component import spells_display_component
+from src.ui.components import atributos_display_component, habilidades_raciais_display_component, spells_display_component
 
 def character_sheet_page(app, page):
     char = app.current_character

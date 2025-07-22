@@ -5,15 +5,10 @@ import sys
 # Adiciona o diretório raiz do projeto ao sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.persistence.database_manager import DatabaseManager
-from src.infrastructure.adapters.database.sqlite_character_repository import SQLitePersonagemRepository
-from src.infrastructure.adapters.data_files.racas_adapter import RacaFileAdapter
-from src.infrastructure.adapters.data_files.classes_adapter import ClasseFileAdapter
-from src.infrastructure.adapters.data_files.habilidades_raciais_file_adapter import HabilidadesRaciaisFileAdapter
-# --- NOVIDADE AQUI: Importa o novo adaptador de magias ---
-from src.infrastructure.adapters.data_files.spells_file_adapter import SpellFileAdapter
-# --- FIM NOVIDADE ---
-from src.application.use_cases.gerenciar_personagem_use_case import GerenciarPersonagemUseCase
+from src.persistence import DatabaseManager
+from src.infrastructure.adapters.database import SQLitePersonagemRepository
+from src.infrastructure.adapters.data_files import RacaFileAdapter,ClasseFileAdapter,HabilidadesRaciaisFileAdapter,SpellFileAdapter
+from src.application.use_cases import GerenciarPersonagemUseCase
 
 def main():
     db_manager = DatabaseManager()

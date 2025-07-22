@@ -1,12 +1,8 @@
 from typing import List, Optional
 
-from src.infrastructure.repositories.personagem_repository import IPersonagemRepository
-from src.domain.models.personagem import Personagem
-from src.infrastructure.repositories.raca_repository import IRacaRepository
-from src.infrastructure.repositories.classe_repository import IClasseRepository
-from src.infrastructure.repositories.habilidades_raciais_repository import IHabilidadesRaciaisRepository
-from src.infrastructure.repositories.spell_repository import ISpellRepository
-from src.domain.services.dice_roller import DiceRoller
+from src.infrastructure.repositories import IPersonagemRepository,IRacaRepository,IClasseRepository,IHabilidadesRaciaisRepository,ISpellRepository
+from src.domain.models import Personagem
+from src.domain.services import DiceRoller
 
 class GerenciarPersonagemUseCase:
     def __init__(

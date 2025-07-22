@@ -1,6 +1,5 @@
 import src.domain.models.armas as armas
-from src.infrastructure.repositories.raca_repository import IRacaRepository
-from src.infrastructure.repositories.classe_repository import IClasseRepository
+from src.infrastructure.repositories import IRacaRepository, IClasseRepository
 from typing import List, Dict, Optional # Adiciona Optional para o retorno do get_habilidade_descricao
 
 class Personagem:

@@ -1,0 +1,2 @@
+from .criar_personagem_use_case import CriarPersonagemUseCase
+from .gerenciar_personagem_use_case import GerenciarPersonagemUseCase
