@@ -89,10 +89,12 @@ class CharacterSheetApp:
         page.go(page.route)
 
 
-def start_flet_app():
-    ft.app(target=CharacterSheetApp().main)
-
-
+def start_flet_app(viwer):
+    if viwer == "app":
+        ft.app(target=CharacterSheetApp().main)
+    elif viwer == "web":
+        ft.app(target=CharacterSheetApp().main, view=ft.WEB_BROWSER)
+    
 if __name__ == "__main__":
-    start_flet_app()
+    start_flet_app("app")
     
