@@ -9,7 +9,7 @@ from src.infrastructure.adapters.data_files.racas_adapter import RacaFileAdapter
 from src.infrastructure.adapters.data_files.classes_adapter import ClasseFileAdapter
 from src.infrastructure.adapters.data_files.habilidades_raciais_file_adapter import HabilidadesRaciaisFileAdapter
 from src.infrastructure.adapters.data_files.spells_file_adapter import SpellFileAdapter
-from src.application.use_cases.gerenciar_personagem_use_case import GerenciarPersonagemUseCase
+from src.application.use_cases import GerenciarPersonagemUseCase
 
 def terminal_ui():
     db_manager = DatabaseManager()
