@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 
-from src.infrastructure.repositories import IClasseRepository
+from src.domain.ports import IClasseRepository
 from src.infrastructure.adapters.data_files.classes_data import _CLASSES_DATA # <-- NOVIDADE AQUI: Importa do novo arquivo de dados
 
 class ClasseFileAdapter(IClasseRepository):

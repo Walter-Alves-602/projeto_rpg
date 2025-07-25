@@ -1,5 +1,5 @@
 from typing import Optional
-from src.infrastructure.repositories import IHabilidadesRaciaisRepository
+from src.domain.ports import IHabilidadesRaciaisRepository
 from src.infrastructure.adapters.data_files.habilidades_raciais_data import (
     HABILIDADES_RACIAIS_DATA,
 )

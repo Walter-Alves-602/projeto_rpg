@@ -1,6 +1,6 @@
 import json
 from typing import Optional, List
-from src.infrastructure.repositories import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository
+from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository
 from src.domain.models.personagem import Personagem
 from src.persistence.database_manager import DatabaseManager
 

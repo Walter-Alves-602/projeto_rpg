@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from src.infrastructure.repositories import IRacaRepository, IClasseRepository
+    from src.domain.ports import IRacaRepository, IClasseRepository
 
 class Personagem:
     def __init__(

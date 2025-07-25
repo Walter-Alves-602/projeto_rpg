@@ -1,6 +1,6 @@
 # src/domain/services/personagem_service.py
 from src.domain.models.personagem import Personagem
-from src.infrastructure.repositories import IClasseRepository
+from src.domain.ports import IClasseRepository
 
 class PersonagemService:
     def __init__(self, classe_repository: IClasseRepository):

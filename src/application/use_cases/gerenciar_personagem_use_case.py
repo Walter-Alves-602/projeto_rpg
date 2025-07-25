@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from src.infrastructure.repositories import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository, ISpellRepository
+from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository, ISpellRepository
 from src.domain.models.personagem import Personagem
 from src.domain.services.dice_roller import DiceRoller
 

@@ -1,6 +1,6 @@
 # src/application/use_cases/criar_personagem_use_case.py
 from src.domain.models.personagem import Personagem
-from src.infrastructure.repositories import IRacaRepository, IClasseRepository
+from src.domain.ports import IRacaRepository, IClasseRepository
 
 
 class CriarPersonagemUseCase:
