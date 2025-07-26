@@ -31,3 +31,11 @@ class IPersonagemRepository(ABC):
         Deleta um personagem pelo nome.
         """
         pass
+
+    @abstractmethod
+    def create_new_habilidade(self, nome: str, habilidade_nova: str):
+        """
+        Adiciona uma nova habilidade extra a um personagem existente.
+        """
+        pass
+    
