@@ -76,7 +76,7 @@ def character_sheet_page(app, page):
             ft.Divider(),
             # Habilidades raciais
             ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
-            # habilidade_imput(char,),
+            habilidade_imput(char,)
             *habilidades_raciais_display,
             ft.Divider(),
             ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),

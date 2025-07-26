@@ -64,7 +64,6 @@ class Personagem:
         self.habilidades_raciais_nomes: list[str] = self.raca.get("habilidades_raciais", [])
         self.habilidades_extras: list[str] = []
 
-
     def _aplicar_modificadores_raca(self):
         modificadores = self.raca.get("atributos", {})
         for atributo, valor_modificador in modificadores.items():
@@ -96,3 +95,6 @@ class Personagem:
             else:
                 print(f"Aviso: Descrição para a habilidade '{habilidade_nome}' não encontrada no repositório de habilidades.")
         return habilidades_detalhadas
+
+    def update_habilidade_extra():
+        pass
