@@ -1,7 +1,5 @@
 import flet as ft
-from src.ui.components.atributos_component import atributos_display_component
-from src.ui.components.habilidades_raciais_component import habilidades_raciais_display_component
-from src.ui.components.spells_component import spells_display_component
+from src.ui.components import atributos_display_component, habilidades_raciais_display_component, spells_display_component, habilidade_imput
 from src.domain.services import DiceRoller
 
 
@@ -58,6 +56,7 @@ def character_sheet_page(app, page):
         [
             ft.Text(f"Ficha de Personagem: {char.nome}", size=24, weight=ft.FontWeight.BOLD),
             ft.Divider(),
+            # nome e informaçoes 
             ft.Row([
                 ft.Column([
                     ft.Text(f"Jogador: {char.jogador}"),
@@ -75,7 +74,9 @@ def character_sheet_page(app, page):
                 ])
             ], alignment=ft.MainAxisAlignment.CENTER),
             ft.Divider(),
+            # Habilidades raciais
             ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
+            # habilidade_imput(char,),
             *habilidades_raciais_display,
             ft.Divider(),
             ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),

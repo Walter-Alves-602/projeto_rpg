@@ -33,7 +33,8 @@ class DatabaseManager:
                 pontos_de_vida_atual INTEGER,
                 pontos_de_experiencia INTEGER,
                 deslocamento REAL,
-                habilidades_raciais TEXT
+                habilidades_raciais TEXT,
+                habilidades_raciais_extras TEXT
             )
         """)
         conn.commit()

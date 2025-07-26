@@ -22,8 +22,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         conn = self._db_manager.connect()
         cursor = conn.cursor()
 
-        # Serializa a lista de habilidades raciais para uma string JSON
         habilidades_raciais_json = json.dumps(personagem.habilidades_raciais_nomes)
+        habilidades_extras = json.dumps(personagem.habilidades_extras)
 
         cursor.execute(
             """
@@ -31,9 +31,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 nome, jogador, raca_nome, classe_nome, nivel,
                 forca, destreza, constituicao, inteligencia, sabedoria, carisma,
                 pontos_de_vida_max, pontos_de_vida_atual, pontos_de_experiencia,
-                deslocamento,
-                habilidades_raciais -- <-- NOVIDADE AQUI: Adiciona a coluna no INSERT
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                deslocamento, habilidades_raciais, habilidades_raciais_extras
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 personagem.nome,
@@ -51,7 +50,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 personagem.pontos_de_vida_atual,
                 personagem.pontos_de_experiencia,
                 personagem.deslocamento,
-                habilidades_raciais_json,  # <-- NOVIDADE AQUI: Passa a string JSON
+                habilidades_raciais_json,
+                habilidades_extras
             ),
         )
         conn.commit()
@@ -65,10 +65,15 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         self._db_manager.close(conn)
 
         if row:
-            # Desserializa a string JSON de habilidades raciais de volta para uma lista Python
             habilidades_raciais_nomes = (
                 json.loads(row["habilidades_raciais"])
                 if row["habilidades_raciais"]
+                else []
+            )
+
+            habilidades_extras = (
+                json.loads(row["habilidades_raciais_extras"])
+                if row["habilidades_raciais_extras"]
                 else []
             )
 
@@ -92,6 +97,7 @@ class SQLitePersonagemRepository(IPersonagemRepository):
             personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
             personagem.deslocamento = row["deslocamento"]
             personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
+            personagem.habilidades_extras = habilidades_extras
 
             return personagem
         return None
@@ -105,10 +111,15 @@ class SQLitePersonagemRepository(IPersonagemRepository):
 
         personagens = []
         for row in rows:
-            # Desserializa a string JSON de habilidades raciais de volta para uma lista Python
             habilidades_raciais_nomes = (
                 json.loads(row["habilidades_raciais"])
                 if row["habilidades_raciais"]
+                else []
+            )
+
+            habilidades_extras = (
+                json.loads(row["habilidades_raciais_extras"])
+                if row["habilidades_raciais_extras"]
                 else []
             )
 
@@ -132,6 +143,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
             personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
             personagem.deslocamento = row["deslocamento"]
             personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
+            personagem.habilidades_extras = habilidades_extras
+
             personagens.append(personagem)
         return personagens
 
@@ -141,3 +154,21 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         cursor.execute("DELETE FROM personagens WHERE nome = ?", (nome,))
         conn.commit()
         self._db_manager.close(conn)
+
+    def create_new_habilidade(self, nome: str, habilidade_nova: str):
+        conn = self._db_manager.connect()
+        cursor = conn.cursor()
+        cursor.execute("SELECT habilidades_raciais_extras FROM personagens WHERE nome = ?", (nome))
+        row = cursor.fetchone()
+        habilidades_extras = json.loads(row["habilidades_raciais_extras"])
+        habilidades_extras.append(habilidade_nova)
+        habilidades_extras = json.dumps(habilidades_extras)
+        cursor.execute("UPDATE personagens SET habilidades_raciais_extras = ? WHERE nome = ?",(habilidades_extras, nome))
+        conn.commit()
+        self._db_manager.close(conn)
+
+
+# ALERTA !!!!!!!!!, lembrese de modificar os outros metodos para incluir a nova coluna
+# ja foram modificados os metodos atuais falta verificar o resto do codigo
+# ja foi alterado o modelo do personagem
+# creio que podese refatorar as funcoes aqui
