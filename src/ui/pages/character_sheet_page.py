@@ -2,6 +2,9 @@ import flet as ft
 from src.ui.components.atributos_component import atributos_display_component
 from src.ui.components.habilidades_raciais_component import habilidades_raciais_display_component
 from src.ui.components.spells_component import spells_display_component
+from src.domain.services import DiceRoller
+
+
 
 def character_sheet_page(app, page):
     char = app.current_character
@@ -14,7 +17,7 @@ def character_sheet_page(app, page):
     def on_atributo_click(e):
         atributo = e.control.data
         mod = char.modificadores_atributo[atributo]
-        resultado = app.gerenciar_personagem_uc.dice_roller.roll(20, 1, mod)
+        resultado = DiceRoller.roll(20, 1, mod)
         app.resultado_teste_atributo[atributo] = resultado
         app.atributo_rodado = atributo
         page.views[-1].controls = [character_sheet_page(app, page)]

@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository, ISpellRepository
 from src.domain.models.personagem import Personagem
-from src.domain.services.dice_roller import DiceRoller
+from src.domain.services import DiceRoller
 
 class GerenciarPersonagemUseCase:
     def __init__(
@@ -13,20 +13,19 @@ class GerenciarPersonagemUseCase:
         habilidades_raciais_repository: IHabilidadesRaciaisRepository,
         spell_repository: ISpellRepository
     ):
-        self._personagem_repository = personagem_repository
-        self._raca_repository = raca_repository
-        self._classe_repository = classe_repository
-        self._habilidades_raciais_repository = habilidades_raciais_repository
-        self._spell_repository = spell_repository
-        self.dice_roller = DiceRoller() # Inicializa o rolador de dados
-    
+        self._personagem_repository: IPersonagemRepository = personagem_repository
+        self._raca_repository: IRacaRepository = raca_repository
+        self._classe_repository: IClasseRepository = classe_repository
+        self._habilidades_raciais_repository: IHabilidadesRaciaisRepository = habilidades_raciais_repository
+        self._spell_repository: ISpellRepository = spell_repository
+
     def perform_attribute_check(self, personagem_id: int, attribute: str):
         personagem = self._personagem_repository.get_by_id(personagem_id)
         if not personagem:
             raise ValueError("Personagem não encontrado.")
-        
+
         modifier = personagem.modificadores_atributo[attribute]
-        return DiceRoller.roll(20, 1, modifier)  # Rolando um dado de 20 lados com o modificador do atributo  
+        return DiceRoller.roll(20, 1, modifier)
 
     def criar_personagem(
         self,
@@ -42,6 +41,25 @@ class GerenciarPersonagemUseCase:
         sabedoria: int,
         carisma: int,
     ) -> Personagem:
+        """
+        Cria um novo personagem e o salva no repositório.
+
+        Args:
+            nome (str): O nome do personagem.
+            jogador (str): O nome do jogador que controla o personagem.
+            raca_nome (str): O nome da raça do personagem.
+            classe_nome (str): O nome da classe do personagem.
+            nivel (int): O nível inicial do personagem.
+            forca (int): Valor do atributo Força.
+            destreza (int): Valor do atributo Destreza.
+            constituicao (int): Valor do atributo Constituição.
+            inteligencia (int): Valor do atributo Inteligência.
+            sabedoria (int): Valor do atributo Sabedoria.
+            carisma (int): Valor do atributo Carisma.
+
+        Returns:
+            Personagem: O objeto Personagem recém-criado e salvo.
+        """
         novo_personagem = Personagem(
             nome=nome,
             jogador=jogador,
@@ -57,6 +75,7 @@ class GerenciarPersonagemUseCase:
             raca_repository=self._raca_repository,
             classe_repository=self._classe_repository
         )
+        # Salva o novo personagem através do repositório de personagens.
         self._personagem_repository.save(novo_personagem)
         return novo_personagem
 
@@ -71,8 +90,3 @@ class GerenciarPersonagemUseCase:
         if not personagem:
             raise ValueError(f"Personagem '{nome}' não encontrado para exclusão.")
         self._personagem_repository.delete(nome)
-
-    # Futuros métodos que podem usar self._spell_repository, por exemplo:
-    # def get_magias_conhecidas_personagem(self, personagem: Personagem) -> List[Dict[str, Any]]:
-    #     # Lógica para determinar magias conhecidas baseadas na classe, nível, etc.
-    #     return self._spell_repository.get_spells_by_class(personagem.classe_nome)
