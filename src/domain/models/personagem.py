@@ -78,7 +78,7 @@ class Personagem:
         else:
             print(f"Item {item} não encontrado no inventário.")
 
-    def get_habilidades_raciais_com_descricao(self, habilidades_raciais_repository: 'IHabilidadesRaciaisRepository') -> list[dict[str, str]]: # pyright: ignore[reportUndefinedVariable]  # noqa: F821
+    def get_habilidades_raciais_com_descricao(self, habilidades_raciais_repository: 'IHabilidadesRaciaisRepository') -> list[dict[str, str]]: # type: ignore
         """
         Retorna uma lista de dicionários, onde cada dicionário contém o nome
         e a descrição de uma habilidade racial do personagem.

@@ -31,8 +31,9 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 nome, jogador, raca_nome, classe_nome, nivel,
                 forca, destreza, constituicao, inteligencia, sabedoria, carisma,
                 pontos_de_vida_max, pontos_de_vida_atual, pontos_de_experiencia,
-                deslocamento, habilidades_raciais, habilidades_raciais_extras
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                deslocamento,
+                habilidades_raciais
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 personagem.nome,
@@ -50,8 +51,7 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 personagem.pontos_de_vida_atual,
                 personagem.pontos_de_experiencia,
                 personagem.deslocamento,
-                habilidades_raciais_json,
-                habilidades_extras
+                habilidades_raciais_json
             ),
         )
         conn.commit()

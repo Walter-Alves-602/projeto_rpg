@@ -1,7 +1,7 @@
 from typing import Dict, Any, List
 
 from src.domain.ports import IClasseRepository
-from src.infrastructure.adapters.data_files.classes_data import _CLASSES_DATA # <-- NOVIDADE AQUI: Importa do novo arquivo de dados
+from src.infrastructure.adapters.data_files.classes_data import _CLASSES_DATA
 
 class ClasseFileAdapter(IClasseRepository):
     def get_classe(self, nome_classe: str) -> Dict[str, Any]:

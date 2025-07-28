@@ -16,6 +16,7 @@ def character_list_page(self, page: ft.Page):
             self.gerenciar_personagem_uc.excluir_personagem(character_name)
             page.go("/list_characters")
         except ValueError as ex:
+            print(ex)
             page.update()
 
     list_controls = []
