@@ -1,6 +1,3 @@
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from src.domain.ports import IRacaRepository, IClasseRepository
 
 class Personagem:
     def __init__(
@@ -16,18 +13,17 @@ class Personagem:
         inteligencia: int,
         sabedoria: int,
         carisma: int,
-        raca_repository: "IRacaRepository",
-        classe_repository: "IClasseRepository"
+        raca: dict,
+        classe: dict,
+        pericias_disponiveis: list[str]
     ):
         self.nome = nome
         self.jogador = jogador
         self.nivel = nivel
         self.raca_nome = raca_nome
         self.classe_nome = classe_nome
-        self._raca_repository = raca_repository
-        self._classe_repository = classe_repository
-        self.raca = self._raca_repository.get_raca(self.raca_nome)
-        self.classe = self._classe_repository.get_classe(self.classe_nome)
+        self.raca = raca
+        self.classe = classe
 
         if not self.raca:
             raise ValueError(f"Raça '{self.raca_nome}' não encontrada.")
@@ -58,7 +54,7 @@ class Personagem:
         self.testes_de_resistencia = self.classe.get("testes_de_resistencia", [])
         self.ferramentas = self.classe.get("ferramentas", [])
         self.quantidade_de_pericias_classe = self.classe.get("quantidade_de_pericias", 0)
-        self.pericias_disponiveis_para_escolha = self._classe_repository.get_pericias_por_classe(self.classe_nome)
+        self.pericias_disponiveis_para_escolha = pericias_disponiveis
         self.pericias_escolhidas = []
 
         self.habilidades_raciais_nomes: list[str] = self.raca.get("habilidades_raciais", [])
@@ -68,30 +64,3 @@ class Personagem:
         modificadores = self.raca.get("atributos", {})
         for atributo, valor_modificador in modificadores.items():
             self.atributos[atributo] += valor_modificador
-
-    def adicionar_item_inventario(self, item):
-        self.inventario.append(item)
-
-    def remover_item_inventario(self, item):
-        if item in self.inventario:
-            self.inventario.remove(item)
-        else:
-            print(f"Item {item} não encontrado no inventário.")
-
-    def get_habilidades_raciais_com_descricao(self, habilidades_raciais_repository: 'IHabilidadesRaciaisRepository') -> list[dict[str, str]]: # type: ignore
-        """
-        Retorna uma lista de dicionários, onde cada dicionário contém o nome
-        e a descrição de uma habilidade racial do personagem.
-        Recebe o repositório de habilidades como parâmetro para buscar as descrições.
-        """
-        habilidades_detalhadas = []
-        for habilidade_nome in self.habilidades_raciais_nomes:
-            descricao = habilidades_raciais_repository.get_habilidade_descricao(habilidade_nome)
-            if descricao:
-                habilidades_detalhadas.append({
-                    "nome": habilidade_nome,
-                    "descricao": descricao
-                })
-            else:
-                print(f"Aviso: Descrição para a habilidade '{habilidade_nome}' não encontrada no repositório de habilidades.")
-        return habilidades_detalhadas

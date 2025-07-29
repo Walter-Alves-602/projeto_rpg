@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository, ISpellRepository
+from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository, ISpellRepository, IArmaRepository
 from src.domain.models.personagem import Personagem
 from src.domain.services import DiceRoller
 
@@ -11,13 +11,15 @@ class GerenciarPersonagemUseCase:
         raca_repository: IRacaRepository,
         classe_repository: IClasseRepository,
         habilidades_raciais_repository: IHabilidadesRaciaisRepository,
-        spell_repository: ISpellRepository
+        spell_repository: ISpellRepository,
+        arma_repository: IArmaRepository,
     ):
         self._personagem_repository: IPersonagemRepository = personagem_repository
         self._raca_repository: IRacaRepository = raca_repository
         self._classe_repository: IClasseRepository = classe_repository
         self._habilidades_raciais_repository: IHabilidadesRaciaisRepository = habilidades_raciais_repository
         self._spell_repository: ISpellRepository = spell_repository
+        self._arma_repository: IArmaRepository = arma_repository
 
     def perform_attribute_check(self, personagem_id: int, attribute: str):
         personagem = self._personagem_repository.get_by_id(personagem_id)
@@ -60,6 +62,18 @@ class GerenciarPersonagemUseCase:
         Returns:
             Personagem: O objeto Personagem recém-criado e salvo.
         """
+        # O UseCase agora é a "fábrica" que busca as dependências
+        raca = self._raca_repository.get_raca(raca_nome)
+        if not raca:
+            raise ValueError(f"Raça '{raca_nome}' não encontrada.")
+
+        classe = self._classe_repository.get_classe(classe_nome)
+        if not classe:
+            raise ValueError(f"Classe '{classe_nome}' não encontrada.")
+
+        pericias_disponiveis = self._classe_repository.get_pericias_por_classe(classe_nome)
+
+        # O modelo Personagem recebe os dados já resolvidos
         novo_personagem = Personagem(
             nome=nome,
             jogador=jogador,
@@ -72,8 +86,9 @@ class GerenciarPersonagemUseCase:
             inteligencia=inteligencia,
             sabedoria=sabedoria,
             carisma=carisma,
-            raca_repository=self._raca_repository,
-            classe_repository=self._classe_repository
+            raca=raca,
+            classe=classe,
+            pericias_disponiveis=pericias_disponiveis
         )
 
         
@@ -99,6 +114,59 @@ class GerenciarPersonagemUseCase:
 
         personagem.habilidades_extras.append({"nome": nome_habilidade, "descricao": descricao_habilidade})
         self._personagem_repository.save(personagem)
+        return personagem
+
+    def obter_habilidades_com_descricao(self, personagem_nome: str) -> list[dict[str, str]]:
+        """
+        Busca um personagem e retorna uma lista combinada de suas habilidades
+        raciais e extras, cada uma com sua descrição.
+        """
+        personagem = self._personagem_repository.get_by_name(personagem_nome)
+        if not personagem:
+            return []
+
+        habilidades_detalhadas = []
+        # Habilidades Raciais
+        for habilidade_nome in personagem.habilidades_raciais_nomes:
+            descricao = self._habilidades_raciais_repository.get_habilidade_descricao(habilidade_nome)
+            if descricao:
+                habilidades_detalhadas.append({"nome": habilidade_nome, "descricao": descricao})
+
+        # Habilidades Extras
+        habilidades_detalhadas.extend(personagem.habilidades_extras)
+
+        return habilidades_detalhadas
+
+    def adicionar_item_ao_inventario(self, personagem_nome: str, nome_item: str) -> Optional[Personagem]:
+        """
+        Adiciona um item (arma) ao inventário de um personagem.
+        """
+        personagem = self._personagem_repository.get_by_name(personagem_nome)
+        if not personagem:
+            raise ValueError(f"Personagem '{personagem_nome}' não encontrado.")
+
+        item = self._arma_repository.get_by_name(nome_item)
+        if not item:
+            raise ValueError(f"Item '{nome_item}' não encontrado no repositório de armas.")
+
+        # A lógica de adicionar acontece aqui, no UseCase
+        personagem.inventario.append(item)
+        self._personagem_repository.save(personagem)
+        return personagem
+
+    def remover_item_do_inventario(self, personagem_nome: str, nome_item: str) -> Optional[Personagem]:
+        """
+        Remove um item (arma) do inventário de um personagem.
+        """
+        personagem = self._personagem_repository.get_by_name(personagem_nome)
+        if not personagem:
+            raise ValueError(f"Personagem '{personagem_nome}' não encontrado.")
+
+        # A lógica de remover acontece aqui, no UseCase
+        item_para_remover = next((item for item in personagem.inventario if item.nome == nome_item), None)
+        if item_para_remover:
+            personagem.inventario.remove(item_para_remover)
+            self._personagem_repository.save(personagem)
         return personagem
 
     def obter_personagem_por_nome(self, nome: str) -> Optional[Personagem]:

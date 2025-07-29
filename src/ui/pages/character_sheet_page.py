@@ -45,7 +45,9 @@ def character_sheet_page(app, page):
         page.views[-1].controls = [character_sheet_page(app, page)]
         page.update()
 
-    habilidades_raciais_display = habilidades_raciais_display_component(char, app.habilidades_raciais_repository)
+    # Busca as habilidades através do UseCase
+    todas_as_habilidades = app.gerenciar_personagem_uc.obter_habilidades_com_descricao(char.nome)
+    habilidades_raciais_display = habilidades_raciais_display_component(todas_as_habilidades)
     magias_da_classe = app.spell_repository.get_spells_by_class(char.classe_nome)
     magias_display = spells_display_component(magias_da_classe, char.classe_nome)
 
