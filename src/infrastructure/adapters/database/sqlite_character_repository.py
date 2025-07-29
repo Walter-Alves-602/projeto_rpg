@@ -18,12 +18,51 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         self._classe_repository = classe_repository
         self._habilidades_raciais_repository = habilidades_raciais_repository
 
+    def _gerar_dummy_personagem(self, row):
+        habilidades_raciais_nomes = (
+            json.loads(row["habilidades_raciais"])
+            if row["habilidades_raciais"]
+            else []
+        )
+
+        habilidades_extras = (
+            json.loads(row["habilidades_extras"])
+            if row["habilidades_extras"]
+            else []
+        )
+
+        personagem = Personagem(
+            nome=row["nome"],
+            jogador=row["jogador"],
+            raca_nome=row["raca_nome"],
+            classe_nome=row["classe_nome"],
+            nivel=row["nivel"],
+            forca=row["forca"],
+            destreza=row["destreza"],
+            constituicao=row["constituicao"],
+            inteligencia=row["inteligencia"],
+            sabedoria=row["sabedoria"],
+            carisma=row["carisma"],
+            raca_repository=self._raca_repository,
+            classe_repository=self._classe_repository,
+        )
+
+        personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
+        personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
+        personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
+        personagem.deslocamento = row["deslocamento"]
+        personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
+        personagem.habilidades_extras = habilidades_extras
+
+        return personagem
+
     def save(self, personagem: Personagem) -> None:
         conn = self._db_manager.connect()
         cursor = conn.cursor()
 
         habilidades_raciais_json = json.dumps(personagem.habilidades_raciais_nomes)
-        habilidades_extras = json.dumps(personagem.habilidades_extras)
+        habilidades_extras_json = json.dumps(personagem.habilidades_extras)
+
 
         cursor.execute(
             """
@@ -31,9 +70,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 nome, jogador, raca_nome, classe_nome, nivel,
                 forca, destreza, constituicao, inteligencia, sabedoria, carisma,
                 pontos_de_vida_max, pontos_de_vida_atual, pontos_de_experiencia,
-                deslocamento,
-                habilidades_raciais
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                deslocamento, habilidades_raciais, habilidades_extras
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 personagem.nome,
@@ -51,7 +89,8 @@ class SQLitePersonagemRepository(IPersonagemRepository):
                 personagem.pontos_de_vida_atual,
                 personagem.pontos_de_experiencia,
                 personagem.deslocamento,
-                habilidades_raciais_json
+                habilidades_raciais_json,
+                habilidades_extras_json
             ),
         )
         conn.commit()
@@ -65,42 +104,9 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         self._db_manager.close(conn)
 
         if row:
-            habilidades_raciais_nomes = (
-                json.loads(row["habilidades_raciais"])
-                if row["habilidades_raciais"]
-                else []
-            )
-
-            habilidades_extras = (
-                json.loads(row["habilidades_raciais_extras"])
-                if row["habilidades_raciais_extras"]
-                else []
-            )
-
-            personagem = Personagem(
-                nome=row["nome"],
-                jogador=row["jogador"],
-                raca_nome=row["raca_nome"],
-                classe_nome=row["classe_nome"],
-                nivel=row["nivel"],
-                forca=row["forca"],
-                destreza=row["destreza"],
-                constituicao=row["constituicao"],
-                inteligencia=row["inteligencia"],
-                sabedoria=row["sabedoria"],
-                carisma=row["carisma"],
-                raca_repository=self._raca_repository,
-                classe_repository=self._classe_repository,
-            )
-            personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
-            personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
-            personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
-            personagem.deslocamento = row["deslocamento"]
-            personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
-            personagem.habilidades_extras = habilidades_extras
-
-            return personagem
-        return None
+            return self._gerar_dummy_personagem(row)
+        else:
+            return None
 
     def get_all(self) -> List[Personagem]:
         conn = self._db_manager.connect()
@@ -111,41 +117,7 @@ class SQLitePersonagemRepository(IPersonagemRepository):
 
         personagens = []
         for row in rows:
-            habilidades_raciais_nomes = (
-                json.loads(row["habilidades_raciais"])
-                if row["habilidades_raciais"]
-                else []
-            )
-
-            habilidades_extras = (
-                json.loads(row["habilidades_raciais_extras"])
-                if row["habilidades_raciais_extras"]
-                else []
-            )
-
-            personagem = Personagem(
-                nome=row["nome"],
-                jogador=row["jogador"],
-                raca_nome=row["raca_nome"],
-                classe_nome=row["classe_nome"],
-                nivel=row["nivel"],
-                forca=row["forca"],
-                destreza=row["destreza"],
-                constituicao=row["constituicao"],
-                inteligencia=row["inteligencia"],
-                sabedoria=row["sabedoria"],
-                carisma=row["carisma"],
-                raca_repository=self._raca_repository,
-                classe_repository=self._classe_repository,
-            )
-            personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
-            personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
-            personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
-            personagem.deslocamento = row["deslocamento"]
-            personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
-            personagem.habilidades_extras = habilidades_extras
-
-            personagens.append(personagem)
+            personagens.append(self._gerar_dummy_personagem(row))
         return personagens
 
     def delete(self, nome: str) -> None:
@@ -154,21 +126,3 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         cursor.execute("DELETE FROM personagens WHERE nome = ?", (nome,))
         conn.commit()
         self._db_manager.close(conn)
-
-    def create_new_habilidade(self, nome: str, habilidade_nova: str):
-        conn = self._db_manager.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT habilidades_raciais_extras FROM personagens WHERE nome = ?", (nome))
-        row = cursor.fetchone()
-        habilidades_extras = json.loads(row["habilidades_raciais_extras"])
-        habilidades_extras.append(habilidade_nova)
-        habilidades_extras = json.dumps(habilidades_extras)
-        cursor.execute("UPDATE personagens SET habilidades_raciais_extras = ? WHERE nome = ?",(habilidades_extras, nome))
-        conn.commit()
-        self._db_manager.close(conn)
-
-
-# ALERTA !!!!!!!!!, lembrese de modificar os outros metodos para incluir a nova coluna
-# ja foram modificados os metodos atuais falta verificar o resto do codigo
-# ja foi alterado o modelo do personagem
-# creio que podese refatorar as funcoes aqui

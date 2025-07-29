@@ -17,7 +17,7 @@ class Personagem:
         sabedoria: int,
         carisma: int,
         raca_repository: "IRacaRepository",
-        classe_repository: "IClasseRepository",
+        classe_repository: "IClasseRepository"
     ):
         self.nome = nome
         self.jogador = jogador
@@ -62,7 +62,7 @@ class Personagem:
         self.pericias_escolhidas = []
 
         self.habilidades_raciais_nomes: list[str] = self.raca.get("habilidades_raciais", [])
-        self.habilidades_extras: list[str] = []
+        self.habilidades_extras = []
 
     def _aplicar_modificadores_raca(self):
         modificadores = self.raca.get("atributos", {})
@@ -95,6 +95,3 @@ class Personagem:
             else:
                 print(f"Aviso: Descrição para a habilidade '{habilidade_nome}' não encontrada no repositório de habilidades.")
         return habilidades_detalhadas
-
-    def update_habilidade_extra():
-        pass

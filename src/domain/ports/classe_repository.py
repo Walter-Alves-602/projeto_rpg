@@ -15,3 +15,4 @@ class IClasseRepository(ABC):
         Retorna a lista de perícias disponíveis para uma classe específica.
         """
         pass
+    

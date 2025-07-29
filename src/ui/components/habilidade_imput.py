@@ -1,22 +1,22 @@
 import flet as ft
+from typing import Callable
 
 
-# objetivo e adicionar uma habilidade extra ao personagem
-def save_new_habilidade(char, habilidade_nome, habilidade_descricao):
-    print(habilidade_nome, habilidade_descricao)
-
-
-def habilidade_imput(char):
+def habilidade_imput(on_add: Callable[[str, str], None]):
+    """
+    Componente de UI para adicionar uma nova habilidade.
+    Recebe uma função de callback 'on_add' que é chamada quando o botão é clicado.
+    """
     habilidade_nome = ft.TextField(label="Nome")
     habilidade_descricao = ft.TextField(label="Descrição")
     btn_add = ft.IconButton(
         ft.Icons.ADD,
-        on_click=save_new_habilidade(
-            char, habilidade_nome.value, habilidade_descricao.value
+        on_click=lambda _: on_add(
+            habilidade_nome.value, habilidade_descricao.value
         ),
     )
 
-    habilidade_imput = ft.Column(
+    habilidade_imput_element = ft.Column(
         [ft.Row([btn_add, habilidade_nome]), habilidade_descricao]
     )
-    return habilidade_imput
+    return habilidade_imput_element

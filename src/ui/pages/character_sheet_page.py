@@ -28,6 +28,23 @@ def character_sheet_page(app, page):
         app.resultado_teste_atributo  # novo parâmetro
     )
 
+    def handle_add_habilidade(nome_habilidade: str, descricao_habilidade: str):
+        """
+        Callback para o componente de input. Chama o UseCase e atualiza a UI.
+        """
+        if not nome_habilidade or not descricao_habilidade:
+            # Poderíamos adicionar um snackbar de erro aqui no futuro
+            return
+
+        # Chama o UseCase para adicionar a habilidade e persistir
+        updated_char = app.gerenciar_personagem_uc.adicionar_habilidade_extra(
+            char.nome, nome_habilidade, descricao_habilidade
+        )
+        app.current_character = updated_char  # Atualiza o personagem atual no app
+        # Força a recriação e atualização da view com os novos dados
+        page.views[-1].controls = [character_sheet_page(app, page)]
+        page.update()
+
     habilidades_raciais_display = habilidades_raciais_display_component(char, app.habilidades_raciais_repository)
     magias_da_classe = app.spell_repository.get_spells_by_class(char.classe_nome)
     magias_display = spells_display_component(magias_da_classe, char.classe_nome)
@@ -76,7 +93,7 @@ def character_sheet_page(app, page):
             ft.Divider(),
             # Habilidades raciais
             ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
-            habilidade_imput(char,)
+            habilidade_imput(on_add=handle_add_habilidade),
             *habilidades_raciais_display,
             ft.Divider(),
             ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),

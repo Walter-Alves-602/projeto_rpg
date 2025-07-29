@@ -75,9 +75,31 @@ class GerenciarPersonagemUseCase:
             raca_repository=self._raca_repository,
             classe_repository=self._classe_repository
         )
+
+        
         # Salva o novo personagem através do repositório de personagens.
         self._personagem_repository.save(novo_personagem)
         return novo_personagem
+
+    def adicionar_habilidade_extra(self, personagem_nome: str, nome_habilidade: str, descricao_habilidade: str) -> Optional[Personagem]:
+        """
+        Adiciona uma habilidade extra a um personagem existente e o salva.
+
+        Args:
+            personagem_nome (str): O nome do personagem a ser modificado.
+            nome_habilidade (str): O nome da nova habilidade.
+            descricao_habilidade (str): A descrição da nova habilidade.
+
+        Returns:
+            Personagem: O objeto Personagem atualizado.
+        """
+        personagem = self._personagem_repository.get_by_name(personagem_nome)
+        if not personagem:
+            raise ValueError(f"Personagem '{personagem_nome}' não encontrado.")
+
+        personagem.habilidades_extras.append({"nome": nome_habilidade, "descricao": descricao_habilidade})
+        self._personagem_repository.save(personagem)
+        return personagem
 
     def obter_personagem_por_nome(self, nome: str) -> Optional[Personagem]:
         return self._personagem_repository.get_by_name(nome)
