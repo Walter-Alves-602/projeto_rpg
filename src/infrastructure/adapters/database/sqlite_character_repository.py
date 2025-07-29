@@ -18,7 +18,20 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         self._classe_repository = classe_repository
         self._habilidades_raciais_repository = habilidades_raciais_repository
 
-    def _gerar_dummy_personagem(self, row):
+    def _row_to_personagem(self, row) -> Optional[Personagem]:
+        """Converte uma linha do banco de dados em um objeto Personagem completo."""
+        raca_nome = row["raca_nome"]
+        classe_nome = row["classe_nome"]
+
+        raca = self._raca_repository.get_raca(raca_nome)
+        classe = self._classe_repository.get_classe(classe_nome)
+        pericias_disponiveis = self._classe_repository.get_pericias_por_classe(classe_nome)
+
+        # Validação para garantir a integridade dos dados
+        if not raca or not classe:
+            print(f"Aviso: Não foi possível encontrar a raça '{raca_nome}' ou a classe '{classe_nome}' para o personagem '{row['nome']}'.")
+            return None
+
         habilidades_raciais_nomes = (
             json.loads(row["habilidades_raciais"])
             if row["habilidades_raciais"]
@@ -43,8 +56,9 @@ class SQLitePersonagemRepository(IPersonagemRepository):
             inteligencia=row["inteligencia"],
             sabedoria=row["sabedoria"],
             carisma=row["carisma"],
-            raca_repository=self._raca_repository,
-            classe_repository=self._classe_repository,
+            raca=raca,
+            classe=classe,
+            pericias_disponiveis=pericias_disponiveis,
         )
 
         personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
@@ -104,7 +118,7 @@ class SQLitePersonagemRepository(IPersonagemRepository):
         self._db_manager.close(conn)
 
         if row:
-            return self._gerar_dummy_personagem(row)
+            return self._row_to_personagem(row)
         else:
             return None
 
@@ -117,7 +131,9 @@ class SQLitePersonagemRepository(IPersonagemRepository):
 
         personagens = []
         for row in rows:
-            personagens.append(self._gerar_dummy_personagem(row))
+            personagem = self._row_to_personagem(row)
+            if personagem:
+                personagens.append(personagem)
         return personagens
 
     def delete(self, nome: str) -> None:
