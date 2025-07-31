@@ -1,6 +1,6 @@
 from typing import List, Optional
 from src.domain.models.armas import Arma, ArmaCorpoACorpo, ArmaDeAtaqueDistancia
-from src.domain.ports.i_arma_repository import IArmaRepository
+from src.domain.ports import IArmaRepository
 from .armas_data import ARMAS_DATA
 
 class ArmaFileAdapter(IArmaRepository):

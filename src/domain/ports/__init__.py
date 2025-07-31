@@ -3,7 +3,7 @@ from .raca_repository import IRacaRepository
 from .classe_repository import IClasseRepository
 from .habilidades_raciais_repository import IHabilidadesRaciaisRepository
 from .spell_repository import ISpellRepository
-from .i_arma_repository import IArmaRepository
+from .arma_repository import IArmaRepository
 
 
 __all__ = [
