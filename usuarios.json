@@ -1,0 +1,14 @@
+{
+    "mestre_da_mesa": {
+        "id": "1b90c15d-c831-4636-86eb-99eb6cd3fd2a",
+        "username": "mestre_da_mesa",
+        "hashed_password": "$2b$12$4G54RtOvb8CpnNOkcqJX/e5HVK3vZeFChH7X/WkIpBRwGDmHLGYe2",
+        "papel": "mestre"
+    },
+    "walter": {
+        "id": "85ffc5bb-c089-4aac-a1a5-48d0456d2954",
+        "username": "walter",
+        "hashed_password": "$2b$12$/2YM7PILpjSsUN872ID3ueNb7N9v8Nd6f5PUPpyJrwG4UI0ARBn96",
+        "papel": "jogador"
+    }
+}
