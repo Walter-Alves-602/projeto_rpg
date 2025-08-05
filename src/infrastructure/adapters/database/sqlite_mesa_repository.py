@@ -1,4 +1,3 @@
-import json
 from typing import List, Optional
 
 from src.domain.models.mesa import Mesa
