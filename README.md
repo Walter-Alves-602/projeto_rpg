@@ -123,3 +123,5 @@ Isso abrirá uma janela do aplicativo Flet, começando pela tela de login.
 *   **Combate:** Funcionalidades para iniciar combate, rastrear iniciativa, turnos, etc.
 *   **Melhorias na UI/UX:** Refinamento visual e de usabilidade das páginas.
 *   **Testes Unitários e de Integração:** Adicionar cobertura de testes para as novas funcionalidades.
+  
+  
