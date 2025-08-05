@@ -1,16 +1,20 @@
-from .personagem_repository import IPersonagemRepository
-from .raca_repository import IRacaRepository
-from .classe_repository import IClasseRepository
-from .habilidades_raciais_repository import IHabilidadesRaciaisRepository
-from .spell_repository import ISpellRepository
-from .arma_repository import IArmaRepository
+from .personagem_repository import PersonagemRepositoryPort
+from .raca_repository import RacaRepositoryPort
+from .classe_repository import ClasseRepositoryPort
+from .habilidades_raciais_repository import HabilidadesRaciaisRepositoryPort
+from .spell_repository import SpellRepositoryPort
+from .arma_repository import ArmaRepositoryPort
+from .usuario_repository import UsuarioRepositoryPort
+from .mesa_repository import MesaRepositoryPort
 
 
 __all__ = [
-    "IPersonagemRepository",
-    "IRacaRepository",
-    "IClasseRepository",
-    "IHabilidadesRaciaisRepository",
-    "ISpellRepository",
-    "IArmaRepository"
+    "PersonagemRepositoryPort",
+    "RacaRepositoryPort",
+    "ClasseRepositoryPort",
+    "HabilidadesRaciaisRepositoryPort",
+    "SpellRepositoryPort",
+    "ArmaRepositoryPort",
+    "UsuarioRepositoryPort",
+    "MesaRepositoryPort",
 ]

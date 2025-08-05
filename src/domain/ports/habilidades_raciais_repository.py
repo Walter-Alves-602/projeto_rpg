@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-class IHabilidadesRaciaisRepository(ABC):
+class HabilidadesRaciaisRepositoryPort(ABC):
     @abstractmethod
     def get_habilidade_descricao(self, nome_habilidade: str) -> Optional[str]:
         """

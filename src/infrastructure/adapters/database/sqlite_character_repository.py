@@ -1,144 +1,91 @@
 import json
 from typing import Optional, List
-from src.domain.ports import IPersonagemRepository, IRacaRepository, IClasseRepository, IHabilidadesRaciaisRepository
+
 from src.domain.models.personagem import Personagem
+from src.domain.ports.personagem_repository import PersonagemRepositoryPort
 from src.persistence.database_manager import DatabaseManager
 
 
-class SQLitePersonagemRepository(IPersonagemRepository):
-    def __init__(
-        self,
-        db_manager: DatabaseManager,
-        raca_repository: IRacaRepository,
-        classe_repository: IClasseRepository,
-        habilidades_raciais_repository: IHabilidadesRaciaisRepository,
-    ):
+class SQLitePersonagemRepository(PersonagemRepositoryPort):
+    def __init__(self, db_manager: DatabaseManager):
         self._db_manager = db_manager
-        self._raca_repository = raca_repository
-        self._classe_repository = classe_repository
-        self._habilidades_raciais_repository = habilidades_raciais_repository
 
-    def _row_to_personagem(self, row) -> Optional[Personagem]:
-        """Converte uma linha do banco de dados em um objeto Personagem completo."""
-        raca_nome = row["raca_nome"]
-        classe_nome = row["classe_nome"]
-
-        raca = self._raca_repository.get_raca(raca_nome)
-        classe = self._classe_repository.get_classe(classe_nome)
-        pericias_disponiveis = self._classe_repository.get_pericias_por_classe(classe_nome)
-
-        # Validação para garantir a integridade dos dados
-        if not raca or not classe:
-            print(f"Aviso: Não foi possível encontrar a raça '{raca_nome}' ou a classe '{classe_nome}' para o personagem '{row['nome']}'.")
-            return None
-
-        habilidades_raciais_nomes = (
-            json.loads(row["habilidades_raciais"])
-            if row["habilidades_raciais"]
-            else []
-        )
-
-        habilidades_extras = (
-            json.loads(row["habilidades_extras"])
-            if row["habilidades_extras"]
-            else []
-        )
-
-        personagem = Personagem(
+    def _row_to_personagem(self, row) -> Personagem:
+        """Converte uma linha do banco de dados em um objeto Personagem."""
+        return Personagem(
+            id=row["id"],
             nome=row["nome"],
             jogador=row["jogador"],
             raca_nome=row["raca_nome"],
             classe_nome=row["classe_nome"],
             nivel=row["nivel"],
+            pontos_de_experiencia=row["pontos_de_experiencia"],
             forca=row["forca"],
             destreza=row["destreza"],
             constituicao=row["constituicao"],
             inteligencia=row["inteligencia"],
             sabedoria=row["sabedoria"],
             carisma=row["carisma"],
-            raca=raca,
-            classe=classe,
-            pericias_disponiveis=pericias_disponiveis,
+            pontos_de_vida_max=row["pontos_de_vida_max"],
+            pontos_de_vida_atual=row["pontos_de_vida_atual"],
+            deslocamento=row["deslocamento"],
+            habilidades_raciais=json.loads(row["habilidades_raciais"] or '[]'),
+            habilidades_extras=json.loads(row["habilidades_extras"] or '[]'),
+            proficiencias_armas=json.loads(row["proficiencias_armas"] or '[]'),
+            proficiencias_armaduras=json.loads(row["proficiencias_armaduras"] or '[]'),
+            testes_de_resistencia=json.loads(row["testes_de_resistencia"] or '[]'),
+            pericias_escolhidas=json.loads(row["pericias_escolhidas"] or '[]'),
+            inventario=json.loads(row["inventario"] or '[]'),
+            linguas=json.loads(row["linguas"] or '[]'),
+            ferramentas=json.loads(row["ferramentas"] or '[]'),
         )
 
-        personagem.pontos_de_vida_max = row["pontos_de_vida_max"]
-        personagem.pontos_de_vida_atual = row["pontos_de_vida_atual"]
-        personagem.pontos_de_experiencia = row["pontos_de_experiencia"]
-        personagem.deslocamento = row["deslocamento"]
-        personagem.habilidades_raciais_nomes = habilidades_raciais_nomes
-        personagem.habilidades_extras = habilidades_extras
-
-        return personagem
-
-    def save(self, personagem: Personagem) -> None:
-        conn = self._db_manager.connect()
-        cursor = conn.cursor()
-
-        habilidades_raciais_json = json.dumps(personagem.habilidades_raciais_nomes)
-        habilidades_extras_json = json.dumps(personagem.habilidades_extras)
-
-
-        cursor.execute(
-            """
+    def salvar(self, personagem: Personagem) -> None:
+        query = """
             INSERT OR REPLACE INTO personagens (
-                nome, jogador, raca_nome, classe_nome, nivel,
+                id, nome, jogador, raca_nome, classe_nome, nivel, pontos_de_experiencia,
                 forca, destreza, constituicao, inteligencia, sabedoria, carisma,
-                pontos_de_vida_max, pontos_de_vida_atual, pontos_de_experiencia,
-                deslocamento, habilidades_raciais, habilidades_extras
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-            (
-                personagem.nome,
-                personagem.jogador,
-                personagem.raca_nome,
-                personagem.classe_nome,
-                personagem.nivel,
-                personagem.atributos["forca"],
-                personagem.atributos["destreza"],
-                personagem.atributos["constituicao"],
-                personagem.atributos["inteligencia"],
-                personagem.atributos["sabedoria"],
-                personagem.atributos["carisma"],
-                personagem.pontos_de_vida_max,
-                personagem.pontos_de_vida_atual,
-                personagem.pontos_de_experiencia,
-                personagem.deslocamento,
-                habilidades_raciais_json,
-                habilidades_extras_json
-            ),
+                pontos_de_vida_max, pontos_de_vida_atual, deslocamento, habilidades_raciais,
+                habilidades_extras, proficiencias_armas, proficiencias_armaduras,
+                testes_de_resistencia, pericias_escolhidas, inventario, linguas, ferramentas
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """
+        params = (
+            personagem.id, personagem.nome, personagem.jogador, personagem.raca_nome, 
+            personagem.classe_nome, personagem.nivel, personagem.pontos_de_experiencia,
+            personagem.forca, personagem.destreza, personagem.constituicao, 
+            personagem.inteligencia, personagem.sabedoria, personagem.carisma,
+            personagem.pontos_de_vida_max, personagem.pontos_de_vida_atual, personagem.deslocamento,
+            json.dumps(personagem.habilidades_raciais), json.dumps(personagem.habilidades_extras),
+            json.dumps(personagem.proficiencias_armas), json.dumps(personagem.proficiencias_armaduras),
+            json.dumps(personagem.testes_de_resistencia), json.dumps(personagem.pericias_escolhidas),
+            json.dumps(personagem.inventario), json.dumps(personagem.linguas), json.dumps(personagem.ferramentas)
         )
-        conn.commit()
-        self._db_manager.close(conn)
+        self._db_manager.execute_query(query, params)
 
-    def get_by_name(self, nome: str) -> Optional[Personagem]:
-        conn = self._db_manager.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM personagens WHERE nome = ?", (nome,))
-        row = cursor.fetchone()
-        self._db_manager.close(conn)
+    def buscar_por_id(self, personagem_id: str) -> Optional[Personagem]:
+        query = "SELECT * FROM personagens WHERE id = ?"
+        row = self._db_manager.fetch_one(query, (personagem_id,))
+        return self._row_to_personagem(row) if row else None
 
-        if row:
-            return self._row_to_personagem(row)
-        else:
-            return None
+    def buscar_por_nome(self, nome: str) -> Optional[Personagem]:
+        query = "SELECT * FROM personagens WHERE nome = ?"
+        row = self._db_manager.fetch_one(query, (nome,))
+        return self._row_to_personagem(row) if row else None
 
-    def get_all(self) -> List[Personagem]:
-        conn = self._db_manager.connect()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM personagens")
-        rows = cursor.fetchall()
-        self._db_manager.close(conn)
+    def listar_todos(self) -> List[Personagem]:
+        query = "SELECT * FROM personagens"
+        rows = self._db_manager.fetch_all(query)
+        return [self._row_to_personagem(row) for row in rows]
 
-        personagens = []
-        for row in rows:
-            personagem = self._row_to_personagem(row)
-            if personagem:
-                personagens.append(personagem)
-        return personagens
+    def deletar(self, personagem_id: str) -> None:
+        query = "DELETE FROM personagens WHERE id = ?"
+        self._db_manager.execute_query(query, (personagem_id,))
 
-    def delete(self, nome: str) -> None:
-        conn = self._db_manager.connect()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM personagens WHERE nome = ?", (nome,))
-        conn.commit()
-        self._db_manager.close(conn)
+    def listar_por_ids(self, personagem_ids: List[str]) -> List[Personagem]:
+        if not personagem_ids:
+            return []
+        placeholders = ",".join("?" for _ in personagem_ids)
+        query = f"SELECT * FROM personagens WHERE id IN ({placeholders})"
+        rows = self._db_manager.fetch_all(query, personagem_ids)
+        return [self._row_to_personagem(row) for row in rows]

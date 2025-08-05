@@ -12,4 +12,3 @@ class UsuarioRepositoryPort(ABC):
     @abstractmethod
     def buscar_por_username(self, username: str) -> Optional[Usuario]:
         ...
-

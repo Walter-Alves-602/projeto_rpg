@@ -1,10 +1,10 @@
 # src/infrastructure/adapters/data_files/spells_file_adapter.py
 from typing import Dict, Any, List, Optional
 
-from src.domain.ports import ISpellRepository
+from src.domain.ports import SpellRepositoryPort
 from src.infrastructure.adapters.data_files.spells_data import _SPELLS_DATA # Importa os dados das magias
 
-class SpellFileAdapter(ISpellRepository):
+class SpellFileAdapter(SpellRepositoryPort):
     """
     Adaptador para acessar dados de magias a partir de um arquivo de dados estático.
     Implementa a interface ISpellRepository.

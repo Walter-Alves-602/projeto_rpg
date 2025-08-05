@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class IRacaRepository(ABC):
+class RacaRepositoryPort(ABC):
     @abstractmethod
     def get_raca(self, nome_raca: str) -> dict:
         """

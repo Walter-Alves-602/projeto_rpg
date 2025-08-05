@@ -2,10 +2,14 @@ from .character_form_page import create_character_form_page
 from .character_list_page import character_list_page
 from .main_menu_page import main_menu
 from .character_sheet_page import character_sheet_page
+from .login_page import login_page
+from .user_register_page import register_page
 
 __all__ = [
     "create_character_form_page",
     "character_list_page",
     "main_menu",
     "character_sheet_page",
+    "login_page",
+    "register_page",
 ]

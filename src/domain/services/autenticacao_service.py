@@ -23,4 +23,3 @@ class AutenticacaoService:
         if usuario and bcrypt.checkpw(password.encode('utf-8'), usuario.hashed_password.encode('utf-8')):
             return usuario
         return None
-

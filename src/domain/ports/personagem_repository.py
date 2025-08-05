@@ -1,34 +1,29 @@
-# src/infrastructure/repositories/personagem_repository.py
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.personagem import Personagem
 
-class IPersonagemRepository(ABC):
+class PersonagemRepositoryPort(ABC):
     @abstractmethod
-    def save(self, personagem: Personagem) -> None:
-        """
-        Salva ou atualiza um personagem no repositório.
-        """
-        pass
+    def salvar(self, personagem: Personagem) -> None:
+        ...
 
     @abstractmethod
-    def get_by_name(self, nome: str) -> Optional[Personagem]:
-        """
-        Retorna um personagem pelo nome, ou None se não encontrado.
-        """
-        pass
+    def buscar_por_id(self, personagem_id: str) -> Optional[Personagem]:
+        ...
 
     @abstractmethod
-    def get_all(self) -> List[Personagem]:
-        """
-        Retorna todos os personagens salvos.
-        """
-        pass
+    def buscar_por_nome(self, nome: str) -> Optional[Personagem]:
+        ...
 
     @abstractmethod
-    def delete(self, nome: str) -> None:
-        """
-        Deleta um personagem pelo nome.
-        """
-        pass
+    def listar_todos(self) -> List[Personagem]:
+        ...
+
+    @abstractmethod
+    def deletar(self, personagem_id: str) -> None:
+        ...
+
+    @abstractmethod
+    def listar_por_ids(self, personagem_ids: List[str]) -> List[Personagem]:
+        ...
     

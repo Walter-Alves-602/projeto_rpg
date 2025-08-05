@@ -1,9 +1,9 @@
 from typing import Dict, Any, List
 
-from src.domain.ports import IClasseRepository
+from src.domain.ports import ClasseRepositoryPort
 from src.infrastructure.adapters.data_files.classes_data import _CLASSES_DATA
 
-class ClasseFileAdapter(IClasseRepository):
+class ClasseFileAdapter(ClasseRepositoryPort):
     def get_classe(self, nome_classe: str) -> Dict[str, Any]:
         """Retorna os dados de uma classe pelo nome."""
         return _CLASSES_DATA.get(nome_classe, {})

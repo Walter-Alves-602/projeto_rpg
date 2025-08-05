@@ -1,4 +1,4 @@
-from src.domain.ports import IRacaRepository
+from src.domain.ports import RacaRepositoryPort
 
 _RACA_DATA = {
     "Anão": {
@@ -185,7 +185,7 @@ _RACA_DATA = {
 }
 
 
-class RacaFileAdapter(IRacaRepository):
+class RacaFileAdapter(RacaRepositoryPort):
     def get_raca(self, nome_raca: str) -> dict:
         """
         Retorna os dados de uma raça do arquivo de dados.

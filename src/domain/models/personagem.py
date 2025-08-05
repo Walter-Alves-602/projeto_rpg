@@ -1,66 +1,48 @@
+import uuid
+from typing import Dict, List
+from pydantic import BaseModel, Field
 
-class Personagem:
-    def __init__(
-        self,
-        nome: str,
-        jogador: str,
-        raca_nome: str,
-        classe_nome: str,
-        nivel: int,
-        forca: int,
-        destreza: int,
-        constituicao: int,
-        inteligencia: int,
-        sabedoria: int,
-        carisma: int,
-        raca: dict,
-        classe: dict,
-        pericias_disponiveis: list[str]
-    ):
-        self.nome = nome
-        self.jogador = jogador
-        self.nivel = nivel
-        self.raca_nome = raca_nome
-        self.classe_nome = classe_nome
-        self.raca = raca
-        self.classe = classe
+class Personagem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    nome: str
+    jogador: str
+    raca_nome: str
+    classe_nome: str
+    nivel: int = 1
+    pontos_de_experiencia: int = 0
 
-        if not self.raca:
-            raise ValueError(f"Raça '{self.raca_nome}' não encontrada.")
-        if not self.classe:
-            raise ValueError(f"Classe '{self.classe_nome}' não encontrada.")
+    # Atributos base (após modificadores de raça já aplicados pelo Use Case)
+    forca: int
+    destreza: int
+    constituicao: int
+    inteligencia: int
+    sabedoria: int
+    carisma: int
 
-        self.atributos = {
-            "forca": forca,
-            "destreza": destreza,
-            "constituicao": constituicao,
-            "inteligencia": inteligencia,
-            "sabedoria": sabedoria,
-            "carisma": carisma,
+    # Atributos derivados
+    pontos_de_vida_max: int
+    pontos_de_vida_atual: int
+    deslocamento: float
+
+    # Listas de proficiências, habilidades, etc.
+    habilidades_raciais: List[str] = Field(default_factory=list)
+    habilidades_extras: List[str] = Field(default_factory=list)
+    proficiencias_armas: List[str] = Field(default_factory=list)
+    proficiencias_armaduras: List[str] = Field(default_factory=list)
+    testes_de_resistencia: List[str] = Field(default_factory=list)
+    pericias_escolhidas: List[str] = Field(default_factory=list)
+    inventario: List[str] = Field(default_factory=list)
+    linguas: List[str] = Field(default_factory=list)
+    ferramentas: List[str] = Field(default_factory=list)
+
+    # Propriedade para calcular modificadores dinamicamente
+    @property
+    def modificadores_atributo(self) -> Dict[str, int]:
+        atributos = {
+            "forca": self.forca, "destreza": self.destreza, "constituicao": self.constituicao,
+            "inteligencia": self.inteligencia, "sabedoria": self.sabedoria, "carisma": self.carisma
         }
+        return {attr: (value - 10) // 2 for attr, value in atributos.items()}
 
-        self._aplicar_modificadores_raca()
-        self.modificadores_atributo = {attr: ((value - 10) // 2) for attr, value in self.atributos.items()}
-
-        self.pontos_de_vida_max = 0
-        self.pontos_de_vida_atual = 0
-        self.pontos_de_experiencia = 0
-
-        self.inventario = []
-        self.linguas = self.raca.get("linguas", [])
-        self.deslocamento = self.raca.get("deslocamento", 0)
-        self.proficiencias_armas = self.classe.get("armas", [])
-        self.proficiencias_armaduras = self.classe.get("armaduras", [])
-        self.testes_de_resistencia = self.classe.get("testes_de_resistencia", [])
-        self.ferramentas = self.classe.get("ferramentas", [])
-        self.quantidade_de_pericias_classe = self.classe.get("quantidade_de_pericias", 0)
-        self.pericias_disponiveis_para_escolha = pericias_disponiveis
-        self.pericias_escolhidas = []
-
-        self.habilidades_raciais_nomes: list[str] = self.raca.get("habilidades_raciais", [])
-        self.habilidades_extras = []
-
-    def _aplicar_modificadores_raca(self):
-        modificadores = self.raca.get("atributos", {})
-        for atributo, valor_modificador in modificadores.items():
-            self.atributos[atributo] += valor_modificador
+    class Config:
+        orm_mode = True
