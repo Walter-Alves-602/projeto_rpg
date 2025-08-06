@@ -29,3 +29,6 @@ class PersonagemRepositoryPort(ABC):
     def listar_por_ids(self, personagem_ids: List[str]) -> List[Personagem]:
         ...
     
+    @abstractmethod
+    def listar_por_mesa(self, mesa_id: str) -> List[Personagem]:
+        ...

@@ -89,3 +89,10 @@ class SQLitePersonagemRepository(PersonagemRepositoryPort):
         query = f"SELECT * FROM personagens WHERE id IN ({placeholders})"
         rows = self._db_manager.fetch_all(query, personagem_ids)
         return [self._row_to_personagem(row) for row in rows]
+
+    def listar_por_mesa(self, mesa_id):
+        query = """SELECT p.* FROM personagens p
+                   JOIN mesas_personagens mp ON p.id = mp.personagem_id
+                   WHERE mp.mesa_id = ?"""
+        rows = self._db_manager.fetch_all(query, (mesa_id,))
+        return [self._row_to_personagem(row) for row in rows]

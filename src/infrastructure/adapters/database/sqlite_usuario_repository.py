@@ -37,3 +37,15 @@ class SQLiteUsuarioRepository(UsuarioRepositoryPort):
                 papel=PapelUsuario(row["papel"])
             )
         return None
+
+    def buscar_por_mesa(self, mesa_id: str) -> Optional[Usuario]:
+        query = "SELECT id, username, papel FROM usuarios WHERE mesa_id = ?"
+        row = self.db_manager.fetch_one(query, (mesa_id,))
+        if row:
+            return Usuario(
+                id=row["id"],
+                username=row["username"],
+                hashed_password=row["hashed_password"],
+                papel=PapelUsuario(row["papel"])
+            )
+        return None

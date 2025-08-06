@@ -57,3 +57,6 @@ class GerenciarPersonagemUseCase:
 
     def deletar_personagem(self, personagem_id: str) -> None:
         self.personagem_repository.deletar(personagem_id)
+
+    def listar_personagens_por_mesa(self, mesa_id: str) -> List[Personagem]:
+        return self.personagem_repository.listar_por_mesa(mesa_id)

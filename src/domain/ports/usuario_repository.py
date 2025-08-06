@@ -12,3 +12,15 @@ class UsuarioRepositoryPort(ABC):
     @abstractmethod
     def buscar_por_username(self, username: str) -> Optional[Usuario]:
         ...
+
+    @abstractmethod
+    def buscar_por_mesa(mesa_id: str) -> Optional[Usuario]:
+        ... 
+    
+    @abstractmethod
+    def excluir_usuario(self, username: str) -> None:
+        ...
+
+    @abstractmethod
+    def buscar_por_id(self, usuario_id: str) -> Optional[Usuario]:
+        ...
