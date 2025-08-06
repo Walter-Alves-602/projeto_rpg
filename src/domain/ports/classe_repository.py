@@ -1,6 +1,7 @@
 # src/infrastructure/repositories/classe_repository.py
 from abc import ABC, abstractmethod
 
+
 class ClasseRepositoryPort(ABC):
     @abstractmethod
     def get_classe(self, nome_classe: str) -> dict:

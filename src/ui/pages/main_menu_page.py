@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def main_menu(self, page: ft.Page):
     """Cria o menu principal."""
     return ft.Column(

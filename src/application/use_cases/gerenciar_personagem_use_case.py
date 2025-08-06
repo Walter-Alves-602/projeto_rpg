@@ -1,9 +1,9 @@
 from typing import List, Optional
 
+from src.domain.models.personagem import Personagem
+from src.domain.ports.classe_repository import ClasseRepositoryPort
 from src.domain.ports.personagem_repository import PersonagemRepositoryPort
 from src.domain.ports.raca_repository import RacaRepositoryPort
-from src.domain.ports.classe_repository import ClasseRepositoryPort
-from src.domain.models.personagem import Personagem
 from src.domain.services.dice_roller import DiceRoller
 
 

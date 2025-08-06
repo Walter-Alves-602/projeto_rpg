@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
 ARMAS_DATA: Dict[str, Dict[str, Any]] = {
     # Armas Simples Corpo-a-Corpo

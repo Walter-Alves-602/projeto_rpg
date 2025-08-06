@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def login_page(app, page: ft.Page):
     """Cria a página de login."""
 

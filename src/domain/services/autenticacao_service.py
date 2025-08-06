@@ -1,8 +1,10 @@
-import bcrypt
 from typing import Optional
 
-from src.domain.models.usuario import Usuario, PapelUsuario
+import bcrypt
+
+from src.domain.models.usuario import PapelUsuario, Usuario
 from src.domain.ports.usuario_repository import UsuarioRepositoryPort
+
 
 class AutenticacaoService:
     def __init__(self, usuario_repo: UsuarioRepositoryPort):

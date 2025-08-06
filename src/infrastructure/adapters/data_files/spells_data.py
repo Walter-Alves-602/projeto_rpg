@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Any, Dict
 
 _SPELLS_DATA: Dict[str, Dict[str, Any]] = {
     "Ataque Certeiro": {

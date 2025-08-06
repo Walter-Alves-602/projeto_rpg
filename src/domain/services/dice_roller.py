@@ -1,5 +1,5 @@
 from random import randint
-from typing import overload, Union
+from typing import Union, overload
 
 
 class DiceRoller:

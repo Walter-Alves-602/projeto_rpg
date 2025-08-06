@@ -1,5 +1,5 @@
 # src/infrastructure/adapters/data_files/classes_data.py
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Dados estáticos das classes
 _CLASSES_DATA: Dict[str, Dict[str, Any]] = {

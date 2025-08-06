@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def create_character_form_page(app, page: ft.Page):
     """Cria o formulário para criar um novo personagem."""
     nome_input = ft.TextField(label="Nome do Personagem")

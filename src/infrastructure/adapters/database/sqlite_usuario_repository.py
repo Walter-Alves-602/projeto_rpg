@@ -1,6 +1,6 @@
 from typing import Optional
 
-from src.domain.models.usuario import Usuario, PapelUsuario
+from src.domain.models.usuario import PapelUsuario, Usuario
 from src.domain.ports.usuario_repository import UsuarioRepositoryPort
 from src.persistence.database_manager import DatabaseManager
 

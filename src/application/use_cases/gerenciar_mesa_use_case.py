@@ -2,10 +2,11 @@ from typing import List, Optional
 
 from src.domain.models.mesa import Mesa
 from src.domain.models.personagem import Personagem
-from src.domain.models.usuario import Usuario, PapelUsuario
+from src.domain.models.usuario import PapelUsuario, Usuario
 from src.domain.ports.mesa_repository import MesaRepositoryPort
-from src.domain.ports.usuario_repository import UsuarioRepositoryPort
 from src.domain.ports.personagem_repository import PersonagemRepositoryPort
+from src.domain.ports.usuario_repository import UsuarioRepositoryPort
+
 
 class GerenciarMesaUseCase:
     def __init__(

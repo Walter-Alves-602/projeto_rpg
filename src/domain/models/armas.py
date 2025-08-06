@@ -1,5 +1,6 @@
 from typing import List, Optional
 
+
 class Arma:
     def __init__(
         self, nome: str, custo: str, dano: str, tipo_dano: str, peso: float, propriedades: Optional[List[str]] = None, marcial: bool = False

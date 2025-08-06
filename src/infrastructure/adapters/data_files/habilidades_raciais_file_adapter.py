@@ -1,8 +1,8 @@
 from typing import Optional
+
 from src.domain.ports import HabilidadesRaciaisRepositoryPort
-from src.infrastructure.adapters.data_files.habilidades_raciais_data import (
-    HABILIDADES_RACIAIS_DATA,
-)
+from src.infrastructure.adapters.data_files.habilidades_raciais_data import \
+    HABILIDADES_RACIAIS_DATA
 
 
 class HabilidadesRaciaisFileAdapter(HabilidadesRaciaisRepositoryPort):

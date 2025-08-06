@@ -1,8 +1,10 @@
 # src/infrastructure/adapters/data_files/spells_file_adapter.py
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from src.domain.ports import SpellRepositoryPort
-from src.infrastructure.adapters.data_files.spells_data import _SPELLS_DATA # Importa os dados das magias
+from src.infrastructure.adapters.data_files.spells_data import \
+    _SPELLS_DATA  # Importa os dados das magias
+
 
 class SpellFileAdapter(SpellRepositoryPort):
     """

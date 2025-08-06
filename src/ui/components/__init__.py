@@ -1,4 +1,5 @@
 from .atributos_component import atributos_display_component
-from .habilidades_raciais_component import habilidades_raciais_display_component
-from .spells_component import spells_display_component
 from .habilidade_imput import habilidade_imput
+from .habilidades_raciais_component import \
+    habilidades_raciais_display_component
+from .spells_component import spells_display_component

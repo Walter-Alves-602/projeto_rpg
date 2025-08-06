@@ -1,11 +1,11 @@
+from ..components.mesa_list_item import mesa_list_item
 from .character_form_page import create_character_form_page
-from .user_page import user_page
-from .main_menu_page import main_menu
 from .character_sheet_page import character_sheet_page
 from .login_page import login_page
-from .user_register_page import register_page
+from .main_menu_page import main_menu
 from .mesa_view_page import mesa_view_page
-from ..components.mesa_list_item import mesa_list_item
+from .user_page import user_page
+from .user_register_page import register_page
 
 __all__ = [
     "create_character_form_page",

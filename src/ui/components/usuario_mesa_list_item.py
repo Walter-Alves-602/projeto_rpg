@@ -1,5 +1,7 @@
 import flet as ft
+
 from src.domain.models.usuario import PapelUsuario
+
 
 def usuario_mesa_list_item(usuario, usuario_logado, on_remove_click):
     """Cria um item de lista para um usuário dentro da página da mesa."""

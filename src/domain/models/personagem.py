@@ -1,6 +1,8 @@
 import uuid
 from typing import Dict, List
+
 from pydantic import BaseModel, Field
+
 
 class Personagem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))

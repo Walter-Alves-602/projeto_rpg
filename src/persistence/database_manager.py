@@ -1,6 +1,7 @@
 # src/persistence/database_manager.py
-import sqlite3
 import os
+import sqlite3
+
 
 class DatabaseManager:
     def __init__(self, db_name="rpg_characters.db"):

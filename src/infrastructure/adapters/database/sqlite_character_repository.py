@@ -1,5 +1,5 @@
 import json
-from typing import Optional, List
+from typing import List, Optional
 
 from src.domain.models.personagem import Personagem
 from src.domain.ports.personagem_repository import PersonagemRepositoryPort

@@ -1,5 +1,6 @@
-import flet as ft
 from typing import Callable
+
+import flet as ft
 
 
 def habilidade_imput(on_add: Callable[[str, str], None]):

@@ -1,6 +1,8 @@
-from enum import Enum
-from pydantic import BaseModel, Field
 import uuid
+from enum import Enum
+
+from pydantic import BaseModel, Field
+
 
 class PapelUsuario(str, Enum):
     JOGADOR = "jogador"

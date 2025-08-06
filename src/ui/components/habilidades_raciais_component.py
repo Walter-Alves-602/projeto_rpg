@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def habilidades_raciais_display_component(todas_as_habilidades: list[dict[str, str]]):
     habilidades_raciais_display = []
     if todas_as_habilidades:

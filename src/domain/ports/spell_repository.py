@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
+
 
 class SpellRepositoryPort(ABC):
     """Interface para repositórios de magias."""

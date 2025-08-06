@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def spells_display_component(magias_da_classe, classe_nome):
     magias_display = []
     if magias_da_classe:

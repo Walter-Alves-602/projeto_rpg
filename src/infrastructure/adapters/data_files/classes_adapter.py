@@ -1,7 +1,8 @@
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 from src.domain.ports import ClasseRepositoryPort
 from src.infrastructure.adapters.data_files.classes_data import _CLASSES_DATA
+
 
 class ClasseFileAdapter(ClasseRepositoryPort):
     def get_classe(self, nome_classe: str) -> Dict[str, Any]:

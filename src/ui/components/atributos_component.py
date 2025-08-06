@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def atributos_display_component(char, atributo_rodado, on_atributo_click, resultados):
     atributos_display = []
     for attr, val in char.atributos.items():

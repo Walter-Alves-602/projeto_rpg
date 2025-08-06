@@ -1,33 +1,24 @@
-import flet as ft
 import os
 import sys
 
+import flet as ft
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from src.persistence.database_manager import DatabaseManager
-from src.infrastructure.adapters.database import (
-    SQLitePersonagemRepository,
-    SQLiteUsuarioRepository,
-)
+from src.application.use_cases import (GerenciarMesaUseCase,
+                                       GerenciarPersonagemUseCase)
+from src.domain.services import AutenticacaoService
 from src.infrastructure.adapters.data_files import (
-    RacaFileAdapter,
-    ClasseFileAdapter,
-    HabilidadesRaciaisFileAdapter,
-    SpellFileAdapter,
-    ArmaFileAdapter,
-)
-from src.application.use_cases import GerenciarPersonagemUseCase, GerenciarMesaUseCase
-from src.domain.services.autenticacao_service import AutenticacaoService
-from src.infrastructure.adapters.database.sqlite_mesa_repository import SQLiteMesaRepository
-from src.ui.pages import (
-    main_menu,
-    create_character_form_page,
-    user_page,
-    character_sheet_page,
-    register_page,
-    login_page,
-    mesa_view_page,
-)
+    ArmaFileAdapter, ClasseFileAdapter, HabilidadesRaciaisFileAdapter,
+    RacaFileAdapter, SpellFileAdapter)
+from src.infrastructure.adapters.database import (SQLitePersonagemRepository,
+                                                  SQLiteUsuarioRepository)
+from src.infrastructure.adapters.database.sqlite_mesa_repository import \
+    SQLiteMesaRepository
+from src.persistence.database_manager import DatabaseManager
+from src.ui.pages import (character_sheet_page, create_character_form_page,
+                          login_page, main_menu, mesa_view_page, register_page,
+                          user_page)
 
 
 class CharacterSheetApp:

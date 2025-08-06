@@ -1,5 +1,6 @@
 import flet as ft
 
+
 def mesa_list_item(mesa, mestre_nome, personagem_nome, on_details_click):
     """Cria um item de lista para uma mesa."""
     return ft.Container(

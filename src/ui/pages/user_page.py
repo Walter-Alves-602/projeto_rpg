@@ -1,6 +1,8 @@
 import flet as ft
+
 from src.domain.models.usuario import PapelUsuario
 from src.ui.components.mesa_list_item import mesa_list_item
+
 
 def user_page(app, page: ft.Page):
     """Página do usuário para gerenciar suas mesas e personagens."""

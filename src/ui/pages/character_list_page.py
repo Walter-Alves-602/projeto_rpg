@@ -1,6 +1,8 @@
 import flet as ft
+
 from src.domain.models.usuario import PapelUsuario
 from src.ui.components.mesa_list_item import mesa_list_item
+
 
 def character_list_page(app, page: ft.Page):
     """Cria a página que lista as mesas do usuário e permite a criação de novas mesas para mestres."""
