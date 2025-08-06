@@ -2,8 +2,8 @@ from typing import Optional
 
 import bcrypt
 
-from src.domain.models.usuario import PapelUsuario, Usuario
-from src.domain.ports.usuario_repository import UsuarioRepositoryPort
+from src.domain.models import PapelUsuario, Usuario
+from src.domain.ports import UsuarioRepositoryPort
 
 
 class AutenticacaoService:

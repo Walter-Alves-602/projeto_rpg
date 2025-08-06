@@ -3,7 +3,6 @@ from typing import Dict, List
 
 from pydantic import BaseModel, Field
 
-
 class Personagem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     nome: str
@@ -21,6 +20,7 @@ class Personagem(BaseModel):
     sabedoria: int
     carisma: int
 
+
     # Atributos derivados
     pontos_de_vida_max: int
     pontos_de_vida_atual: int
@@ -28,7 +28,7 @@ class Personagem(BaseModel):
 
     # Listas de proficiências, habilidades, etc.
     habilidades_raciais: List[str] = Field(default_factory=list)
-    habilidades_extras: List[str] = Field(default_factory=list)
+    habilidades_extras: List[dict] = Field(default_factory=list)
     proficiencias_armas: List[str] = Field(default_factory=list)
     proficiencias_armaduras: List[str] = Field(default_factory=list)
     testes_de_resistencia: List[str] = Field(default_factory=list)
@@ -45,6 +45,13 @@ class Personagem(BaseModel):
             "inteligencia": self.inteligencia, "sabedoria": self.sabedoria, "carisma": self.carisma
         }
         return {attr: (value - 10) // 2 for attr, value in atributos.items()}
+    
+    @property
+    def atributos(self) -> Dict[str, int]:
+        return {
+            "forca": self.forca, "destreza": self.destreza, "constituicao": self.constituicao,
+            "inteligencia": self.inteligencia, "sabedoria": self.sabedoria, "carisma": self.carisma
+        }
 
     class Config:
         orm_mode = True

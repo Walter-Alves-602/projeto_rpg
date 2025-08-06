@@ -1,7 +1,6 @@
 from typing import List, Optional
 
-from src.domain.models.armas import (Arma, ArmaCorpoACorpo,
-                                     ArmaDeAtaqueDistancia)
+from src.domain.models import (Arma, ArmaCorpoACorpo, ArmaDeAtaqueDistancia)
 from src.domain.ports import ArmaRepositoryPort
 
 from .armas_data import ARMAS_DATA

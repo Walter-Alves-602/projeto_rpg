@@ -1,10 +1,8 @@
 from typing import List, Optional
 
-from src.domain.models.personagem import Personagem
-from src.domain.ports.classe_repository import ClasseRepositoryPort
-from src.domain.ports.personagem_repository import PersonagemRepositoryPort
-from src.domain.ports.raca_repository import RacaRepositoryPort
-from src.domain.services.dice_roller import DiceRoller
+from src.domain.models import Personagem
+from src.domain.ports import ClasseRepositoryPort, PersonagemRepositoryPort, RacaRepositoryPort, HabilidadesRaciaisRepositoryPort
+from src.domain.services import DiceRoller
 
 
 class GerenciarPersonagemUseCase:
@@ -13,10 +11,12 @@ class GerenciarPersonagemUseCase:
         personagem_repository: PersonagemRepositoryPort,
         raca_repository: RacaRepositoryPort,
         classe_repository: ClasseRepositoryPort,
+        habilidades_raciais_repository: HabilidadesRaciaisRepositoryPort
     ):
         self.personagem_repository = personagem_repository
         self.raca_repository = raca_repository
         self.classe_repository = classe_repository
+        self.habilidades_raciais_repository = habilidades_raciais_repository
 
     def criar_personagem(self, dados_personagem: dict) -> Personagem:
         """Cria um novo personagem com base nos dados fornecidos."""
@@ -60,3 +60,39 @@ class GerenciarPersonagemUseCase:
 
     def listar_personagens_por_mesa(self, mesa_id: str) -> List[Personagem]:
         return self.personagem_repository.listar_por_mesa(mesa_id)
+    
+    def obter_habilidades_com_descricao(self, personagem_id: str) -> List[dict]:
+        """Obtém todas as habilidades com descrição de um personagem."""
+        personagem = self.personagem_repository.buscar_por_id(personagem_id)
+        if not personagem:
+            return []
+
+        habilidades = []
+        for habilidade in personagem.habilidades_raciais + personagem.habilidades_extras:
+            descricao = self.habilidades_raciais_repository.get_habilidade_descricao(habilidade)
+            habilidades.append({
+                "nome": habilidade,
+                "descricao": descricao
+            })
+        return habilidades
+    
+    def adicionar_habilidade_extra(self, personagem_id: str, nome_habilidade: str, descricao_habilidade: str) -> Personagem:
+        """Adiciona uma nova habilidade extra a um personagem."""
+        personagem = self.personagem_repository.buscar_por_id(personagem_id)
+        if not personagem:
+            raise ValueError("Personagem não encontrado.")
+
+        habilidades_extras = []
+        for h in personagem.habilidades_extras:
+            habilidades_extras.append(h)
+
+        # Verifica se a habilidade já existe
+        if any(h['nome'] == nome_habilidade for h in habilidades_extras):
+            raise ValueError("Habilidade extra já existe.")
+        
+        # Adiciona a nova habilidade extra como dicionário
+        personagem.habilidades_extras.append({"nome": nome_habilidade, "descricao": descricao_habilidade})
+
+        # Atualiza o repositório
+        self.personagem_repository.salvar(personagem)
+        return personagem

@@ -5,11 +5,18 @@ from src.ui.components import (
     atributos_display_component,
     habilidade_imput,
     habilidades_raciais_display_component,
+    habilidades_extras_component,
     spells_display_component,
 )
 
 
 def character_sheet_page(app, page):
+    def handle_remove_habilidade_extra(nome_habilidade):
+        char.habilidades_extras = [h for h in char.habilidades_extras if h['nome'] != nome_habilidade]
+        app.gerenciar_personagem_uc.personagem_repository.save(char)
+        app.current_character = char
+        page.views[-1].controls = [character_sheet_page(app, page)]
+        page.update()
     char = app.current_character
 
     if not char:
@@ -43,7 +50,7 @@ def character_sheet_page(app, page):
 
         # Chama o UseCase para adicionar a habilidade e persistir
         updated_char = app.gerenciar_personagem_uc.adicionar_habilidade_extra(
-            char.nome, nome_habilidade, descricao_habilidade
+            char.id, nome_habilidade, descricao_habilidade
         )
         app.current_character = updated_char  # Atualiza o personagem atual no app
         # Força a recriação e atualização da view com os novos dados
@@ -52,7 +59,7 @@ def character_sheet_page(app, page):
 
     # Busca as habilidades através do UseCase
     todas_as_habilidades = app.gerenciar_personagem_uc.obter_habilidades_com_descricao(
-        char.nome
+        char.id if hasattr(char, "id") else char.nome
     )
     habilidades_raciais_display = habilidades_raciais_display_component(
         todas_as_habilidades
@@ -76,7 +83,7 @@ def character_sheet_page(app, page):
                 char.pontos_de_vida_atual = min(
                     char.pontos_de_vida_max, char.pontos_de_vida_atual + amount
                 )
-            app.gerenciar_personagem_uc._personagem_repository.save(char)
+            app.gerenciar_personagem_uc.personagem_repository.save(char)
             hp_input.value = str(char.pontos_de_vida_atual)
             page.update()
         except ValueError:
@@ -123,6 +130,9 @@ def character_sheet_page(app, page):
             ft.Text("Habilidades Raciais", size=18, weight=ft.FontWeight.BOLD),
             habilidade_imput(on_add=handle_add_habilidade),
             *habilidades_raciais_display,
+            ft.Divider(),
+            ft.Text("Habilidades Extras", size=18, weight=ft.FontWeight.BOLD),
+            *habilidades_extras_component(char.habilidades_extras, handle_remove_habilidade_extra),
             ft.Divider(),
             ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),
             *magias_display,

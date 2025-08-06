@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from src.domain.models.armas import Arma
+from src.domain.models import Arma
 
 
 class ArmaRepositoryPort(ABC):

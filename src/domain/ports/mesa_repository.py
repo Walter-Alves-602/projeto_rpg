@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from src.domain.models.mesa import Mesa
+from src.domain.models import Mesa
 
 
 class MesaRepositoryPort(ABC):

@@ -1,8 +1,8 @@
 from typing import Optional
 
-from src.domain.models.usuario import PapelUsuario, Usuario
-from src.domain.ports.usuario_repository import UsuarioRepositoryPort
-from src.persistence.database_manager import DatabaseManager
+from src.domain.models import PapelUsuario, Usuario
+from src.domain.ports import UsuarioRepositoryPort
+from src.persistence import DatabaseManager
 
 
 class SQLiteUsuarioRepository(UsuarioRepositoryPort):
@@ -49,3 +49,7 @@ class SQLiteUsuarioRepository(UsuarioRepositoryPort):
                 papel=PapelUsuario(row["papel"])
             )
         return None
+
+    def excluir_usuario(self, username) -> None:
+        query = "DELETE FROM usuarios WHERE username = ?"
+        self.db_manager.execute_query(query, (username,))

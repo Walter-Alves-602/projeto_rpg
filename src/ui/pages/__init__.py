@@ -1,4 +1,3 @@
-from ..components.mesa_list_item import mesa_list_item
 from .character_form_page import create_character_form_page
 from .character_sheet_page import character_sheet_page
 from .login_page import login_page
@@ -12,6 +11,5 @@ __all__ = [
     "character_sheet_page",
     "login_page",
     "register_page",
-    "mesa_view_page",
-    "mesa_list_item",
+    "mesa_view_page"
 ]

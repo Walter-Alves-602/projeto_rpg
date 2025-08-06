@@ -5,20 +5,29 @@ import flet as ft
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from src.application.use_cases import (GerenciarMesaUseCase,
-                                       GerenciarPersonagemUseCase)
+from src.application.use_cases import GerenciarMesaUseCase, GerenciarPersonagemUseCase
 from src.domain.services import AutenticacaoService
 from src.infrastructure.adapters.data_files import (
-    ArmaFileAdapter, ClasseFileAdapter, HabilidadesRaciaisFileAdapter,
-    RacaFileAdapter, SpellFileAdapter)
-from src.infrastructure.adapters.database import (SQLitePersonagemRepository,
-                                                  SQLiteUsuarioRepository)
-from src.infrastructure.adapters.database.sqlite_mesa_repository import \
-    SQLiteMesaRepository
-from src.persistence.database_manager import DatabaseManager
-from src.ui.pages import (character_sheet_page, create_character_form_page,
-                          login_page, main_menu, mesa_view_page, register_page,
-                          user_page)
+    ArmaFileAdapter,
+    ClasseFileAdapter,
+    HabilidadesRaciaisFileAdapter,
+    RacaFileAdapter,
+    SpellFileAdapter,
+)
+from src.infrastructure.adapters.database import (
+    SQLitePersonagemRepository,
+    SQLiteUsuarioRepository,
+    SQLiteMesaRepository,
+)
+from src.persistence import DatabaseManager
+from src.ui.pages import (
+    character_sheet_page,
+    create_character_form_page,
+    login_page,
+    mesa_view_page,
+    register_page,
+    user_page,
+)
 
 
 class CharacterSheetApp:
@@ -29,6 +38,17 @@ class CharacterSheetApp:
         self.current_mesa = None
         self.atributo_rodado = None
         self.resultado_teste_atributo = {}
+
+    def set_current_character(self, personagem):
+        # Garante que habilidades_extras é uma lista de dicionários
+        habilidades_extras = []
+        for h in getattr(personagem, "habilidades_extras", []):
+            if isinstance(h, dict):
+                habilidades_extras.append(h)
+            else:
+                habilidades_extras.append({"nome": str(h), "descricao": ""})
+        personagem.habilidades_extras = habilidades_extras
+        self.current_character = personagem
 
     def _init_dependencies(self):
         self.db_manager = DatabaseManager()
@@ -41,10 +61,12 @@ class CharacterSheetApp:
         self.usuario_repository = SQLiteUsuarioRepository(self.db_manager)
         self.autenticacao_service = AutenticacaoService(self.usuario_repository)
         self.mesa_repository = SQLiteMesaRepository(self.db_manager)
-
         self.personagem_repository = SQLitePersonagemRepository(self.db_manager)
         self.gerenciar_personagem_uc = GerenciarPersonagemUseCase(
-            self.personagem_repository, self.raca_repository, self.classe_repository
+            self.personagem_repository,
+            self.raca_repository,
+            self.classe_repository,
+            self.habilidades_raciais_repository,
         )
         self.gerenciar_mesa_uc = GerenciarMesaUseCase(
             self.mesa_repository, self.usuario_repository, self.personagem_repository
@@ -63,7 +85,6 @@ class CharacterSheetApp:
         routes = {
             "/": lambda: login_page(self, page),
             "/register": lambda: register_page(self, page),
-            "/main_menu": lambda: main_menu(self, page),
             "/create_character": lambda: create_character_form_page(self, page),
             "/user_page": lambda: user_page(self, page),
             "/view_character": lambda: character_sheet_page(self, page),
@@ -74,11 +95,22 @@ class CharacterSheetApp:
     def route_change(self, route):
         page = route.page
         page.views.clear()
+
+        view_content = self._get_view(page.route, page)
+
+        scroll_mode = None
+        vertical_alignment = ft.MainAxisAlignment.CENTER
+
+        if page.route == "/view_character":
+            scroll_mode = ft.ScrollMode.ADAPTIVE
+            vertical_alignment = ft.MainAxisAlignment.START
+
         page.views.append(
             ft.View(
-                "/",
-                [self._get_view(page.route, page)],
-                vertical_alignment=ft.MainAxisAlignment.CENTER,
+                page.route,
+                [view_content],
+                scroll=scroll_mode,
+                vertical_alignment=vertical_alignment,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             )
         )

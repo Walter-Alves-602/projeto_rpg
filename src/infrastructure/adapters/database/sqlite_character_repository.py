@@ -1,9 +1,9 @@
 import json
 from typing import List, Optional
 
-from src.domain.models.personagem import Personagem
-from src.domain.ports.personagem_repository import PersonagemRepositoryPort
-from src.persistence.database_manager import DatabaseManager
+from src.domain.models import Personagem
+from src.domain.ports import PersonagemRepositoryPort
+from src.persistence import DatabaseManager
 
 
 class SQLitePersonagemRepository(PersonagemRepositoryPort):

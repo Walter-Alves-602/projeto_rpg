@@ -1,9 +1,7 @@
 import flet as ft
 
-from src.domain.models.usuario import PapelUsuario
-from src.ui.components.personagem_mesa_list_item import \
-    personagem_mesa_list_item
-from src.ui.components.usuario_mesa_list_item import usuario_mesa_list_item
+from src.domain.models import PapelUsuario
+from src.ui.components import personagem_mesa_list_item, usuario_mesa_list_item
 
 
 def mesa_view_page(app, page: ft.Page):
