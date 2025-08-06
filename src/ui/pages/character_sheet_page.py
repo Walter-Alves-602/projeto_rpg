@@ -2,8 +2,6 @@ import flet as ft
 from src.ui.components import atributos_display_component, habilidades_raciais_display_component, spells_display_component, habilidade_imput
 from src.domain.services import DiceRoller
 
-
-
 def character_sheet_page(app, page):
     char = app.current_character
 

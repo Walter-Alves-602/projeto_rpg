@@ -17,9 +17,9 @@ def mesa_list_item(mesa, mestre_nome, personagem_nome, on_details_click):
                     expand=True,
                 ),
                 ft.ElevatedButton(
-                    "Ver Detalhes",
+                    "Entrar",
                     on_click=lambda e: on_details_click(mesa.id),
-                    icon=ft.icons.INFO_OUTLINE,
+                    icon=ft.Icons.LOGIN,
                 ),
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,

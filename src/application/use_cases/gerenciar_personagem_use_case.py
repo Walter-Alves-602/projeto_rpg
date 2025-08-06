@@ -4,6 +4,8 @@ from src.domain.ports.personagem_repository import PersonagemRepositoryPort
 from src.domain.ports.raca_repository import RacaRepositoryPort
 from src.domain.ports.classe_repository import ClasseRepositoryPort
 from src.domain.models.personagem import Personagem
+from src.domain.services.dice_roller import DiceRoller
+
 
 class GerenciarPersonagemUseCase:
     def __init__(
@@ -27,14 +29,14 @@ class GerenciarPersonagemUseCase:
         # Lógica para calcular PV, deslocamento, etc.
         constituicao = dados_personagem.get("constituicao", 10)
         mod_constituicao = (constituicao - 10) // 2
-        pontos_de_vida_max = classe.get("dado_de_vida", 0) + mod_constituicao
+        pontos_de_vida_max = DiceRoller.get_max_value(classe.get("dado_de_vida", "1d8") )+ mod_constituicao
 
         # Cria o objeto Personagem usando Pydantic
         novo_personagem = Personagem(
             **dados_personagem,
             pontos_de_vida_max=pontos_de_vida_max,
             pontos_de_vida_atual=pontos_de_vida_max,
-            deslocamento=raca.get("deslocamento", 9.0),
+            deslocamento=float(raca.get("deslocamento", 9.0)),
             linguas=raca.get("linguas", []),
             proficiencias_armas=classe.get("armas", []),
             proficiencias_armaduras=classe.get("armaduras", []),

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from src.domain.models.mesa import Mesa
 from src.domain.models.personagem import Personagem
@@ -84,3 +84,7 @@ class GerenciarMesaUseCase:
         # Se for jogador, filtra apenas os seus
         personagens_do_jogador = [p for p in todos_personagens_da_mesa if p.jogador == usuario_id]
         return personagens_do_jogador
+
+    def buscar_mesa_por_id(self, mesa_id: str) -> Optional[Mesa]:
+        """Busca uma mesa específica pelo seu ID."""
+        return self.mesa_repository.buscar_por_id(mesa_id)

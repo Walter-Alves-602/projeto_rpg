@@ -14,9 +14,19 @@ class SQLiteMesaRepository(MesaRepositoryPort):
         query_mesa = "INSERT OR REPLACE INTO mesas (id, nome, descricao) VALUES (?, ?, ?)"
         self.db_manager.execute_query(query_mesa, (mesa.id, mesa.nome, mesa.descricao))
 
-        # Limpa e insere mestres e jogadores na tabela de associação
-        self._atualizar_associacao("mesas_usuarios", "usuario_id", mesa.id, mesa.mestres + mesa.jogadores)
-        # Limpa e insere personagens na tabela de associação
+        # Limpa associações de usuários antigas para esta mesa
+        delete_query = "DELETE FROM mesas_usuarios WHERE mesa_id = ?"
+        self.db_manager.execute_query(delete_query, (mesa.id,))
+
+        # Insere os mestres com o papel correto
+        for mestre_id in mesa.mestres:
+            self.adicionar_mestre(mesa.id, mestre_id)
+
+        # Insere os jogadores com o papel correto
+        for jogador_id in mesa.jogadores:
+            self.adicionar_jogador(mesa.id, jogador_id)
+
+        # Limpa e insere personagens na tabela de associação (aqui a função genérica ainda serve)
         self._atualizar_associacao("mesas_personagens", "personagem_id", mesa.id, mesa.personagens)
 
     def buscar_por_id(self, mesa_id: str) -> Optional[Mesa]:
@@ -25,7 +35,8 @@ class SQLiteMesaRepository(MesaRepositoryPort):
         if not row:
             return None
 
-        mesa = Mesa.from_orm(row)
+        # Usando o construtor do Pydantic diretamente, pois from_orm pode estar depreciado
+        mesa = Mesa(id=row["id"], nome=row["nome"], descricao=row["descricao"])
         mesa.mestres = self._buscar_associacao("mesas_usuarios", "usuario_id", mesa_id, papel="mestre")
         mesa.jogadores = self._buscar_associacao("mesas_usuarios", "usuario_id", mesa_id, papel="jogador")
         mesa.personagens = self._buscar_associacao("mesas_personagens", "personagem_id", mesa_id)
@@ -33,12 +44,14 @@ class SQLiteMesaRepository(MesaRepositoryPort):
 
     def listar_por_usuario_id(self, usuario_id: str) -> List[Mesa]:
         query = """
-            SELECT m.id FROM mesas m
+            SELECT DISTINCT m.id FROM mesas m
             JOIN mesas_usuarios mu ON m.id = mu.mesa_id
             WHERE mu.usuario_id = ?
         """
         rows = self.db_manager.fetch_all(query, (usuario_id,))
-        return [self.buscar_por_id(row["id"]) for row in rows]
+        # O fetch_all retorna uma lista de dicionários
+        mesa_ids = [row["id"] for row in rows]
+        return [self.buscar_por_id(mesa_id) for mesa_id in mesa_ids if self.buscar_por_id(mesa_id) is not None]
 
     def adicionar_jogador(self, mesa_id: str, usuario_id: str) -> None:
         query = "INSERT OR IGNORE INTO mesas_usuarios (mesa_id, usuario_id, papel) VALUES (?, ?, ?)"

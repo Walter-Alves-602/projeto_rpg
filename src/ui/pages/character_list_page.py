@@ -8,11 +8,13 @@ def character_list_page(app, page: ft.Page):
     # --- Formulário de Criação de Mesa (para Mestres) ---
     nome_mesa_field = ft.TextField(label="Nome da Mesa", width=300)
     descricao_mesa_field = ft.TextField(label="Descrição", multiline=True, width=300)
+    error_text = ft.Text("", color=ft.Colors.RED_500, visible=False)
 
     def criar_mesa_click(e):
+        error_text.visible = False # Esconde a mensagem de erro anterior
         if not nome_mesa_field.value:
-            page.snack_bar = ft.SnackBar(ft.Text("O nome da mesa é obrigatório."), bgcolor=ft.Colors.RED_500)
-            page.snack_bar.open = True
+            error_text.value = "O nome da mesa é obrigatório."
+            error_text.visible = True
             page.update()
             return
 
@@ -27,8 +29,8 @@ def character_list_page(app, page: ft.Page):
             descricao_mesa_field.value = ""
             page.go("/list_characters") # Recarrega a view
         except Exception as ex:
-            page.snack_bar = ft.SnackBar(ft.Text(f"Erro ao criar mesa: {ex}"), bgcolor=ft.Colors.RED_500)
-            page.snack_bar.open = True
+            error_text.value = f"Erro ao criar mesa: {ex}"
+            error_text.visible = True
             page.update()
 
     form_criacao_mesa = ft.ExpansionPanelList(
@@ -44,6 +46,7 @@ def character_list_page(app, page: ft.Page):
                         [
                             nome_mesa_field,
                             descricao_mesa_field,
+                            error_text, # Adiciona o campo de texto de erro aqui
                             ft.ElevatedButton("Criar Mesa", on_click=criar_mesa_click, icon=ft.Icons.ADD),
                         ],
                         spacing=15,
@@ -56,7 +59,10 @@ def character_list_page(app, page: ft.Page):
 
     # --- Lógica de Exibição da Lista de Mesas ---
     def on_details_click(mesa_id):
-        print(f"Detalhes da mesa {mesa_id} clicado.")
+        mesa = app.gerenciar_mesa_uc.buscar_mesa_por_id(mesa_id)
+        if mesa:
+            app.current_mesa = mesa
+            page.go("/view_mesa")
 
     list_controls = []
     if not app.current_user:

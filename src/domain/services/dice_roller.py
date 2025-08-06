@@ -1,9 +1,10 @@
 from random import randint
 from typing import overload, Union
 
+
 class DiceRoller:
     @staticmethod
-    def roll_by_params(num_sides: int, num_dice: int=1, mod: int=0) -> int:
+    def roll_by_params(num_sides: int, num_dice: int = 1, mod: int = 0) -> int:
         """
         Rola um número específico de dados com um dado número de lados e aplica um modificador.
 
@@ -15,10 +16,10 @@ class DiceRoller:
         """
         if num_sides < 1 or num_dice < 1:
             raise ValueError("Number of sides and number of dice must be at least 1.")
-        
+
         total = sum(randint(1, num_sides) for _ in range(num_dice))
         return total + mod
-    
+
     @staticmethod
     def roll_by_notation(dice_notation: str) -> int:
         """
@@ -31,24 +32,32 @@ class DiceRoller:
         :raises ValueError: If the notation is invalid.
         :example: "2d6+3" rolls 2 six-sided dice and adds 3 to the total.
         """
-        if 'd' not in dice_notation:
-            raise ValueError("Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'.")
-        
+        if "d" not in dice_notation:
+            raise ValueError(
+                "Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'."
+            )
+
         if "+" in dice_notation or "-" in dice_notation:
-            parts = dice_notation.split('+') if '+' in dice_notation else dice_notation.split('-')
-            mod = int(parts[1]) if '+' in dice_notation else -int(parts[1])
+            parts = (
+                dice_notation.split("+")
+                if "+" in dice_notation
+                else dice_notation.split("-")
+            )
+            mod = int(parts[1]) if "+" in dice_notation else -int(parts[1])
             dice_part = parts[0]
         else:
             dice_part = dice_notation
             mod = 0
-        dice_params = dice_part.split('d')
+        dice_params = dice_part.split("d")
         if len(dice_params) != 2:
-            raise ValueError("Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'.")
+            raise ValueError(
+                "Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'."
+            )
         return DiceRoller.roll_by_params(int(dice_params[1]), int(dice_params[0]), mod)
-    
+
     @overload
     @staticmethod
-    def roll( num_sides: int, num_dice: int = 1, mod: int = 0) -> int:
+    def roll(num_sides: int, num_dice: int = 1, mod: int = 0) -> int:
         """
         Rola um número específico de dados com um dado número de lados e aplica um modificador.
 
@@ -59,9 +68,10 @@ class DiceRoller:
         :return: Resultado total da rolagem dos dados mais o modificador.
         """
         ...
+
     @overload
     @staticmethod
-    def roll( dice_notation: str) -> int:
+    def roll(dice_notation: str) -> int:
         """
         Rola dados com base em uma notação de string (ex: 'NdM+X', 'NdM-X').
 
@@ -71,9 +81,9 @@ class DiceRoller:
         :raises ValueError: Se a notação for inválida.
         """
         ...
-    
+
     @staticmethod
-    def roll( arg1: Union[int, str], num_dice: int = 1, mod: int = 0) -> int:
+    def roll(arg1: Union[int, str], num_dice: int = 1, mod: int = 0) -> int:
         """Rola dados com base em parâmetros ou em uma string de notação.
         :param arg1: O número de lados do dado (int) ou uma string de notação de dados (str).
         :param num_dice: Número de dados a rolar (o padrão é 1).
@@ -83,7 +93,33 @@ class DiceRoller:
             return DiceRoller.roll_by_params(arg1, num_dice, mod)
         elif isinstance(arg1, str):
             return DiceRoller.roll_by_notation(arg1)
-            
+
+    @staticmethod
+    def get_max_value(dice_notation: str) -> int:
+        if "d" not in dice_notation:
+            raise ValueError(
+                "Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'."
+            )
+
+        if "+" in dice_notation or "-" in dice_notation:
+            parts = (
+                dice_notation.split("+")
+                if "+" in dice_notation
+                else dice_notation.split("-")
+            )
+            mod = int(parts[1]) if "+" in dice_notation else -int(parts[1])
+            dice_part = parts[0]
+        else:
+            dice_part = dice_notation
+            mod = 0
+        dice_params = dice_part.split("d")
+        if len(dice_params) != 2:
+            raise ValueError(
+                "Invalid dice notation. Use format like 'NdM+X' or 'NdM-X'."
+            )
+        return int(dice_params[0])*int(dice_params[1]) + mod
+
+
 if __name__ == "__main__":
     print(DiceRoller.roll_by_params(6, 2, 3))  # Rolls 2 six-sided dice and adds 3
     print(DiceRoller.roll_by_notation("2d6+3"))  # Rolls 2 six-sided dice and adds 3

@@ -10,7 +10,7 @@ def login_page(app, page: ft.Page):
     def login_button_click(e):
         user = app.autenticar_usuario(username_field.value, password_field.value)
         if user:
-            page.go("/list_characters")  # Assuming successful login goes to dashboard
+            page.go("/user_page")  # Assuming successful login goes to dashboard
         else:
             error_message.value = "Nome de usuário ou senha inválidos."
             page.update()

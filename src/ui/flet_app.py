@@ -22,10 +22,11 @@ from src.infrastructure.adapters.database.sqlite_mesa_repository import SQLiteMe
 from src.ui.pages import (
     main_menu,
     create_character_form_page,
-    character_list_page,
+    user_page,
     character_sheet_page,
     register_page,
     login_page,
+    mesa_view_page,
 )
 
 
@@ -34,6 +35,7 @@ class CharacterSheetApp:
         self._init_dependencies()
         self.current_character = None
         self.current_user = None
+        self.current_mesa = None
         self.atributo_rodado = None
         self.resultado_teste_atributo = {}
 
@@ -72,8 +74,9 @@ class CharacterSheetApp:
             "/register": lambda: register_page(self, page),
             "/main_menu": lambda: main_menu(self, page),
             "/create_character": lambda: create_character_form_page(self, page),
-            "/list_characters": lambda: character_list_page(self, page),
+            "/user_page": lambda: user_page(self, page),
             "/view_character": lambda: character_sheet_page(self, page),
+            "/view_mesa": lambda: mesa_view_page(self, page),
         }
         return routes.get(route, lambda: login_page(self, page))()
 
