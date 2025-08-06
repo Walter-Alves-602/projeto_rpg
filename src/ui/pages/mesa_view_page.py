@@ -122,7 +122,7 @@ def mesa_view_page(app, page: ft.Page):
             usuarios_list,
             ft.Divider(),
 
-            ft.ElevatedButton("Voltar", on_click=lambda _: page.go("/list_characters")),
+            ft.ElevatedButton("Voltar", on_click=lambda _: page.go("/user_page")),
         ],
         spacing=15,
         expand=True,

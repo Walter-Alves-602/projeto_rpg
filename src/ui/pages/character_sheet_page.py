@@ -127,11 +127,8 @@ def character_sheet_page(app, page):
             ft.Text("Magias da Classe", size=18, weight=ft.FontWeight.BOLD),
             *magias_display,
             ft.ElevatedButton(
-                "Voltar à Lista", on_click=lambda _: page.go("/list_characters")
-            ),
-            ft.ElevatedButton(
-                "Voltar ao Menu Principal", on_click=lambda _: page.go("/")
-            ),
+                "Voltar à Lista", on_click=lambda _: page.go("/user_page")
+            )
         ],
         spacing=10,
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,

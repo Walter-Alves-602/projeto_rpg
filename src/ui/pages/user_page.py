@@ -123,7 +123,7 @@ def user_page(app, page: ft.Page):
         ft.Row([ft.Text("Meus Personagens", size=20, weight=ft.FontWeight.BOLD, expand=True), ft.ElevatedButton("Criar Novo Personagem", icon=ft.Icons.ADD, on_click=lambda _: page.go("/create_character"))]),
         ft.Column(character_list_controls, spacing=10, scroll=ft.ScrollMode.AUTO),
         ft.Divider(),
-        ft.ElevatedButton("Voltar ao Menu Principal", on_click=lambda _: page.go("/main_menu")),
+        ft.ElevatedButton("Voltar ao Menu Principal", on_click=lambda _: page.go("/")),
     ])
 
     return ft.Column(page_content, spacing=15, expand=True, scroll=ft.ScrollMode.AUTO, horizontal_alignment=ft.CrossAxisAlignment.CENTER)
