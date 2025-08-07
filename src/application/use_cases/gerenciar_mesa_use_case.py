@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from src.domain.models import Mesa, Personagem, PapelUsuario, Usuario
+from src.domain.models import Mesa, Personagem, PapelUsuario
 from src.domain.ports import MesaRepositoryPort, PersonagemRepositoryPort, UsuarioRepositoryPort
 
 

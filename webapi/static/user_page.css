@@ -1,0 +1,12 @@
+body { background: #181818; color: #fff; font-family: Arial, sans-serif; margin: 0; }
+.user-container { max-width: 700px; margin: 40px auto; background: #232323; border-radius: 12px; box-shadow: 0 2px 16px #000a; padding: 32px 28px; }
+.user-container h2 { text-align: center; margin-bottom: 24px; }
+.user-container h3 { margin-top: 32px; margin-bottom: 12px; color: #a5b4fc; }
+.mesa-list, .personagem-list { list-style: none; padding: 0; margin: 0; }
+.mesa-item, .personagem-item { background: #18181b; border-radius: 7px; margin-bottom: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 4px #0004; }
+.mesa-item span, .personagem-item span { font-size: 1.05em; }
+.mesa-item form, .personagem-item form { margin: 0; }
+button { background: #4f46e5; color: #fff; border: none; border-radius: 5px; padding: 8px 18px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+button:hover { background: #3730a3; }
+.user-container a { color: #4f46e5; text-decoration: none; }
+.user-container a:hover { text-decoration: underline; }

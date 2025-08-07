@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar - Gerenciador de Personagens D&D</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <form class="login-box" method="post" action="/register">
+        <h2>Registrar Usuário</h2>
+        <input type="text" name="username" placeholder="Usuário" required />
+        <input type="password" name="password" placeholder="Senha" required />
+        <select name="role" required>
+            <option value="JOGADOR">Jogador</option>
+            <option value="MESTRE">Mestre</option>
+        </select>
+        <button type="submit">Registrar</button>
+        <a href="/login" style="color:#4f46e5;display:block;text-align:center;margin-top:10px;">Voltar ao Login</a>
+    </form>
+</body>
+</html>

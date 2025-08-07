@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página do Usuário - Gerenciador de Personagens D&D</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/user_page.css">
+    <link rel="stylesheet" href="/static/modal.css">
+</head>
+<body>
+    <script src="/static/modal.js"></script>
+</head>
+<body>
+    <div class="user-container">
+        <h2>Bem-vindo, {{ username }}!</h2>
+        {% if papel == 'mestre' %}
+        <button id="open-modal-btn" style="margin-bottom:20px;">Criar Nova Mesa</button>
+        <!-- Modal para criar mesa -->
+        <div id="modal-bg" class="modal-bg" style="display:none;">
+            <div class="modal">
+                <button class="close-btn" id="close-modal-btn" type="button">&times;</button>
+                <h3>Criar Nova Mesa</h3>
+                <form method="post" action="/create_mesa">
+                    <label for="nome">Nome da Mesa</label>
+                    <input type="text" id="nome" name="nome" required maxlength="60" />
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" name="descricao" required maxlength="300"></textarea>
+                    <div class="modal-actions">
+                        <button type="submit">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        <h3>Mesas</h3>
+        <ul class="mesa-list">
+            {% for mesa in mesas %}
+            <li class="mesa-item">
+                <span><b>{{ mesa.nome }}</b> <span style="color:#a5b4fc;">(Criador: {{ mesa.criador }})</span></span>
+                <form method="get" action="/mesa/{{ mesa.id }}" style="display:inline;">
+                    <button type="submit">Ver Descrição</button>
+                </form>
+            </li>
+            {% else %}
+            <li>Nenhuma mesa encontrada.</li>
+            {% endfor %}
+        </ul>
+        <h3>Personagens</h3>
+        <form method="post" action="/create_personagem" style="margin-bottom:20px;">
+            <button type="submit">Criar Novo Personagem</button>
+        </form>
+        <ul class="personagem-list">
+            {% for p in personagens %}
+            <li class="personagem-item">
+                <span><b>{{ p.nome }}</b> | Nível: <span style="color:#a5b4fc;">{{ p.nivel }}</span> | Raça: <span style="color:#a5b4fc;">{{ p.raca }}</span> | Classe: <span style="color:#a5b4fc;">{{ p.classe }}</span></span>
+            </li>
+            {% else %}
+            <li>Nenhum personagem encontrado.</li>
+            {% endfor %}
+        </ul>
+        <a href="/login" style="color:#4f46e5;display:block;text-align:center;margin-top:20px;">Sair</a>
+    </div>
+</body>
+</html>
