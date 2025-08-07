@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página da Mesa</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/user_page.css">
+    <link rel="stylesheet" href="/static/modal.css">
+    <script src="/static/modal.js" defer></script>
+</head>
+<body>
+    <div class="user-container">
+        <h2>{{ mesa.nome }}</h2>
+        <p style="color:#a5b4fc;">{{ mesa.descricao }}</p>
+        <h3>Mestres</h3>
+        <ul>
+            {% for mestre in mestres %}
+            <li>{{ mestre }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Jogadores</h3>
+        <ul>
+            {% for jogador in jogadores %}
+            <li>{{ jogador }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Personagens</h3>
+        <ul class="personagem-list">
+            {% for p in personagens %}
+            <li class="personagem-item">
+                <span><b>{{ p.nome }}</b> | Nível: <span style="color:#a5b4fc;">{{ p.nivel }}</span> | Raça: <span style="color:#a5b4fc;">{{ p.raca_nome }}</span> | Classe: <span style="color:#a5b4fc;">{{ p.classe_nome }}</span></span>
+                <form method="get" action="/personagem/{{ p.id }}" style="display:inline;">
+                    <button type="submit" class="icon-btn" title="Abrir ficha">
+                        <span style="font-size:1.2em;">&#10148;</span>
+                    </button>
+                </form>
+                {% if pode_remover_personagem(p) %}
+                <button type="button" class="icon-btn" title="Remover" onclick="confirmarRemocao('{{ p.id }}')">
+                    <span style="font-size:1.2em;">&#10060;</span>
+                </button>
+                {% endif %}
+            </li>
+            {% else %}
+            <li>Nenhum personagem encontrado.</li>
+            {% endfor %}
+        </ul>
+        <form method="post" action="/mesa/{{ mesa.id }}/adicionar_personagem">
+            <select name="personagem_id">
+                {% for p in personagens_disponiveis %}
+                <option value="{{ p.id }}">{{ p.nome }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="icon-btn" title="Adicionar Personagem" style="padding:6px 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+        </form>
+        {% if papel_usuario == 'mestre' %}
+    {% if erro_adicionar_usuario %}
+    <div style="color:#f87171; margin-bottom:10px;">{{ erro_adicionar_usuario }}</div>
+    {% endif %}
+        <h3>Gerenciar Usuários</h3>
+        <form method="post" action="/mesa/{{ mesa.id }}/adicionar_usuario">
+            <input type="text" name="username" placeholder="Nome do usuário" required />
+            <button type="submit" class="icon-btn" title="Adicionar Usuário" style="padding:6px 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+        </form>
+        <ul>
+            {% for u in todos_usuarios %}
+            <li>{{ u.username }} ({{ u.papel.value|upper }})
+                {% if u.id != usuario_id %}
+                <button type="button" class="icon-btn" title="Remover" onclick="confirmarRemocaoUsuario('{{ u.id }}')">
+                    <span style="font-size:1.2em;">&#10060;</span>
+                </button>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a href="/user_page" style="color:#4f46e5;display:block;text-align:center;margin-top:20px;">Voltar</a>
+    </div>
+    <script>
+    function confirmarRemocao(personagemId) {
+        if(confirm('Tem certeza que deseja remover este personagem?')) {
+            window.location.href = '/mesa/{{ mesa.id }}/remover_personagem/' + personagemId;
+        }
+    }
+    function confirmarRemocaoUsuario(usuarioId) {
+        if(confirm('Tem certeza que deseja remover este usuário da mesa?')) {
+            window.location.href = '/mesa/{{ mesa.id }}/remover_usuario/' + usuarioId;
+        }
+    }
+    </script>
+</body>
+</html>

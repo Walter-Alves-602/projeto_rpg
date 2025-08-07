@@ -6,12 +6,18 @@
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/user_page.css">
     <link rel="stylesheet" href="/static/modal.css">
-</head>
-<body>
-    <script src="/static/modal.js"></script>
+    <script src="/static/modal.js" defer></script>
 </head>
 <body>
     <div class="user-container">
+        <!-- Modal Detalhes da Mesa -->
+        <div id="mesa-modal-bg" class="modal-bg" style="display:none;">
+            <div class="modal">
+                <button class="close-btn" type="button" onclick="closeMesaModal()">&times;</button>
+                <h3 id="mesa-modal-nome"></h3>
+                <div style="margin-top:10px;white-space:pre-line;" id="mesa-modal-descricao"></div>
+            </div>
+        </div>
         <h2>Bem-vindo, {{ username }}!</h2>
         {% if papel == 'mestre' %}
         <button id="open-modal-btn" style="margin-bottom:20px;">Criar Nova Mesa</button>
@@ -37,22 +43,30 @@
             {% for mesa in mesas %}
             <li class="mesa-item">
                 <span><b>{{ mesa.nome }}</b> <span style="color:#a5b4fc;">(Criador: {{ mesa.criador }})</span></span>
-                <form method="get" action="/mesa/{{ mesa.id }}" style="display:inline;">
-                    <button type="submit">Ver Descrição</button>
-                </form>
+                <button type="button" title="Ver descrição" class="icon-btn" onclick="openMesaModal('{{ mesa.nome|e }}', '{{ mesa.descricao|e }}')">
+                    <span style="font-size:1.2em;">&#9432;</span>
+                </button>
+                <a href="/mesa/{{ mesa.id }}" class="icon-btn" title="Ir para a mesa" style="text-decoration:none;">
+                    <span style="font-size:1.2em;">&#10148;</span>
+                </a>
             </li>
             {% else %}
             <li>Nenhuma mesa encontrada.</li>
             {% endfor %}
         </ul>
         <h3>Personagens</h3>
-        <form method="post" action="/create_personagem" style="margin-bottom:20px;">
-            <button type="submit">Criar Novo Personagem</button>
-        </form>
+        <a href="/criar_personagem" style="display:inline-block;margin-bottom:20px;">
+            <button type="button">Criar Novo Personagem</button>
+        </a>
         <ul class="personagem-list">
             {% for p in personagens %}
             <li class="personagem-item">
                 <span><b>{{ p.nome }}</b> | Nível: <span style="color:#a5b4fc;">{{ p.nivel }}</span> | Raça: <span style="color:#a5b4fc;">{{ p.raca }}</span> | Classe: <span style="color:#a5b4fc;">{{ p.classe }}</span></span>
+                <form method="get" action="/personagem/{{ p.id }}" style="display:inline;">
+                    <button type="submit" class="icon-btn" title="Ir para a ficha do personagem">
+                        <span style="font-size:1.2em;">&#10148;</span>
+                    </button>
+                </form>
             </li>
             {% else %}
             <li>Nenhum personagem encontrado.</li>
@@ -60,5 +74,31 @@
         </ul>
         <a href="/login" style="color:#4f46e5;display:block;text-align:center;margin-top:20px;">Sair</a>
     </div>
+    <script src="/static/modal.js"></script>
+    <style>
+    .icon-btn {
+        background: none;
+        border: none;
+        color: #a5b4fc;
+        cursor: pointer;
+        padding: 4px 8px;
+        font-size: 1.1em;
+        vertical-align: middle;
+        transition: color 0.2s;
+    }
+    .icon-btn:hover {
+        color: #fff;
+    }
+    </style>
+    <script>
+    function openMesaModal(nome, descricao) {
+        document.getElementById('mesa-modal-nome').textContent = nome;
+        document.getElementById('mesa-modal-descricao').textContent = descricao;
+        document.getElementById('mesa-modal-bg').style.display = 'flex';
+    }
+    function closeMesaModal() {
+        document.getElementById('mesa-modal-bg').style.display = 'none';
+    }
+    </script>
 </body>
 </html>
