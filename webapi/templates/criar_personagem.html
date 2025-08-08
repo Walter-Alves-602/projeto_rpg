@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Criar Personagem</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="/static/user_page.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <div class="user-container">
+    <body style="background: linear-gradient(135deg, #0f172a 0%, #6d28d9 100%); min-height:100vh;">
+    <div class="max-w-7xl mx-auto p-4">
+    <div class="user-container card">
         <h2>Criar Novo Personagem</h2>
         {% if erro %}
-        <div style="color:#f87171; margin-bottom:10px;">{{ erro }}</div>
+        <div>{{ erro }}</div>
         {% endif %}
-        <form method="post" action="/criar_personagem">
+    <div class="card mb-4">
+    <form method="post" action="/criar_personagem">
+    </div>
             <label for="nome">Nome</label>
             <input type="text" id="nome" name="nome" required maxlength="60" />
+
 
             <label for="raca_nome">Raça</label>
             <select id="raca_nome" name="raca_nome" required>
                 {% for raca in racas %}
-                <option value="{{ raca.nome }}">{{ raca.nome }}</option>
+                <option value="{{ raca }}">{{ raca }}</option>
                 {% endfor %}
             </select>
 
             <label for="classe_nome">Classe</label>
             <select id="classe_nome" name="classe_nome" required>
                 {% for classe in classes %}
-                <option value="{{ classe.nome }}">{{ classe.nome }}</option>
+                <option value="{{ classe }}">{{ classe }}</option>
                 {% endfor %}
             </select>
 
@@ -34,21 +38,22 @@
             <input type="number" id="nivel" name="nivel" min="1" max="20" value="1" required />
 
             <label for="forca">Força</label>
-            <input type="number" id="forca" name="forca" min="1" max="30" required />
+            <input type="number" id="forca" name="forca" min="1" max="30" value="10" required />
             <label for="destreza">Destreza</label>
-            <input type="number" id="destreza" name="destreza" min="1" max="30" required />
+            <input type="number" id="destreza" name="destreza" min="1" max="30" value="10" required />
             <label for="constituicao">Constituição</label>
-            <input type="number" id="constituicao" name="constituicao" min="1" max="30" required />
+            <input type="number" id="constituicao" name="constituicao" min="1" max="30" value="10" required />
             <label for="inteligencia">Inteligência</label>
-            <input type="number" id="inteligencia" name="inteligencia" min="1" max="30" required />
+            <input type="number" id="inteligencia" name="inteligencia" min="1" max="30" value="10" required />
             <label for="sabedoria">Sabedoria</label>
-            <input type="number" id="sabedoria" name="sabedoria" min="1" max="30" required />
+            <input type="number" id="sabedoria" name="sabedoria" min="1" max="30" value="10" required />
             <label for="carisma">Carisma</label>
-            <input type="number" id="carisma" name="carisma" min="1" max="30" required />
+            <input type="number" id="carisma" name="carisma" min="1" max="30" value="10" required />
 
             <button type="submit">Salvar</button>
         </form>
-        <a href="/user_page" style="color:#4f46e5;display:block;text-align:center;margin-top:20px;">Cancelar</a>
+        <a href="/user_page">Cancelar</a>
+    </div>
     </div>
 </body>
 </html>

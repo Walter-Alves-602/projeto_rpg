@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Login - Gerenciador de Personagens D&D</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-    <form class="login-box" method="post" action="/login">
-        <h2>Login</h2>
-        <input type="text" name="username" placeholder="Usuário" required />
-        <input type="password" name="password" placeholder="Senha" required />
-        <button type="submit">Entrar</button>
-        <a href="/register" style="display:block;text-align:center;margin-top:12px;color:#4f46e5;">Registrar</a>
-    </form>
+    <body style="background: linear-gradient(135deg, #0f172a 0%, #6d28d9 100%); min-height:100vh;">
+    <div class="max-w-7xl mx-auto p-4">
+        <div class="card">
+            <form class="login-box" method="post" action="/login">
+                <h2>Login</h2>
+                <input type="text" name="username" placeholder="Usuário" required />
+                <input type="password" name="password" placeholder="Senha" required />
+                <button type="submit">Entrar</button>
+                <a href="/register">Registrar</a>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

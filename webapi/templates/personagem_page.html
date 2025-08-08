@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ficha do Personagem</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        .tabs-list { display: flex; gap: 8px; margin-bottom: 24px; }
+        .tab-btn { background: #312e81; color: #fff; border: none; padding: 10px 18px; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: #6366f1; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .card { background: #18181b; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 2px 8px #0002; color: #fff; }
+        .card-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 12px; }
+        .btn-outline { background: none; border: 1px solid #6366f1; color: #6366f1; }
+        .scroll-area { max-height: 300px; overflow-y: auto; }
+        .flex { display: flex; gap: 12px; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-4 { margin-bottom: 16px; }
+        .w-16 { width: 4rem; }
+        .w-8 { width: 2rem; text-align: center; }
+        .text-center { text-align: center; }
+        .capitalize { text-transform: capitalize; }
+        .grid { display: grid; gap: 16px; }
+        .grid-cols-2 { grid-template-columns: 1fr 1fr; }
+        .grid-cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .mt-4 { margin-top: 16px; }
+        .barra-pv-bg {
+            background: #6366f1;
+            height: 8px;
+            border-radius: 4px;
+            width: 100%;
+            position: relative;
+        }
+        .barra-pv-preenchimento {
+            background: #22d3ee;
+            height: 8px;
+            border-radius: 4px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+    <script>
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('btn-' + tab).classList.add('active');
+        }
+        window.onload = function() { showTab('character'); };
+    </script>
+</head>
+<body style="background: linear-gradient(135deg, #0f172a 0%, #6d28d9 100%); min-height:100vh;">
+    <div class="max-w-7xl mx-auto p-4">
+        <div class="mb-6 text-center">
+            <h1 class="text-4xl font-bold text-white mb-2">Ficha do Personagem</h1>
+            <p class="text-slate-300">Gerencie seu personagem e anotações da sessão</p>
+        </div>
+        <div class="tabs-list">
+            <button id="btn-character" class="tab-btn" onclick="showTab('character')">Ficha</button>
+            <button id="btn-combat" class="tab-btn" onclick="showTab('combat')">Combate</button>
+            <button id="btn-spells" class="tab-btn" onclick="showTab('spells')">Magias</button>
+            <button id="btn-inventory" class="tab-btn" onclick="showTab('inventory')">Inventário</button>
+            <button id="btn-session" class="tab-btn" onclick="showTab('session')">Sessão</button>
+        </div>
+        <!-- Ficha -->
+        <div id="tab-character" class="tab-content">
+            <div class="grid grid-cols-1 grid-cols-3 mb-4">
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-title">Informações do Personagem</div>
+                    <div class="grid grid-cols-2">
+                        <div>
+                            <label>Nome</label>
+                            <input class="input" type="text" value="{{ personagem.nome }}" readonly />
+                        </div>
+                        <div>
+                            <label>Classe</label>
+                            <input class="input" type="text" value="{{ personagem.classe_nome }}" readonly />
+                        </div>
+                        <div>
+                            <label>Nível</label>
+                            <input class="input" type="number" value="{{ personagem.nivel }}" readonly />
+                        </div>
+                        <div>
+                            <label>Raça</label>
+                            <input class="input" type="text" value="{{ personagem.raca_nome }}" readonly />
+                        </div>
+                        <div>
+                            <label>Bônus de Proficiência</label>
+                            <input class="input" type="number" value="{{ personagem.bonus_proficiencia or 2 }}" readonly />
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Atributos</div>
+                    {% set abil = personagem %}
+                    <div class="space-y-2">
+                        {% for nome, valor in {'Força': abil.forca, 'Destreza': abil.destreza, 'Constituição': abil.constituicao, 'Inteligência': abil.inteligencia, 'Sabedoria': abil.sabedoria, 'Carisma': abil.carisma}.items() %}
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="capitalize">{{ nome }}</span>
+                            <div class="flex items-center gap-2">
+                                <input class="input w-16 text-center" type="number" value="{{ valor }}" readonly />
+                                <span class="badge w-8 text-center">{% set mod = ((valor-10)//2) %}{{ "+" if mod>=0 else "" }}{{ mod }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Perícias</div>
+                <div class="grid grid-cols-2">
+                    {% for pericia in personagem.pericias or [] %}
+                    <div class="flex justify-between items-center mb-2">
+                        <span>{{ pericia.nome }}</span>
+                        <span class="badge">{{ pericia.valor }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Combate -->
+        <div id="tab-combat" class="tab-content">
+            <div class="grid grid-cols-3 mb-4">
+                <div class="card">
+                    <div class="card-title">Pontos de Vida</div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <input class="input w-16 text-center" type="number" value="{{ personagem.pv_atual or 0 }}" readonly />
+                        <span>/</span>
+                        <input class="input w-16 text-center" type="number" value="{{ personagem.pv_max or 0 }}" readonly />
+                    </div>
+                    <div class="barra-pv-bg">
+                        {% set barra_pv = ((personagem.pv_atual or 0) * 100 // (personagem.pv_max or 1)) %}
+                        <div class="barra-pv-preenchimento" style="width:'{{ barra_pv }}%'" ></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Classe de Armadura</div>
+                    <div class="text-3xl font-bold text-center">{{ personagem.ca or 10 }}</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">Iniciativa</div>
+                    <div class="text-3xl font-bold text-center">{{ personagem.iniciativa or 0 }}</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">Ações de Combate</div>
+                <div class="flex gap-4">
+                    <button class="btn btn-outline">Atacar</button>
+                    <button class="btn btn-outline">Defender</button>
+                    <button class="btn btn-outline">Rolar Iniciativa</button>
+                    <button class="btn btn-outline">Usar Magia</button>
+                </div>
+            </div>
+        </div>
+        <!-- Magias -->
+        <div id="tab-spells" class="tab-content">
+            <div class="card">
+                <div class="card-title">Lista de Magias</div>
+                <div class="scroll-area">
+                    {% for magia in personagem.magias or [] %}
+                    <div class="flex justify-between items-center mb-2 p-2" style="border:1px solid #6366f1;border-radius:6px;">
+                        <div>
+                            <div class="font-medium">{{ magia.nome }}</div>
+                            <div class="text-sm text-slate-400">Nível {{ magia.nivel }}</div>
+                        </div>
+                        <span class="badge">{{ magia.status or 'Disponível' }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn mt-4 w-full">Adicionar Nova Magia</button>
+            </div>
+        </div>
+        <!-- Inventário -->
+        <div id="tab-inventory" class="tab-content">
+            <div class="card">
+                <div class="card-title">Equipamentos & Itens</div>
+                <div class="scroll-area">
+                    {% for item in personagem.inventario or [] %}
+                    <div class="flex justify-between items-center mb-2 p-2" style="border:1px solid #6366f1;border-radius:6px;">
+                        <div>
+                            <div class="font-medium">{{ item.nome }}</div>
+                            <div class="text-sm text-slate-400">{{ item.tipo }}</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="btn btn-outline">-</button>
+                            <span class="w-8 text-center">{{ item.quantidade }}</span>
+                            <button class="btn btn-outline">+</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn mt-4 w-full">Adicionar Novo Item</button>
+            </div>
+        </div>
+        <!-- Sessão -->
+        <div id="tab-session" class="tab-content">
+            <div class="grid grid-cols-2 mb-4">
+                <div class="card">
+                    <div class="card-title">Anotações da Sessão</div>
+                    <textarea class="textarea min-h-32" placeholder="Escreva suas anotações aqui...">{{ personagem.anotacoes or '' }}</textarea>
+                    <button class="btn mt-4 w-full">Salvar Anotações</button>
+                </div>
+                <div class="card">
+                    <div class="card-title">Ações Rápidas</div>
+                    <div class="space-y-2">
+                        <button class="btn btn-outline w-full">Rolar d20</button>
+                        <button class="btn btn-outline w-full">Descansar Curto</button>
+                        <button class="btn btn-outline w-full">Descansar Longo</button>
+                        <button class="btn btn-outline w-full">Subir de Nível</button>
+                        <div class="mt-4">
+                            <label>Pontos de Experiência</label>
+                            <input class="input" type="number" value="{{ personagem.xp or 0 }}" readonly />
+                        </div>
+                        <div class="mt-4">
+                            <label>Próxima Sessão</label>
+                            <input class="input" type="date" value="{{ personagem.proxima_sessao or '' }}" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="/user_page" style="color:#4f46e5;display:block;text-align:center;margin-top:20px;">Voltar</a>
+    </div>
+</body>
+</html>
