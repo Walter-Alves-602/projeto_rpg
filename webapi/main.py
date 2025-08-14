@@ -363,5 +363,6 @@ def exibir_personagem(request: Request, personagem_id: str = Path(...)):
         "anotacoes": getattr(personagem, "anotacoes", ""),
         "xp": getattr(personagem, "xp", 0),
         "proxima_sessao": getattr(personagem, "proxima_sessao", ""),
+        "habilidades": getattr(personagem, "habilidades_raciais", []) + [h["nome"] if isinstance(h, dict) and "nome" in h else h for h in getattr(personagem, "habilidades_extras", [])],
     }
     return templates.TemplateResponse("personagem_page.html", {"request": request, "personagem": ficha})
