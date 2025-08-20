@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Request, Path
+from fastapi import APIRouter, Request, Path, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi import Query
-from webapi.dependencies import personagem_repository, habilidades_raciais_repository, templates
+from webapi.dependencies import personagem_repository, habilidades_raciais_repository, templates, gerenciar_personagem_uc
 
 router = APIRouter()
 
@@ -54,3 +54,15 @@ def rolar_dado_endpoint(lados: int = Query(...)):
     import random
     resultado = random.randint(1, lados)
     return JSONResponse(content={"resultado": resultado})
+
+@router.post("/personagem/{personagem_id}/adicionar_habilidade_extra")
+def adicionar_habilidade_extra(personagem_id: str = Path(...), nome: str = Form(...), descricao: str = Form(...)):
+    personagem = personagem_repository.buscar_por_id(personagem_id)
+    if not personagem:
+        return JSONResponse(content={"erro": "Personagem não encontrado"}, status_code=404)
+    nova_habilidade = {"nome": nome, "descricao": descricao}
+    habilidades_extras = getattr(personagem, "habilidades_extras", [])
+    habilidades_extras.append(nova_habilidade)
+    personagem.habilidades_extras = habilidades_extras
+    personagem_repository.salvar(personagem)
+    return JSONResponse(content={"msg": "Habilidade extra adicionada com sucesso."})
