@@ -73,3 +73,129 @@ a:hover {
 .icon-btn:hover {
 	color: #fff;
 }
+
+.tabs-list {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+.tab-btn {
+	background: #312e81;
+	color: #fff;
+	border: none;
+	padding: 10px 18px;
+	border-radius: 8px 8px 0 0;
+	cursor: pointer;
+	font-weight: 600;
+}
+
+.tab-btn.active {
+	background: #6366f1;
+}
+
+.tab-content {
+	display: none;
+}
+
+.tab-content.active {
+	display: block;
+}
+
+.card {
+	background: #18181b;
+	border-radius: 12px;
+	padding: 24px;
+	margin-bottom: 24px;
+	box-shadow: 0 2px 8px #0002;
+	color: #fff;
+}
+
+.card-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 12px;
+}
+
+.btn-outline {
+	background: none;
+	border: 1px solid #6366f1;
+	color: #6366f1;
+}
+
+.scroll-area {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.flex {
+	display: flex;
+	gap: 12px;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.mb-2 {
+	margin-bottom: 8px;
+}
+
+.mb-4 {
+	margin-bottom: 16px;
+}
+
+.w-16 {
+	width: 4rem;
+}
+
+.w-8 {
+	width: 2rem;
+	text-align: center;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.grid {
+	display: grid;
+	gap: 16px;
+}
+
+.grid-cols-2 {
+	grid-template-columns: 1fr 1fr;
+}
+
+.grid-cols-3 {
+	grid-template-columns: 1fr 1fr 1fr;
+}
+
+.mt-4 {
+	margin-top: 16px;
+}
+
+.barra-pv-bg {
+	background: #6366f1;
+	height: 8px;
+	border-radius: 4px;
+	width: 100%;
+	position: relative;
+}
+
+.barra-pv-preenchimento {
+	background: #22d3ee;
+	height: 8px;
+	border-radius: 4px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}

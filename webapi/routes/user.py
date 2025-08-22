@@ -21,7 +21,7 @@ def user_page(request: Request):
             "id": m.id,
             "nome": m.nome,
             "descricao": m.descricao,
-            "criador": usuario_repository.buscar_por_id(m.mestres[0]).username if m.mestres and usuario_repository.buscar_por_id(m.mestres[0]) else "-"
+            "criador": usuario_repository.buscar_por_id(m.mestres[0]).username if m.mestres and usuario_repository.buscar_por_id(m.mestres[0]) else "-" # type: ignore
         }
         for m in gerenciar_mesa_uc.listar_mesas_do_usuario(usuario_id)
     ]

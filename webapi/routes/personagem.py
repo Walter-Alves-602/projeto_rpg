@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Request, Path, Form
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi import Query
-from webapi.dependencies import personagem_repository, habilidades_raciais_repository, templates, gerenciar_personagem_uc
+from webapi.dependencies import personagem_repository, habilidades_raciais_repository, templates
+from src.domain.services import DiceRoller
 
 router = APIRouter()
 
@@ -51,8 +52,7 @@ def exibir_personagem(request: Request, personagem_id: str = Path(...)):
 
 @router.get("/rolar_dado")
 def rolar_dado_endpoint(lados: int = Query(...)):
-    import random
-    resultado = random.randint(1, lados)
+    resultado = DiceRoller.roll(lados)
     return JSONResponse(content={"resultado": resultado})
 
 @router.post("/personagem/{personagem_id}/adicionar_habilidade_extra")
