@@ -3,7 +3,7 @@ tests
 .vscode
 src/persistence/rpg_characters.db
 to-do.txt
-
+.idea
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
