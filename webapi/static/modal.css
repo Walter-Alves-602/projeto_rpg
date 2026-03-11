@@ -1,0 +1,8 @@
+.modal-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000a; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal { background: #232323; border-radius: 12px; box-shadow: 0 2px 16px #000a; padding: 32px 28px; min-width: 340px; max-width: 95vw; position: relative; }
+.modal h3 { margin-top: 0; color: #a5b4fc; }
+.modal label { display: block; margin-bottom: 6px; margin-top: 16px; color: #a5b4fc; }
+.modal input[type=text], .modal textarea { width: 100%; padding: 10px; border: none; border-radius: 5px; background: #333; color: #fff; margin-bottom: 12px; resize: none; }
+.modal textarea { min-height: 70px; max-height: 200px; }
+.modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+.modal .close-btn { position: absolute; top: 10px; right: 14px; background: none; border: none; color: #fff; font-size: 1.3em; cursor: pointer; }
